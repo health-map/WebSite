@@ -1,0 +1,103 @@
+
+.route {
+  display: flex;
+  padding: 16px 0;
+  font-size: 14px;
+  color: #757575;
+  cursor: pointer;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+}
+.route:hover {
+  background-color: #f7f7f7;
+}
+  .route img {
+    cursor: pointer;
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+  .route-description {
+    min-width: 140px;
+    padding-right: 16px;
+    border-right: 1px solid #ccc;
+  }
+    .route-description .route-id {
+      font-weight: bold;
+    }
+  .route-companies {
+    padding: 0 16px;
+    display: flex;
+    min-width: 120px;
+    flex-direction: column;
+    width: 100%;
+  }
+  .route-actions {
+    display: flex;
+    min-width: 128px;
+    align-items: center;
+    border-left: 1px solid #ccc;
+  }
+    .route-actions .color {
+      width: 16px;
+      height: 16px;
+      display: flex;
+      cursor: pointer;
+      border-radius: 50%;
+      min-width: 16px;
+      min-height: 16px;
+      max-width: 16px;
+      max-height: 16px;
+    }
+    .route-actions .color-picker {
+      position: fixed;
+      z-index: 1;
+    }
+    .route-actions .icon-visibility {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+    .route-actions .icon-vertical-menu {
+      min-width: 4px;
+      min-height: 16px;
+    }
+    .route-actions .icon-vertical-menu:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+
+.stop {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 2px solid #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+  .stop:not(:first-of-type) {
+    margin-top: 6px;
+  }
+
+.route-detail-tags-step{
+  padding-top: 4px;
+}
+
+.shy-route-tags {
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.shy-route-tag {
+  color: #fff;
+  font-size: 12px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  margin-right: 2px;
+  margin-top: 2px;
+  display: inline-block;
+  
+}

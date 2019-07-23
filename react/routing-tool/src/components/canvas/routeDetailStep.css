@@ -1,0 +1,128 @@
+
+.route-detail-step {
+  height: 75px;
+  display: flex;
+  color: #757575;
+  align-items: center;
+  border-bottom: 1px solid #e6e6e6;
+}
+  .route-detail-step:hover {
+    cursor: pointer;
+    background-color: #f7f7f7;
+  }
+
+  .route-detail-step .step-index {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    display: flex;
+    margin: 0 16px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid #757575;
+  }
+  .route-detail-step .step-content-wrapper {
+    display: flex;
+    align-items: center;
+    width: calc(100% - 233px);
+  }
+  .route-detail-step .step-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 210px;
+    width: 100%;
+  }
+    .route-detail-step .step-content .step-content-address {
+      font-size: 14px;
+      max-width: 100%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .route-detail-step .step-content .step-content-detail {
+      display: flex;
+      font-size: 12px;
+      align-items: center;
+    }
+      .route-detail-step .step-content .step-content-detail .detail-activity {
+        display: flex;
+        align-items: center;
+        margin-right: 8px;
+      }
+        .route-detail-step .step-content .step-content-detail .detail-activity img {
+          width: 7px;
+          height: 9px;
+          padding: 1.5px 2.5px;
+          margin-right: 4px;
+        }
+      .route-detail-step .step-content .step-content-detail .detail-delivery-id {
+        display: flex;
+        align-items: center;
+      }
+        .route-detail-step .step-content .step-content-detail .detail-delivery-id img {
+          width: 10px;
+          height: 10px;
+          padding: 2px;
+          margin-right: 4px;
+        }
+
+  .route-detail-step .step-date-wrapper {
+    display: flex;
+    align-items: center;
+    min-width: 233px;
+    max-width: 233px;
+  }
+  .route-detail-step .step-separator {
+    width: 1px;
+    height: 30px;
+    margin: 0 16px;
+    min-width: 1px;
+    background-color: #e6e6e6;
+  }
+  .route-detail-step .step-date {
+    margin-right: 16px;
+    text-align: right;
+    min-width: 120px;
+  }
+
+.reorder-actions-wrapper {
+  display: flex;
+  width: calc(100% - 120px);
+  align-items: center;
+  justify-content: flex-end;
+  border-left: 1px solid #e6e6e6;
+}
+  .reorder-actions-wrapper .step-index-input {
+    width: 48px;
+    height: 24px;
+    margin: 0 16px;
+    text-align: center;
+    outline: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #757575;
+    cursor: pointer;
+  }
+    .reorder-actions-wrapper .step-index-input:disabled {
+      border: none;
+    }
+  .reorder-actions-wrapper .step-actions {
+    margin-right: 16px;
+  }
+
+@media (max-width: 650px) {
+  .route-detail-step {
+    height: 99px;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .route-detail-step .step-content-wrapper {
+    width: 100%;
+  }
+  .route-detail-step .step-date-wrapper {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
