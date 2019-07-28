@@ -3,11 +3,11 @@ services:
  web:
    build: .
    volumes:
-    - .:/web
+    - .:/api
     - node_modules:/api/node_modules
    ports:
     - "8030:8030"
-    - "9002:9002"
+    - "9005:9005"
    environment:
     - SERVER_HOST_NAME=http://127.0.0.1
    networks:

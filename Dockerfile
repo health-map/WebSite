@@ -18,6 +18,6 @@ RUN npm install
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-EXPOSE 8020 9001
+EXPOSE 8020 9001 9005
 
 CMD supervisord
