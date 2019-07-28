@@ -4,15 +4,6 @@ export const Mapbox = {
   STYLE: 'mapbox://styles/shippify/cjratkp9x2p2b2sutqk0lsed8'
 };
 
-export const Color = {
-  GRAY: '#757575',
-  YELLOW: '#FFC82C',
-  BLUE: '#1FB6FF',
-  GREEN: '#12CE66',
-  RED: '#EF404B',
-  ORANGE: '#FF5722'
-};
-
 export const UserRole = {
   VIEWER: 0,
   USER: 1,

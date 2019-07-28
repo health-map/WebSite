@@ -4,7 +4,7 @@
 }
 
 .delivery-popup .mapboxgl-popup-anchor-top .mapboxgl-popup-tip {
-  border-bottom-color: #ef404b;
+  border-bottom-color: #0092E1;
 }
 
 .delivery-popup .mapboxgl-popup-content {
@@ -15,7 +15,7 @@
     display: flex;
     justify-content: space-between;
     height: 48px;
-    background-color: #ef404b;
+    background-color: #0092E1;
     color: #fff;
     font-size: 14px;
     font-weight: 500;

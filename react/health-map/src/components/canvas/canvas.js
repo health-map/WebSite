@@ -36,8 +36,6 @@ class Canvas extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      listWidth: Number(window.localStorage.getItem('routing_list_width'))
-      || 504,
       isDragging: false,
       originalX: 0,
       selectedTab: TABS.ALL,
@@ -57,21 +55,10 @@ class Canvas extends React.Component {
       });
     }
   }
-  setListWidth = (width) => {
-    this.setState({
-      listWidth: width
-    });
-  }
-  changeListWidth = (width) => {
-    this.setState({
-      listWidth: this.state.listWidth - width
-    });
-  }
   handleMouseMove = ({ clientX }) => {
     if (!this.state.isDragging) {
       return;
     }
-    this.changeListWidth(this.state.originalX - clientX);
     this.setState({
       originalX: clientX
     });
@@ -95,7 +82,6 @@ class Canvas extends React.Component {
     this.setState({
       isDragging: false
     });
-    window.localStorage.setItem('routing_list_width', this.state.listWidth);
   }
   componentDidMount() {
     this.updateView();
@@ -115,20 +101,12 @@ class Canvas extends React.Component {
       <div className="canvas">
         {
           true &&
-          <div
-            className="list-container"
-            style={{
-              width: (window.innerWidth > MAX_WIDTH) ?
-                `${this.state.listWidth}px` :
-                '100%'
-            }}>
+          <div className="list-container">
             <div className="full-width">
               <RoutesList
-                width={this.state.listWidth}
-                changeListWidth={this.changeListWidth}
+                width={ 500 }
                 from={this.props.from}
                 to={this.props.to}
-                setListWidth={this.setListWidth}
                 isResponsive={this.state.isResponsive}
                 selectedTags={this.props.selectedTags}
                 selectedCities={this.props.selectedCities}
@@ -136,17 +114,6 @@ class Canvas extends React.Component {
                 selectedDeliveries={this.props.selectedDeliveries}
                 selectedStatuses={this.props.selectedStatuses}/>
             </div>
-            {
-              (window.innerWidth > MAX_WIDTH) &&
-              <div
-                className="routes-list-draggable-bar"
-                onMouseDown={this.handleMouseDown}>
-                <div>
-                  <span className="chevron-left"></span>
-                  <span className="chevron-right"></span>
-                </div>
-              </div>
-            }
           </div>
         }
         {
@@ -157,9 +124,7 @@ class Canvas extends React.Component {
           <div
             className="map-container"
             style={{
-              width: (window.innerWidth > MAX_WIDTH) ?
-                `calc(100% - ${this.state.listWidth}px)` :
-                '100%'
+              width: '100%'
             }}>
             {
               (window.innerWidth > MAX_WIDTH) &&
@@ -176,8 +141,6 @@ class Canvas extends React.Component {
                 selectedStatuses={this.props.selectedStatuses}/>
             }
             <Map
-              listWidth={this.state.listWidth}
-              setListWidth={this.setListWidth}
               defaultLocation={this.props.defaultLocation}
               selectedCity={this.props.selectedCity}
               applyFilters={this.props.applyFilters}

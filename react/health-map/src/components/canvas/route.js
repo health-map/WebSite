@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ChromePicker } from 'react-color';
 
-import { actions } from './../../actions/routes';
+import { actions } from './../../actions/incidences';
 // import { thunks } from './../../actions/thunks/routes';
 
 import './route.css';

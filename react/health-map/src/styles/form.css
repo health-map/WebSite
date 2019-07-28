@@ -49,7 +49,7 @@
 	.shy-form-field-text-area.has-error,
 	.shy-form-field-input.has-error,
 	.shy-form-field-select.has-error {
-    border: solid 1px #ef404b !important;
+    border: solid 1px #0092E1 !important;
   }
   .shy-form-field-input::placeholder {
       color: #9e9e9e;
@@ -104,7 +104,7 @@
 
 
 .shy-form-error {
-  color: #ef404b;
+  color: #0092E1;
   font-size: 12px;
   margin-top: 6px;
 }

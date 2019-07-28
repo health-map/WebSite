@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import Route from './route';
 import Error from './../shared/error';
 import Loading from './../shared/loading';
-import { actions } from './../../actions/routes';
+import { actions } from './../../actions/incidences';
 import { actions as generalActions } from './../../actions/general';
 import { thunks } from './../../actions/thunks/routes';
 const { loadIncidences: loadIncidencesRequest } = thunks;
@@ -54,20 +54,6 @@ class RoutesList extends React.Component {
     }
   }
   render() {
-    const {
-      setListWidth
-    } = this.props;
-
-    let areAllRoutesSelected = true;
-    let areAllRoutesVisible = true;
-    this.props.routes.map((route) => {
-      if ((route.get('id') !== 'Single') && !route.get('isSelected')) {
-        areAllRoutesSelected = false;
-      }
-      if (!route.get('isVisible')) {
-        areAllRoutesVisible = false;
-      }
-    });
     return (
       <div className="routes-list">
         {
@@ -113,41 +99,12 @@ class RoutesList extends React.Component {
                   </div>
                 </div>
                 <div className="route">
-                  <img
-                    src={
-                      areAllRoutesSelected ?
-                        'https://cdn.shippify.co/images/img-checkbox-on.svg' :
-                        'https://cdn.shippify.co/images/img-checkbox-off.svg'
-                    }
-                    alt=""
-                    onClick={this.props.toggleRoutesSelection}/>
                   <div className="select-all-routes">
                     <div>
                       { window.translation('Select all routes') }
                     </div>
                   </div>
                   <div className="route-actions">
-                    <img
-                      src={
-                        areAllRoutesVisible ?
-                          'https://cdn.shippify.co/icons/icon-visibility-on-gray.svg' :
-                          'https://cdn.shippify.co/icons/icon-visibility-off-gray.svg'
-                      }
-                      alt=""
-                      onClick={this.props.toggleRoutesVisibility}
-                      style={
-                        areAllRoutesVisible ?
-                          {
-                            width: '22px',
-                            height: '15px',
-                            padding: '4.5px 1px'
-                          } :
-                          {
-                            width: '22px',
-                            height: '19px',
-                            padding: '2.5px 1px'
-                          }
-                      }/>
                     <span
                       className="color"
                       style={{ backgroundColor: '#757575' }}></span>
@@ -162,7 +119,6 @@ class RoutesList extends React.Component {
                         <Route
                           key={idx}
                           data={route}
-                          setListWidth={setListWidth}
                           isResponsive={this.props.isResponsive}/>
                       );
                     })
@@ -180,16 +136,15 @@ class RoutesList extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    routes: state.getIn(['routes', 'data']),
-    isLoadingIncidences: state.getIn(['routes', 'isLoadingIncidences']),
-    loadIncidencesError: state.getIn(['routes', 'loadIncidencesError'])
+    routes: state.getIn(['incidences', 'data']),
+    isLoadingIncidences: state.getIn(['incidences', 'isLoadingIncidences']),
+    loadIncidencesError: state.getIn(['incidences', 'loadIncidencesError'])
   };
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   loadIncidences: loadIncidencesRequest,
-  toggleRoutesSelection: actions.toggleRoutesSelection,
-  toggleRoutesVisibility: actions.toggleRoutesVisibility,
+  toggleIncidenceVisibility: actions.toggleIncidenceVisibility,
   showMessage: generalActions.showMessage
 }, dispatch);
 

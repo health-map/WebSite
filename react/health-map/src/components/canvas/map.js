@@ -14,9 +14,7 @@ import ReactMapboxGl, {
 
 import { Mapbox } from './../../constants';
 import DeliveryPopup from './deliveryPopup';
-import { actions } from './../../actions/routes';
-import { thunks } from './../../actions/thunks/routes';
-const { loadRoute: loadRouteRequest } = thunks;
+import { actions } from './../../actions/incidences';
 
 import './map.css';
 
@@ -60,11 +58,6 @@ class MapComponent extends React.Component {
         ],
         zoom: (this.props.selectedCity.zoom) ? this.props.selectedCity.zoom : 10
       });
-    }
-    if (prevProps.listWidth !== this.props.listWidth) {
-      if (this.state.map) {
-        this.state.map.resize();
-      }
     }
   }
   render() {
@@ -112,7 +105,7 @@ class MapComponent extends React.Component {
         {
           false &&
           <DeliveryPopup
-            selectedStep={true}
+            selectedGeozone={true}
             applyFilters={this.props.applyFilters}
             from={this.props.from}
             to={this.props.to}
@@ -134,7 +127,7 @@ class MapComponent extends React.Component {
  */
 const mapStateToProps = (state) => {
   return {
-    selectedStep: state.getIn(['routes', 'selectedStep']),
+    selectedGeozone: state.getIn(['incidences', 'selectedGeozone']),
     polygons: state.getIn(['polygon', 'polygons'])
   };
 };
@@ -143,8 +136,7 @@ const mapStateToProps = (state) => {
  *
  */
 const mapDispatchToProps = dispatch => bindActionCreators({
-  selectStep: actions.selectStep,
-  loadRoute: loadRouteRequest
+  selectGeozone: actions.selectGeozone
 }, dispatch);
 
 

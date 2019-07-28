@@ -34,7 +34,7 @@ class DeliveryPopup extends React.Component {
         <div
           className="delivery-popup-header"
           style={{
-            backgroundColor: '#ef404b'
+            backgroundColor: '#0092E1'
           }}>
           <ReactTooltip
             place={'top'}/>

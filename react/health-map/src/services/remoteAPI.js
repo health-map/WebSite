@@ -196,33 +196,3 @@ export async function loadIncidences(
 
   return routes;
 }
-
-/**
- *
- */
-export async function loadRouteInfo(routeId, { apiUrl, apiToken }) {
-  const url = new URL(apiUrl);
-  url.pathname = `/v1/routes/${routeId}`;
-  let response;
-  try {
-    response = await fetch(url, {
-      headers: {
-        Authorization: `Basic ${apiToken}`,
-        'Content-Type': 'application/json'
-      }
-    });
-  } catch (err) {
-    throw new Error('load_failure');
-  }
-  if (response.status === 401) {
-    window.location.replace('/logout');
-  }
-  if (response.status >= 400 && response.status < 500) {
-    throw new Error('client_error');
-  }
-  if (response.status >= 500 && response.status < 600) {
-    throw new Error('server_error');
-  }
-  const { payload: { route } } = await response.json();
-  return route;
-}

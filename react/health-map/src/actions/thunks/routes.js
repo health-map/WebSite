@@ -1,5 +1,5 @@
 
-import { actions } from './../routes';
+import { actions } from './../incidences';
 import { loadIncidences } from './../../services/remoteAPI';
 
 export const thunks = {
@@ -16,17 +16,6 @@ export const thunks = {
         dispatch(actions.loadIncidences.failure());
       }
       dispatch(actions.loadIncidences.end());
-    };
-  },
-  loadRoute(routeId) {
-    return (dispatch) => {
-      dispatch(actions.loadRoute.begin(routeId));
-      try {
-        dispatch(actions.loadRoute.success(routeId, []));
-      } catch (err) {
-        dispatch(actions.loadRoute.failure(routeId));
-      }
-      dispatch(actions.loadRoute.end(routeId));
     };
   }
 };

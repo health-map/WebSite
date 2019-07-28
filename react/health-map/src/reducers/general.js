@@ -6,7 +6,7 @@ import { types } from './../actions/general';
 
 const initialState = Map({
   user: undefined,
-  locale: 'en',
+  locale: 'es',
   cities: List(),
   statuses: [
     {
@@ -59,7 +59,7 @@ const loadIncidencesBegin = (state) => {
  */
 const loadIncidencesSuccess = (state, action) => {
   return state.set('loadIncidencesError', '')
-    .set('routes', fromJS(action.payload.routes));
+    .set('incidences', fromJS(action.payload.routes));
 };
 
 /**

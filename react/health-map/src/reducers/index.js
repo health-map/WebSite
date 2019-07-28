@@ -7,11 +7,11 @@
 
 import { combineReducers } from 'redux-immutable';
 
-import routes from './routes';
+import incidences from './incidences';
 import general from './general';
 
 
 export default combineReducers({
-  routes,
+  incidences,
   general
 });

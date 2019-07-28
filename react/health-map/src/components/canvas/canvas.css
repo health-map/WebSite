@@ -7,10 +7,16 @@
 }
 
 .list-container {
-  height: 100%;
+  height: calc(100% - 96px);
+  top: 80px;
+  left: 16px;
+  width: 400px;
   display: flex;
+  border-radius: 4px;
+  position: fixed;
+  background-color: white;
   z-index: 10;
-  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 10px 0 rgba(0,0,0,.08);
 }
 
 .map-container {
@@ -19,43 +25,6 @@
   display: flex;
   flex-direction: column;
 }
-
-.routes-list-draggable-bar {
-  cursor: ew-resize;
-  width: 0;
-  min-width: 0;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  position: relative;
-  justify-content: center;
-}
-  .routes-list-draggable-bar div {
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    background-color: #fff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    z-index: 9;
-    justify-content: space-evenly;
-    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
-  }
-  .chevron-left {
-    width: 8px;
-    height: 12px;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-image: url(https://cdn.shippify.co/icons/icon-chevron-left-gray.svg);
-  }
-  .chevron-right {
-    width: 8px;
-    height: 12px;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-image: url(https://cdn.shippify.co/icons/icon-chevron-right-gray.svg)
-  }
 
 .mobile-titlebar-container {
   z-index: 999;

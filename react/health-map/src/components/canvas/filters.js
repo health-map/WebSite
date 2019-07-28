@@ -13,7 +13,7 @@ import { bindActionCreators } from 'redux';
 
 import { loadTags, loadDeliveries } from './../../services/remoteAPI';
 
-import { actions } from './../../actions/routes';
+import { actions } from './../../actions/incidences';
 
 import './filters.css';
 
@@ -162,8 +162,7 @@ class Filters extends React.Component {
     });
   }
   applyFilters = () => {
-    this.props.filterStep();
-    this.props.selectStep();
+    this.props.selectGeozone();
     this.props.applyFilters(
       {
         cities: this.state.selectedCities,
@@ -180,7 +179,7 @@ class Filters extends React.Component {
   render() {
     const { locale, companyAccess } = this.props;
     let kronosOptions = {
-      color: '#ef404b',
+      color: '#0092E1',
       font: 'Roboto',
       locale: moment.updateLocale('en', {
         weekdaysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
@@ -389,8 +388,7 @@ class Filters extends React.Component {
  *
  */
 const mapDispatchToProps = dispatch => bindActionCreators({
-  filterStep: actions.filterStep,
-  selectStep: actions.selectStep
+  selectGeozone: actions.selectGeozone
 }, dispatch);
 
 /**

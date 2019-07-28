@@ -58,7 +58,7 @@ class MapTitlebar extends React.Component {
       <div
         className="shy-map-titlebar"
         style={{
-          backgroundColor: '#005CFF'
+          backgroundColor: '#0092E1'
         }}>
         <div className="flex flex-align-center">
           <div className="shy-map-titlebar-filters">
