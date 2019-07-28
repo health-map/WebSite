@@ -6,7 +6,7 @@
   <link rel="icon" href="https://cdn.shippify.co/web/icons/logo-shippify.png" type="image/png" sizes="32x32"/>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto"/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?v=3&libraries=drawing,places,geometry&key=AIzaSyBGhvLIKDkKTKmSUyE6EmdQwWu4uz3Fbqc"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?v=3&libraries=drawing,places,geometry&key="></script>
   <% if (environment === "development") { %>
     <link href="/health-map/dist/health-map.1.0.15.css" rel="stylesheet">
     <script src="/health-map/dist/health-map.1.0.15.js" type="text/javascript"></script>
@@ -33,7 +33,7 @@
   <div id="routing-content"></div>
   <script>
     $(document).ready(function() {
-      Routing.init(
+      HealthMap.init(
         {
           user: user,
           locale: '<%= locale %>',
