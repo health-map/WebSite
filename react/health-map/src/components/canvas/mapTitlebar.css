@@ -1,7 +1,7 @@
 
-.shy-map-titlebar {
-  height: 64px;
-  min-height: 64px;
+.hm-map-titlebar {
+  height: 80px;
+  min-height: 80px;
   display: flex;
   z-index: 9;
   align-items: center;
@@ -16,8 +16,8 @@
   padding: 6px 3px;
   cursor: pointer;
   box-sizing: border-box;
-  margin-left: 16px;
-  margin-right: 16px;
+  margin-left: 4px;
+  margin-right: 4px;
 }
 
 .shy-map-titlebar-filters {
@@ -51,7 +51,7 @@
   	color: #ffffff;
     padding: 5px 8px;
     cursor: pointer;
-    border: solid 1px #ffffff;
+    border: solid 2px #ffffff;
   }
     .shy-quick-action:hover {
       background-color: #fff;
@@ -62,6 +62,10 @@
     border-bottom-left-radius: 4px;
     border-right: none;
   }
+
+  .hm-quick-action-middle {
+    border-right: none;
+  }
   .shy-quick-action-right {
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
@@ -69,4 +73,45 @@
   .shy-quick-action-active {
     background-color: #fff;
     color: #757575;
+  }
+
+  .shy-quick-action-button{
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    height: 32px;
+    font-weight: bold;
+  }
+
+  .hm-action-box{
+    padding-right: 16px;
+    padding-left: 16px;
+    height: 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .hm-action-box-bordered{
+    border-right: 1px solid white;
+  }
+
+  .hm-action-label{
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .hm-action-label-icon{
+    width: 15px;
+    height: 15px;
+    margin-right: 4px;
+  }
+
+  .hm-action-label-text{
+    margin-top: 2px;
   }

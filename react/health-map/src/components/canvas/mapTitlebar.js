@@ -56,49 +56,79 @@ class MapTitlebar extends React.Component {
     }
     return (
       <div
-        className="shy-map-titlebar"
+        className="hm-map-titlebar"
         style={{
           backgroundColor: '#0092E1'
         }}>
+        <div>
+          {
+            'Guayaquil Health Map'
+          }
+        </div>
         <div className="flex flex-align-center">
-          <div className="shy-map-titlebar-filters">
-            {
-              filters.join(', ')
-            }
-            <img
-              src="https://cdn.shippify.co/icons/icon-close-circle-white-mini.svg"
-              alt=""
-              onClick={() => openFiltersDialog()}/>
+          <div className="hm-action-box hm-action-box-bordered">
+            <div className="hm-action-label">
+              <img
+                className="hm-action-label-icon"
+                src="https://cdn.shippify.co/icons/icon-event-white.svg"
+                alt="Fecha de Ingreso"
+              />
+              <span className="hm-action-label-text">
+                {
+                  'Fecha de Ingreso'
+                }
+              </span>
+            </div>
+            <div className="shy-quick-actions">
+              <span
+                className={
+                  moment().isSame(moment.unix(this.props.from), 'day') ?
+                    'shy-quick-action shy-quick-action-left shy-quick-action-active' :
+                    'shy-quick-action shy-quick-action-left'
+                }
+                onClick={() => this.handleDateChange(moment().startOf('day'))}>
+                { '2018' }
+              </span>
+              <span
+                className={
+                  moment().isSame(moment.unix(this.props.from), 'day') ?
+                    'shy-quick-action hm-quick-action-middle shy-quick-action-active' :
+                    'shy-quick-action hm-quick-action-middle'
+                }
+                onClick={() => this.handleDateChange(moment().startOf('day'))}>
+                { '2019' }
+              </span>
+              <span
+                className={
+                  moment().add(1, 'day').isSame(moment.unix(this.props.from), 'day') ?
+                    'shy-quick-action shy-quick-action-right shy-quick-action-active' :
+                    'shy-quick-action shy-quick-action-right'
+                }
+                onClick={() => {
+                  this.handleDateChange(
+                    moment().add(1, 'day').startOf('day')
+                  );
+                }}>
+                { 'PERSONALIZADO' }
+              </span>
+            </div>
           </div>
-          <div className="shy-quick-actions">
-            <span
-              className={
-                moment().isSame(moment.unix(this.props.from), 'day') ?
-                  'shy-quick-action shy-quick-action-left shy-quick-action-active' :
-                  'shy-quick-action shy-quick-action-left'
-              }
-              onClick={() => this.handleDateChange(moment().startOf('day'))}>
-              { window.translation('TODAY') }
-            </span>
-            <span
-              className={
-                moment().add(1, 'day').isSame(moment.unix(this.props.from), 'day') ?
-                  'shy-quick-action shy-quick-action-right shy-quick-action-active' :
-                  'shy-quick-action shy-quick-action-right'
-              }
-              onClick={() => {
-                this.handleDateChange(
-                  moment().add(1, 'day').startOf('day')
-                );
-              }}>
-              { window.translation('TOMORROW') }
-            </span>
+          <div className="hm-action-box">
+            <div className="shy-quick-actions">
+              <span
+                className="shy-quick-action shy-quick-action-button"
+                onClick={() => openFiltersDialog()}>
+                <img
+                  className="shy-opciones-icon"
+                  src="https://cdn.shippify.co/icons/icon-filter-white.svg"
+                  alt="Filter"
+                  onClick={() => openFiltersDialog()}/>
+                { 
+                  'OPCIONES'
+                }
+              </span>
+            </div>
           </div>
-          <img
-            className="shy-filter-icon"
-            src="https://cdn.shippify.co/icons/icon-filter-white.svg"
-            alt="Filter"
-            onClick={() => openFiltersDialog()}/>
         </div>
       </div>
     );

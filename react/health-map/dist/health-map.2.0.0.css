@@ -9,7 +9,7 @@
 
 .list-container {
   height: calc(100% - 96px);
-  top: 80px;
+  top: 96px;
   left: 16px;
   width: 400px;
   display: -ms-flexbox;
@@ -41,12 +41,12 @@
     width: 50%;
     box-shadow: none;
   }
-  .mobile-titlebar .shy-map-titlebar {
+  .mobile-titlebar .hm-map-titlebar {
     width: 50%;
     box-shadow: none;
     padding-left: 16px;
   }
-    .mobile-titlebar .shy-map-titlebar .shy-map-titlebar-filters {
+    .mobile-titlebar .hm-map-titlebar .shy-map-titlebar-filters {
       display: none;
     }
 
@@ -121,9 +121,9 @@
   }
 
 
-.shy-map-titlebar {
-  height: 64px;
-  min-height: 64px;
+.hm-map-titlebar {
+  height: 80px;
+  min-height: 80px;
   display: -ms-flexbox;
   display: flex;
   z-index: 9;
@@ -141,8 +141,8 @@
   padding: 6px 3px;
   cursor: pointer;
   box-sizing: border-box;
-  margin-left: 16px;
-  margin-right: 16px;
+  margin-left: 4px;
+  margin-right: 4px;
 }
 
 .shy-map-titlebar-filters {
@@ -180,7 +180,7 @@
   	color: #ffffff;
     padding: 5px 8px;
     cursor: pointer;
-    border: solid 1px #ffffff;
+    border: solid 2px #ffffff;
   }
     .shy-quick-action:hover {
       background-color: #fff;
@@ -189,6 +189,10 @@
   .shy-quick-action-left {
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
+    border-right: none;
+  }
+
+  .hm-quick-action-middle {
     border-right: none;
   }
   .shy-quick-action-right {
@@ -200,6 +204,55 @@
     color: #757575;
   }
 
+  .shy-quick-action-button{
+    border-radius: 4px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+        align-items: center;
+    height: 32px;
+    font-weight: bold;
+  }
+
+  .hm-action-box{
+    padding-right: 16px;
+    padding-left: 16px;
+    height: 56px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+        flex-direction: column;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: start;
+        align-items: flex-start;
+  }
+
+  .hm-action-box-bordered{
+    border-right: 1px solid white;
+  }
+
+  .hm-action-label{
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: white;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+        flex-direction: row;
+    -ms-flex-align: center;
+        align-items: center;
+  }
+
+  .hm-action-label-icon{
+    width: 15px;
+    height: 15px;
+    margin-right: 4px;
+  }
+
+  .hm-action-label-text{
+    margin-top: 2px;
+  }
 
 .shy-dialog .shy-filter-icon {
   margin-left: 0;
