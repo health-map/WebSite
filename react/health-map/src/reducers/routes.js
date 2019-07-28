@@ -26,8 +26,8 @@ const availableColors = [
 
 const initialState = Immutable.Map({
   data: Immutable.List(),
-  isLoadingRoutes: false,
-  loadRoutesError: '',
+  isLoadingIncidences: false,
+  loadIncidencesError: '',
   selectedRouteId: undefined,
   selectedStep: undefined,
   filteredStep: undefined,
@@ -45,14 +45,14 @@ const initialState = Immutable.Map({
 /**
  *
  */
-const loadRoutesBegin = (state) => {
-  return state.set('isLoadingRoutes', true);
+const loadIncidencesBegin = (state) => {
+  return state.set('isLoadingIncidences', true);
 };
 
 /**
  *
  */
-const loadRoutesSuccess = (state, action) => {
+const loadIncidencesSuccess = (state, action) => {
   let routes = Immutable.fromJS(action.payload.routes);
   if (
     (routes.getIn([0, 'id']) === 'Single') &&
@@ -71,16 +71,16 @@ const loadRoutesSuccess = (state, action) => {
     routes = routes.set(i, route);
   }
   return state
-    .set('loadRoutesError', '')
+    .set('loadIncidencesError', '')
     .set('data', routes);
 };
 
 /**
  *
  */
-const loadRoutesFailure = (state) => {
+const loadIncidencesFailure = (state) => {
   return state.set(
-    'loadRoutesError',
+    'loadIncidencesError',
     'Could not load the routes. Please try again'
   );
 };
@@ -88,8 +88,8 @@ const loadRoutesFailure = (state) => {
 /**
  *
  */
-const loadRoutesEnd = (state) => {
-  return state.set('isLoadingRoutes', false);
+const loadIncidencesEnd = (state) => {
+  return state.set('isLoadingIncidences', false);
 };
 
 /**
@@ -720,40 +720,6 @@ const selectRouteIdToAddDeliveries = (state, action) => {
   return state;
 };
 
-/**
- *
- */
-const loadDeliveryPathBegin = (state) => {
-  return state;
-};
-
-/**
- *
- */
-const loadDeliveryPathSuccess = (state, action) => {
-  return state.set(
-    'currentPath',
-    action.payload.path.points
-  );
-};
-
-/**
- *
- */
-const loadDeliveryPathFailure = (state) => {
-  return state.set(
-    'currentPath',
-    undefined
-  );
-};
-
-/**
- *
- */
-const loadDeliveryPathEnd = (state) => {
-  return state;
-};
-
 
 /******************************************************************************/
 /******************************************************************************/
@@ -761,14 +727,14 @@ const loadDeliveryPathEnd = (state) => {
 
 export default function general(state = initialState, action) {
   switch (action.type) {
-  case types.LOAD_ROUTES_BEGIN:
-    return loadRoutesBegin(state);
-  case types.LOAD_ROUTES_SUCCESS:
-    return loadRoutesSuccess(state, action);
-  case types.LOAD_ROUTES_FAILURE:
-    return loadRoutesFailure(state);
-  case types.LOAD_ROUTES_END:
-    return loadRoutesEnd(state);
+  case types.LOAD_INCIDENCES_BEGIN:
+    return loadIncidencesBegin(state);
+  case types.LOAD_INCIDENCES_SUCCESS:
+    return loadIncidencesSuccess(state, action);
+  case types.LOAD_INCIDENCES_FAILURE:
+    return loadIncidencesFailure(state);
+  case types.LOAD_INCIDENCES_END:
+    return loadIncidencesEnd(state);
   case types.TOGGLE_ROUTE_SELECTION:
     return toggleRouteSelection(state, action);
   case types.TOGGLE_ROUTE_VISIBILITY:
@@ -817,14 +783,6 @@ export default function general(state = initialState, action) {
     return selectRouteIdToAddDeliveries(state, action);
   case types.SELECT_ROUTE_ID_TO_DIVIDE:
     return selectRouteIdToDivide(state, action);
-  case types.LOAD_DELIVERY_PATH_BEGIN:
-    return loadDeliveryPathBegin(state);
-  case types.LOAD_DELIVERY_PATH_SUCCESS:
-    return loadDeliveryPathSuccess(state, action);
-  case types.LOAD_DELIVERY_PATH_FAILURE:
-    return loadDeliveryPathFailure(state);
-  case types.LOAD_DELIVERY_PATH_END:
-    return loadDeliveryPathEnd(state);
   case types.SELECT_POINTS_TYPE:
     return selectPointsType(state, action);
   default:

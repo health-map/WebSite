@@ -7,10 +7,10 @@ import { createAction } from 'redux-actions';
 export const types = {
   TOGGLE_ROUTE_SELECTION: 'ROUTES/TOGGLE_ROUTE_SELECTION',
   TOGGLE_ROUTE_VISIBILITY: 'ROUTES/TOGGLE_ROUTE_VISIBILITY',
-  LOAD_ROUTES_BEGIN: 'ROUTES/LOAD_ROUTES_BEGIN',
-  LOAD_ROUTES_SUCCESS: 'ROUTES/LOAD_ROUTES_SUCCESS',
-  LOAD_ROUTES_FAILURE: 'ROUTES/LOAD_ROUTES_FAILURE',
-  LOAD_ROUTES_END: 'ROUTES/LOAD_ROUTES_END',
+  LOAD_INCIDENCES_BEGIN: 'ROUTES/LOAD_INCIDENCES_BEGIN',
+  LOAD_INCIDENCES_SUCCESS: 'ROUTES/LOAD_INCIDENCES_SUCCESS',
+  LOAD_INCIDENCES_FAILURE: 'ROUTES/LOAD_INCIDENCES_FAILURE',
+  LOAD_INCIDENCES_END: 'ROUTES/LOAD_INCIDENCES_END',
   LOAD_ROUTE_BEGIN: 'ROUTE/LOAD_ROUTE_BEGIN',
   LOAD_ROUTE_SUCCESS: 'ROUTE/LOAD_ROUTE_SUCCESS',
   LOAD_ROUTE_FAILURE: 'ROUTE/LOAD_ROUTE_FAILURE',
@@ -82,14 +82,14 @@ export const actions = {
     (routeId, isVisible) => ({ routeId,
       isVisible })
   ),
-  loadRoutes: {
-    begin: createAction(types.LOAD_ROUTES_BEGIN),
+  loadIncidences: {
+    begin: createAction(types.LOAD_INCIDENCES_BEGIN),
     success: createAction(
-      types.LOAD_ROUTES_SUCCESS,
+      types.LOAD_INCIDENCES_SUCCESS,
       routes => ({ routes })
     ),
-    failure: createAction(types.LOAD_ROUTES_FAILURE),
-    end: createAction(types.LOAD_ROUTES_END)
+    failure: createAction(types.LOAD_INCIDENCES_FAILURE),
+    end: createAction(types.LOAD_INCIDENCES_END)
   },
   loadRoute: {
     begin: createAction(
@@ -166,27 +166,6 @@ export const actions = {
     types.SELECT_ROUTE_TO_SWAP,
     (route) => ({ route })
   ),
-  loadDeliveryPath: {
-    begin: createAction(
-      types.LOAD_DELIVERY_PATH_BEGIN,
-      deliveryId => ({ deliveryId })
-    ),
-    success: createAction(
-      types.LOAD_DELIVERY_PATH_SUCCESS,
-      (deliveryId, path) => ({
-        deliveryId,
-        path
-      })
-    ),
-    failure: createAction(
-      types.LOAD_DELIVERY_PATH_FAILURE,
-      deliveryId => ({ deliveryId })
-    ),
-    end: createAction(
-      types.LOAD_DELIVERY_PATH_END,
-      deliveryId => ({ deliveryId })
-    )
-  },
   selectPointsType: createAction(
     types.SELECT_POINTS_TYPE,
     (selectedPointsType) => ({ selectedPointsType })

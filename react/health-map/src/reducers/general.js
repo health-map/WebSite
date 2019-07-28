@@ -20,9 +20,8 @@ const initialState = Map({
   ],
   routes: List(),
   isLoadingCities: false,
-  isLoadingRoutes: false,
-  loadCitiesError: '',
-  loadRoutesError: '',
+  isLoadingIncidences: false,
+  loadIncidencesError: '',
   message: ''
 });
 
@@ -44,35 +43,6 @@ const updateUserInformation = (state, action) => {
 /**
  *
  */
-const loadCitiesBegin = (state) => {
-  return state.set('isLoadingCities', true);
-};
-
-/**
- *
- */
-const loadCitiesSuccess = (state, action) => {
-  return state.set('cities', List(action.payload.cities))
-    .set('loadCitiesError', '');
-};
-
-/**
- *
- */
-const loadCitiesFailure = (state) => {
-  return state.set('loadCitiesError', 'Could not load the cities. Please try again');
-};
-
-/**
- *
- */
-const loadCitiesEnd = (state) => {
-  return state.set('isLoadingCities', false);
-};
-
-/**
- *
- */
 const loadStatuses = (state, action) => {
   return state.set('statuses', List(action.payload.statuses));
 };
@@ -80,30 +50,30 @@ const loadStatuses = (state, action) => {
 /**
  *
  */
-const loadRoutesBegin = (state) => {
-  return state.set('isLoadingRoutes', true);
+const loadIncidencesBegin = (state) => {
+  return state.set('isLoadingIncidences', true);
 };
 
 /**
  *
  */
-const loadRoutesSuccess = (state, action) => {
-  return state.set('loadRoutesError', '')
+const loadIncidencesSuccess = (state, action) => {
+  return state.set('loadIncidencesError', '')
     .set('routes', fromJS(action.payload.routes));
 };
 
 /**
  *
  */
-const loadRoutesFailure = (state) => {
-  return state.set('loadRoutesError', 'Could not load the routes. Please try again');
+const loadIncidencesFailure = (state) => {
+  return state.set('loadIncidencesError', 'Could not load the routes. Please try again');
 };
 
 /**
  *
  */
-const loadRoutesEnd = (state) => {
-  return state.set('isLoadingRoutes', false);
+const loadIncidencesEnd = (state) => {
+  return state.set('isLoadingIncidences', false);
 };
 
 /**
@@ -124,24 +94,16 @@ export default function general(state = initialState, action) {
     return updateLocale(state, action);
   case types.UPDATE_USER_INFORMATION:
     return updateUserInformation(state, action);
-  case types.LOAD_CITIES_BEGIN:
-    return loadCitiesBegin(state);
-  case types.LOAD_CITIES_SUCCESS:
-    return loadCitiesSuccess(state, action);
   case types.LOAD_STATUSES:
     return loadStatuses(state);
-  case types.LOAD_CITIES_FAILUTE:
-    return loadCitiesFailure(state);
-  case types.LOAD_CITIES_END:
-    return loadCitiesEnd(state);
-  case types.LOAD_ROUTES_BEGIN:
-    return loadRoutesBegin(state);
-  case types.LOAD_ROUTES_SUCCESS:
-    return loadRoutesSuccess(state, action);
-  case types.LOAD_ROUTES_FAILURE:
-    return loadRoutesFailure(state);
-  case types.LOAD_ROUTES_END:
-    return loadRoutesEnd(state);
+  case types.LOAD_INCIDENCES_BEGIN:
+    return loadIncidencesBegin(state);
+  case types.LOAD_INCIDENCES_SUCCESS:
+    return loadIncidencesSuccess(state, action);
+  case types.LOAD_INCIDENCES_FAILURE:
+    return loadIncidencesFailure(state);
+  case types.LOAD_INCIDENCES_END:
+    return loadIncidencesEnd(state);
   case types.SHOW_MESSAGE:
     return showMessage(state, action);
   default:

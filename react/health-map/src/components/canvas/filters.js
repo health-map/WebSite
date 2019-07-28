@@ -11,7 +11,6 @@ import Select from 'react-select';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { loadCompanies } from './../../services/localAPI';
 import { loadTags, loadDeliveries } from './../../services/remoteAPI';
 
 import { actions } from './../../actions/routes';
@@ -84,24 +83,6 @@ class Filters extends React.Component {
     this.setState({
       from: moment(date).startOf('day').unix(),
       to: moment(date).endOf('day').unix()
-    });
-  }
-  loadCompanies = (q) => {
-    const self = this;
-    if ( q.length < 3 ) {
-      return;
-    }
-    this.setState({
-      isLoadingCompanies: true
-    }, () => {
-      loadCompanies(
-        { q },
-        { accessToken: self.props.accessToken }
-      )
-        .then(companies => self.setState({
-          companies,
-          isLoadingCompanies: false
-        }));
     });
   }
   loadTags = (q) => {
@@ -254,12 +235,6 @@ class Filters extends React.Component {
                       value={this.state.selectedCities}
                       placeholder={window.translation('Type a city name')}/>
                   </div>
-                  {
-                    (this.props.loadCitiesError.length > 0) &&
-                    <div className="shy-form-error">
-                      { window.translation(this.props.loadCitiesError) }
-                    </div>
-                  }
                 </div>
               }
               {
@@ -281,12 +256,6 @@ class Filters extends React.Component {
                       options={this.state.cities.toJSON()}
                       placeholder={window.translation('Type a city name')}/>
                   </div>
-                  {
-                    (this.props.loadCitiesError.length > 0) &&
-                    <div className="shy-form-error">
-                      { window.translation(this.props.loadCitiesError) }
-                    </div>
-                  }
                 </div>
               }
               {
@@ -304,7 +273,6 @@ class Filters extends React.Component {
                       options={this.state.companies}
                       value={this.state.selectedCompanies}
                       placeholder={window.translation('Type a company name')}
-                      onInputChange={this.loadCompanies}
                       isLoading={this.state.isLoadingCompanies}/>
                   </div>
                 </div>
@@ -432,8 +400,6 @@ const mapStateToProps = state => {
   return {
     cities: state.getIn(['general', 'cities']),
     statuses: state.getIn(['general', 'statuses']),
-    isLoadingCities: state.getIn(['general', 'isLoadingCities']),
-    loadCitiesError: state.getIn(['general', 'loadCitiesError']),
     locale: state.getIn(['general', 'locale']),
     companyAccess: state.getIn(['general', 'user', 'companyAccess']),
     accessToken: state.getIn(['general', 'user', 'accessToken']),

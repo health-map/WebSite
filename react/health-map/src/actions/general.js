@@ -12,10 +12,10 @@ export const types = {
   LOAD_CITIES_FAILURE: 'GENERAL/LOAD_CITIES_FAILURE',
   LOAD_CITIES_END: 'GENERAL/LOAD_CITIES_END',
   LOAD_STATUSES: 'GENERAL/LOAD_STATUSES',
-  LOAD_ROUTES_BEGIN: 'GENERAL/LOAD_ROUTES_BEGIN',
-  LOAD_ROUTES_SUCCESS: 'GENERAL/LOAD_ROUTES_SUCCESS',
-  LOAD_ROUTES_FAILURE: 'GENERAL/LOAD_ROUTES_FAILURE',
-  LOAD_ROUTES_END: 'GENERAL/LOAD_ROUTES_END',
+  LOAD_INCIDENCES_BEGIN: 'GENERAL/LOAD_INCIDENCES_BEGIN',
+  LOAD_INCIDENCES_SUCCESS: 'GENERAL/LOAD_INCIDENCES_SUCCESS',
+  LOAD_INCIDENCES_FAILURE: 'GENERAL/LOAD_INCIDENCES_FAILURE',
+  LOAD_INCIDENCES_END: 'GENERAL/LOAD_INCIDENCES_END',
   SHOW_MESSAGE: 'GENERAL/SHOW_MESSAGE'
 };
 
@@ -35,26 +35,17 @@ export const actions = {
     types.UPDATE_USER_INFORMATION,
     user => ({ user })
   ),
-  loadCities: {
-    begin: createAction(types.LOAD_CITIES_BEGIN),
-    success: createAction(
-      types.LOAD_CITIES_SUCCESS,
-      cities => ({ cities })
-    ),
-    failure: createAction(types.LOAD_CITIES_FAILURE),
-    end: createAction(types.LOAD_CITIES_END)
-  },
   loadStatuses: createAction (
     types.LOAD_STATUSES,
     statuses => ({ statuses })
   ),
-  loadRoutes: {
-    begin: createAction(types.LOAD_ROUTES_BEGIN),
+  loadIncidences: {
+    begin: createAction(types.LOAD_INCIDENCES_BEGIN),
     success: createAction(
-      types.LOAD_ROUTES_SUCCESS,
-      routes => ({ routes })
+      types.LOAD_INCIDENCES_SUCCESS,
+      incidences => ({ incidences })
     ),
-    failure: createAction(types.LOAD_ROUTES_FAILURE),
-    end: createAction(types.LOAD_ROUTES_END)
+    failure: createAction(types.LOAD_INCIDENCES_FAILURE),
+    end: createAction(types.LOAD_INCIDENCES_END)
   }
 };

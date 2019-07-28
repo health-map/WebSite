@@ -1,37 +1,21 @@
 
 import { actions } from './../general';
-import { loadCities } from './../../services/localAPI';
-import { loadRoutes } from './../../services/remoteAPI';
+import { loadIncidences } from './../../services/remoteAPI';
 
 export const thunks = {
-  loadCities() {
+  loadIncidences() {
     return async (dispatch, getState) => {
-      dispatch(actions.loadCities.begin());
+      dispatch(actions.loadIncidences.begin());
       try {
-        let cities = await loadCities({
-          accessToken: getState().getIn(['general', 'user', 'accessToken']),
-          companyAccess: getState().getIn(['general', 'user', 'companyAccess'])
-        });
-        dispatch(actions.loadCities.success(cities));
-      } catch (err) {
-        dispatch(actions.loadCities.failure());
-      }
-      dispatch(actions.loadCities.end());
-    };
-  },
-  loadRoutes() {
-    return async (dispatch, getState) => {
-      dispatch(actions.loadRoutes.begin());
-      try {
-        let routes = await loadRoutes({
+        let routes = await loadIncidences({
           apiUrl: getState().getIn(['general', 'user', 'apiUrl']),
           apiToken: getState().getIn(['general', 'user', 'apiToken'])
         });
-        dispatch(actions.loadRoutes.success(routes));
+        dispatch(actions.loadIncidences.success(routes));
       } catch (err) {
-        dispatch(actions.loadRoutes.failure());
+        dispatch(actions.loadIncidences.failure());
       }
-      dispatch(actions.loadRoutes.end());
+      dispatch(actions.loadIncidences.end());
     };
   }
 };

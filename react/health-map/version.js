@@ -1,7 +1,7 @@
 /**
  * @file version.js
- * @description Routing version
+ * @description Health Map version
  *
  */
 
-module.exports = "1.0.15";
+module.exports = "2.0.0";

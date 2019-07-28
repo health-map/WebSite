@@ -7,8 +7,6 @@ import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
-import Timer from './timer';
-
 import './mapTitlebar.css';
 
 /**
@@ -28,8 +26,7 @@ class MapTitlebar extends React.Component {
   }
   render() {
     const {
-      openFiltersDialog, isPolygonToolOpened, selectedRouteIdToAddDeliveries,
-      selectedRoute, displayType
+      openFiltersDialog
     } = this.props;
     const filters = [];
     this.props.selectedCities.map(sc => {
@@ -58,73 +55,52 @@ class MapTitlebar extends React.Component {
       });
     }
     return (
-      selectedRouteIdToAddDeliveries ?
-        <div></div> :
-        <div
-          className="shy-map-titlebar"
-          style={{
-            backgroundColor: (displayType === 'responsive' && selectedRoute) ?
-              selectedRoute.get('color') : '#ef404b'
-          }}>
-          <div>
+      <div
+        className="shy-map-titlebar"
+        style={{
+          backgroundColor: '#005CFF'
+        }}>
+        <div className="flex flex-align-center">
+          <div className="shy-map-titlebar-filters">
             {
-              isPolygonToolOpened &&
-              !selectedRoute &&
-              <div className="flex flex-align-center">
-                <img
-                  className="icon-close margin-left-16 margin-right-16"
-                  src="https://cdn.shippify.co/icons/icon-close-white.svg"
-                  alt="Back"
-                  onClick={() => window.location = '/' }/>
-                <Timer/>
-              </div>
+              filters.join(', ')
             }
+            <img
+              src="https://cdn.shippify.co/icons/icon-close-circle-white-mini.svg"
+              alt=""
+              onClick={() => openFiltersDialog()}/>
           </div>
-          {
-            !isPolygonToolOpened &&
-            !selectedRoute &&
-            <div className="flex flex-align-center">
-              <div className="shy-map-titlebar-filters">
-                {
-                  filters.join(', ')
-                }
-                <img
-                  src="https://cdn.shippify.co/icons/icon-close-circle-white-mini.svg"
-                  alt=""
-                  onClick={() => openFiltersDialog()}/>
-              </div>
-              <div className="shy-quick-actions">
-                <span
-                  className={
-                    moment().isSame(moment.unix(this.props.from), 'day') ?
-                      'shy-quick-action shy-quick-action-left shy-quick-action-active' :
-                      'shy-quick-action shy-quick-action-left'
-                  }
-                  onClick={() => this.handleDateChange(moment().startOf('day'))}>
-                  { window.translation('TODAY') }
-                </span>
-                <span
-                  className={
-                    moment().add(1, 'day').isSame(moment.unix(this.props.from), 'day') ?
-                      'shy-quick-action shy-quick-action-right shy-quick-action-active' :
-                      'shy-quick-action shy-quick-action-right'
-                  }
-                  onClick={() => {
-                    this.handleDateChange(
-                      moment().add(1, 'day').startOf('day')
-                    );
-                  }}>
-                  { window.translation('TOMORROW') }
-                </span>
-              </div>
-              <img
-                className="shy-filter-icon"
-                src="https://cdn.shippify.co/icons/icon-filter-white.svg"
-                alt="Filter"
-                onClick={() => openFiltersDialog()}/>
-            </div>
-          }
+          <div className="shy-quick-actions">
+            <span
+              className={
+                moment().isSame(moment.unix(this.props.from), 'day') ?
+                  'shy-quick-action shy-quick-action-left shy-quick-action-active' :
+                  'shy-quick-action shy-quick-action-left'
+              }
+              onClick={() => this.handleDateChange(moment().startOf('day'))}>
+              { window.translation('TODAY') }
+            </span>
+            <span
+              className={
+                moment().add(1, 'day').isSame(moment.unix(this.props.from), 'day') ?
+                  'shy-quick-action shy-quick-action-right shy-quick-action-active' :
+                  'shy-quick-action shy-quick-action-right'
+              }
+              onClick={() => {
+                this.handleDateChange(
+                  moment().add(1, 'day').startOf('day')
+                );
+              }}>
+              { window.translation('TOMORROW') }
+            </span>
+          </div>
+          <img
+            className="shy-filter-icon"
+            src="https://cdn.shippify.co/icons/icon-filter-white.svg"
+            alt="Filter"
+            onClick={() => openFiltersDialog()}/>
         </div>
+      </div>
     );
   }
 }
@@ -134,8 +110,7 @@ class MapTitlebar extends React.Component {
  */
 const mapStateToProps = state => {
   return {
-    cities: state.getIn(['general', 'cities']),
-    selectedRouteIdToAddDeliveries: state.getIn(['routes', 'selectedRouteIdToAddDeliveries'])
+    cities: state.getIn(['general', 'cities'])
   };
 };
 
