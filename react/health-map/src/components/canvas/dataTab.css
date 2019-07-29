@@ -1,0 +1,10 @@
+.hm-datatab-firstinfo{
+  padding: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: 12px;
+  display: flex;
+  text-align: justify;
+  color: #AEAEAE;
+  border-bottom: 1px solid #ccc;
+}

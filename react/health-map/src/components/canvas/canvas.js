@@ -10,10 +10,10 @@ import './canvas.css';
 import MapTitlebar from './mapTitlebar';
 import Filters from './filters';
 import Map from './map';
-import RoutesList from './routesList';
+import DataPanel from './dataPanel';
 import ErrorBoundaryDialog from './../shared/errorBoundaryDialog';
 import MessageDialog from './../dialogs/message';
-
+import MapFooter from './mapFooter';
 import './canvas.css';
 
 
@@ -103,7 +103,7 @@ class Canvas extends React.Component {
           true &&
           <div className="list-container">
             <div className="full-width">
-              <RoutesList
+              <DataPanel
                 width={ 500 }
                 from={this.props.from}
                 to={this.props.to}
@@ -176,6 +176,7 @@ class Canvas extends React.Component {
             <MessageDialog/>
           </ErrorBoundaryDialog>
         }
+        <MapFooter/>
       </div>
     );
   }

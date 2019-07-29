@@ -1,0 +1,18 @@
+.hm-footer-container{
+  position: fixed;
+  display: flex;
+  align-items: center;
+  bottom: 0;
+  background-color: rgba(230, 230, 230, 0.85);
+  padding: 8px;
+  padding-left: 16px;
+  box-sizing: border-box;
+  padding-right: 16px;
+  width: 100%;
+  z-index: 10;
+}
+
+.hm-footer-info{
+  text-align: justify;
+  opacity: 0.6;
+}

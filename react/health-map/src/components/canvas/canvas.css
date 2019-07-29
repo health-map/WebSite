@@ -7,16 +7,16 @@
 }
 
 .list-container {
-  height: calc(100% - 112px);
+  height: calc(100% - 158px);
   top: 96px;
   left: 16px;
   width: 400px;
   display: flex;
-  border-radius: 4px;
+  border-radius: 6px;
   position: fixed;
   background-color: white;
   z-index: 10;
-  box-shadow: 0 2px 10px 0 rgba(0,0,0,.08);
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 }
 
 .map-container {
