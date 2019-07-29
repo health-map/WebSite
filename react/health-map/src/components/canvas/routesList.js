@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 //import ReactTooltip from 'react-tooltip';
 import { bindActionCreators } from 'redux';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import Route from './route';
 import Error from './../shared/error';
@@ -13,6 +14,7 @@ import { thunks } from './../../actions/thunks/routes';
 const { loadIncidences: loadIncidencesRequest } = thunks;
 
 import './routesList.css';
+import 'react-tabs/style/react-tabs.css';
 
 
 /**
@@ -57,10 +59,54 @@ class RoutesList extends React.Component {
     return (
       <div className="routes-list">
         {
+          true &&
+          <Tabs>
+            <TabList
+              className="hm-tab-list">
+              <Tab
+                className="hm-tab"
+                selectedClassName="hm-tab hm-tab-active">
+                <div
+                  className="hm-tab-name">
+                    DATOS
+                </div>
+              </Tab>
+              <Tab
+                className="hm-tab"
+                selectedClassName="hm-tab hm-tab-active">
+                <div
+                  className="hm-tab-name">
+                      BÚSQUEDA DE ENFERMEDADES
+                </div>
+              </Tab>
+              <Tab
+                className="hm-tab"
+                selectedClassName="hm-tab hm-tab-active">
+                <div
+                  className="hm-tab-name">
+                      ZONAS DE INTERÉS
+                </div>
+              </Tab>
+            </TabList>
+        
+            <TabPanel>
+              <h2>Any content 1</h2>
+            </TabPanel>
+            <TabPanel>
+              <h2>Any content 2</h2>
+            </TabPanel>
+            <TabPanel>
+              <h2>Any content 3</h2>
+            </TabPanel>
+          </Tabs>
+        }
+        {
+          false &&
           this.props.isLoadingIncidences &&
           <Loading/>
         }
         {
+          false &&
           !this.props.isLoadingIncidences &&
           (this.props.loadIncidencesError.length > 0) &&
           <Error
@@ -76,6 +122,7 @@ class RoutesList extends React.Component {
             })}/>
         }
         {
+          false &&
           !this.props.isLoadingIncidences &&
           (this.props.loadIncidencesError.length === 0) &&
           <div className="routes-container">
