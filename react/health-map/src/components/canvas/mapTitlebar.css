@@ -97,6 +97,11 @@
     border-right: 1px solid white;
   }
 
+  .hm-action-box-full-bordered{
+    border-right: 1px solid white;
+    border-left: 1px solid white;
+  }
+
   .hm-action-label{
     margin-bottom: 8px;
     font-size: 12px;
@@ -114,4 +119,42 @@
 
   .hm-action-label-text{
     margin-top: 2px;
+    margin-left: 4px;
+  }
+
+  .hm-button-text-icon{
+    font-size: 16px;
+    margin-left: 4px;
+  }
+
+  .hm-opciones-icon{
+    margin-right: 8px;
+  }
+
+  .hm-quick-selector-action{
+    display: flex;
+    border-radius: 4px;
+  }
+
+  .hm-quick-selector-value{
+    margin-right: 4px;
+  }
+
+  .hm-map-title-box{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    max-width: 275px;
+    margin-left: 16px;
+    color: white;
+  }
+
+  .hm-map-title-text{
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  .hm-map-sidemenu{
+    margin-right: 16px;
   }

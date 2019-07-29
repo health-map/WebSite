@@ -7,7 +7,7 @@
 }
 
 .list-container {
-  height: calc(100% - 96px);
+  height: calc(100% - 112px);
   top: 96px;
   left: 16px;
   width: 400px;

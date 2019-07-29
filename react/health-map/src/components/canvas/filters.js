@@ -1,12 +1,12 @@
 /**
  * @file filters.js
  * @description Filters dialog
- * @author Denny K. Schuldt
+ * @author Leonardo Kuffo Rivero
  */
 
 import React from 'react';
 import moment from 'moment';
-import Kronos from 'react-kronos';
+// import Kronos from 'react-kronos';
 import Select from 'react-select';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -177,26 +177,15 @@ class Filters extends React.Component {
     this.props.onClose();
   }
   render() {
-    const { locale, companyAccess } = this.props;
-    let kronosOptions = {
-      color: '#0092E1',
-      font: 'Roboto',
-      locale: moment.updateLocale('en', {
-        weekdaysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
-      })
-    };
-    switch (locale) {
-    case 'es':
-      kronosOptions.locale = moment.updateLocale('es', {
-        weekdaysMin: ['do', 'lu', 'ma', 'mi', 'ju', 'vi', 'sá']
-      });
-      break;
-    case 'pt':
-      kronosOptions.locale = moment.updateLocale('pt', {
-        weekdaysMin: ['Do', '2ª', '3ª', '4ª', '5ª', '6ª', 'Sá']
-      });
-      break;
-    }
+    const { companyAccess } = this.props;
+    // const kronosOptions = {
+    //   color: '#0092E1',
+    //   font: 'Roboto',
+    //   locale: moment.updateLocale('es', {
+    //     weekdaysMin: ['do', 'lu', 'ma', 'mi', 'ju', 'vi', 'sá']
+    //   })
+    // };
+
     return (
       <div className="shy-dialog" onClick={this.props.onClose}>
         <div className="shy-dialog-content-wrapper">
@@ -218,64 +207,40 @@ class Filters extends React.Component {
                 onClick={this.props.onClose}/>
             </div>
             <div className="shy-dialog-body shy-dialog-body-sm">
-              {
-                (companyAccess === 2) &&
-                <div>
-                  <div className="shy-form-field-label">
-                    { window.translation('Select a city') }
-                  </div>
-                  <div className="shy-form-field">
-                    <Select
-                      multi
-                      valueKey="id"
-                      labelKey="name"
-                      onChange={e => this.handleSAASCitiesChange(e)}
-                      options={this.state.cities.toJSON()}
-                      value={this.state.selectedCities}
-                      placeholder={window.translation('Type a city name')}/>
-                  </div>
+              <div>
+                <div className="shy-form-field-label">
+                  { window.translation('Select a city') }
                 </div>
-              }
-              {
-                (companyAccess === 3) &&
-                <div>
-                  <div className="shy-form-field-label">
-                    { window.translation('Select a city') }
-                  </div>
-                  <div className="shy-form-field">
-                    <Select
-                      valueKey="id"
-                      labelKey="name"
-                      value={this.state.selectedCities[0]}
-                      onChange={(e) => {
-                        this.handleCityChange(
-                          (e && e.id) || this.state.cities.get(0).id
-                        );
-                      }}
-                      options={this.state.cities.toJSON()}
-                      placeholder={window.translation('Type a city name')}/>
-                  </div>
+                <div className="shy-form-field">
+                  <Select
+                    valueKey="id"
+                    labelKey="name"
+                    value={this.state.selectedCities[0]}
+                    onChange={(e) => {
+                      this.handleCityChange(
+                        (e && e.id) || this.state.cities.get(0).id
+                      );
+                    }}
+                    options={this.state.cities.toJSON()}
+                    placeholder={window.translation('Type a city name')}/>
                 </div>
-              }
-              {
-                (companyAccess === 3) &&
-                <div className="margin-top-16">
-                  <div className="shy-form-field-label">
-                    { window.translation('Select a company') }
-                  </div>
-                  <div className="shy-form-field">
-                    <Select
-                      multi
-                      valueKey="id"
-                      labelKey="name"
-                      onChange={e => this.handleCompaniesChange(e)}
-                      options={this.state.companies}
-                      value={this.state.selectedCompanies}
-                      placeholder={window.translation('Type a company name')}
-                      isLoading={this.state.isLoadingCompanies}/>
-                  </div>
+              </div>
+              <div className="margin-top-16">
+                <div className="shy-form-field-label">
+                  { window.translation('Select a company') }
                 </div>
-              }
+                <div className="shy-form-field">
+                  <Select
+                    multi
+                    valueKey="id"
+                    labelKey="name"
+                    onChange={e => this.handleCompaniesChange(e)}
+                    options={this.state.companies}
+                    value={this.state.selectedCompanies}
+                    placeholder={window.translation('Type a company name')}
+                    isLoading={this.state.isLoadingCompanies}/>
+                </div>
+              </div>
               <div
                 className={
                   (companyAccess !== 1) ?
@@ -297,44 +262,41 @@ class Filters extends React.Component {
                     isLoading={this.state.isLoadingTags}/>
                 </div>
               </div>
-              {
-                (companyAccess === 3) &&
-                <div className="margin-top-16">
-                  <div className="shy-form-field-label">
-                    {
-                      window.translation('Select a status')
-                    }
-                  </div>
-                  <div className="shy-form-field">
-                    <Select
-                      multi
-                      valueKey="id"
-                      labelKey="name"
-                      onChange={e => this.handleStatusesChange(e)}
-                      options={this.state.statuses.map((status) => {
-                        if (typeof status === 'string') {
-                          return {
-                            id: status,
-                            name: status
-                          };
-                        }
-                        return status;
-                      })}
-                      value={this.state.selectedStatuses.map((status) => {
-                        if (typeof status === 'string') {
-                          return {
-                            id: status,
-                            name: status
-                          };
-                        }
-                        return status;
-                      })}
-                      placeholder={'Type a Delivery Status'}
-                      onInputChange={this.loadStatuses}
-                      isLoading={this.state.isLoadingStatuses}/>
-                  </div>
+              <div className="margin-top-16">
+                <div className="shy-form-field-label">
+                  {
+                    window.translation('Select a status')
+                  }
                 </div>
-              }
+                <div className="shy-form-field">
+                  <Select
+                    multi
+                    valueKey="id"
+                    labelKey="name"
+                    onChange={e => this.handleStatusesChange(e)}
+                    options={this.state.statuses.map((status) => {
+                      if (typeof status === 'string') {
+                        return {
+                          id: status,
+                          name: status
+                        };
+                      }
+                      return status;
+                    })}
+                    value={this.state.selectedStatuses.map((status) => {
+                      if (typeof status === 'string') {
+                        return {
+                          id: status,
+                          name: status
+                        };
+                      }
+                      return status;
+                    })}
+                    placeholder={'Type a Delivery Status'}
+                    onInputChange={this.loadStatuses}
+                    isLoading={this.state.isLoadingStatuses}/>
+                </div>
+              </div>
               <div className="margin-top-16">
                 <div className="shy-form-field-label">
                   {
@@ -361,12 +323,12 @@ class Filters extends React.Component {
                   }
                 </div>
                 <div className="shy-form-field">
-                  <Kronos
+                  {/* <Kronos
                     options={kronosOptions}
                     format={'DD-MM-YYYY'}
                     date={moment.unix(this.state.from)}
                     onChangeDateTime={(e) => this.handleDateChange(e)}
-                    inputClassName="shy-form-field-input full-width"/>
+                    inputClassName="shy-form-field-input full-width"/> */}
                 </div>
               </div>
               <div className="shy-dialog-body-buttons">
