@@ -10,7 +10,7 @@ import DiseaseTab from './diseaseTab';
 import GeogroupTab from './geogroupTab';
 import { actions } from '../../actions/incidences';
 import { actions as generalActions } from '../../actions/general';
-import { thunks } from '../../actions/thunks/routes';
+import { thunks } from '../../actions/thunks/incidences';
 const { loadIncidences: loadIncidencesRequest } = thunks;
 
 import './dataPanel.css';
@@ -22,84 +22,55 @@ import 'react-tabs/style/react-tabs.css';
  */
 class DataPanel extends React.Component {
   componentDidMount() {
-    if (this.props.routes.size === 0) {
-      this.props.loadIncidences({
-        from: this.props.from,
-        to: this.props.to,
-        tags: this.props.selectedTags,
-        cities: this.props.selectedCities,
-        companies: this.props.selectedCompanies,
-        deliveries: this.props.selectedDeliveries,
-        statuses: this.props.selectedStatuses
-      });
+    if (this.props.incidences.length === 0) {
+      console.log('cargando incidencias');
+      this.props.loadIncidences(this.props.incidencesFilters);
     }
   }
-  componentDidUpdate(prevProps) {
-    if (
-      (prevProps.from !== this.props.from) ||
-      (prevProps.to !== this.props.to) ||
-      (prevProps.selectedTags !== this.props.selectedTags) ||
-      (prevProps.selectedCities !== this.props.selectedCities) ||
-      (prevProps.selectedCompanies !== this.props.selectedCompanies) ||
-      (prevProps.selectedDeliveries !== this.props.selectedDeliveries) ||
-      (prevProps.selectedStatuses !== this.props.selectedStatuses)
-    ) {
-      this.props.loadIncidences({
-        from: this.props.from,
-        to: this.props.to,
-        tags: this.props.selectedTags,
-        cities: this.props.selectedCities,
-        companies: this.props.selectedCompanies,
-        deliveries: this.props.selectedDeliveries,
-        statuses: this.props.selectedStatuses
-      });
-    }
+  componentDidUpdate() {
+
   }
   render() {
     return (
-      <div className="routes-list">
-        {
-          true &&
-          <Tabs>
-            <TabList
-              className="hm-tab-list">
-              <Tab
-                className="hm-tab"
-                selectedClassName="hm-tab hm-tab-active">
-                <div
-                  className="hm-tab-name">
-                    DATOS
-                </div>
-              </Tab>
-              <Tab
-                className="hm-tab"
-                selectedClassName="hm-tab hm-tab-active">
-                <div
-                  className="hm-tab-name">
-                      BÚSQUEDA DE ENFERMEDADES
-                </div>
-              </Tab>
-              <Tab
-                className="hm-tab"
-                selectedClassName="hm-tab hm-tab-active">
-                <div
-                  className="hm-tab-name">
-                      ZONAS DE INTERÉS
-                </div>
-              </Tab>
-            </TabList>
-
-            <TabPanel>
-              <DataTab />
-            </TabPanel>
-            <TabPanel>
-              <DiseaseTab />
-            </TabPanel>
-            <TabPanel>
-              <GeogroupTab />
-            </TabPanel>
-          </Tabs>
-        }
+      <div className="hm-main-panel">
+        <Tabs>
+          <TabList
+            className="hm-tab-list">
+            <Tab
+              className="hm-tab"
+              selectedClassName="hm-tab hm-tab-active">
+              <div
+                className="hm-tab-name">
+                  DATOS
+              </div>
+            </Tab>
+            <Tab
+              className="hm-tab"
+              selectedClassName="hm-tab hm-tab-active">
+              <div
+                className="hm-tab-name">
+                    BÚSQUEDA DE ENFERMEDADES
+              </div>
+            </Tab>
+            <Tab
+              className="hm-tab"
+              selectedClassName="hm-tab hm-tab-active">
+              <div
+                className="hm-tab-name">
+                    ZONAS DE INTERÉS
+              </div>
+            </Tab>
+          </TabList>
+          <TabPanel>
+            <DataTab />
+          </TabPanel>
+          <TabPanel>
+            <DiseaseTab />
+          </TabPanel>
+          <TabPanel>
+            <GeogroupTab />
+          </TabPanel>
+        </Tabs>
       </div>
     );
   }
@@ -108,16 +79,18 @@ class DataPanel extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    routes: state.getIn(['incidences', 'data']),
+    incidences: state.getIn(['incidences', 'data']),
     isLoadingIncidences: state.getIn(['incidences', 'isLoadingIncidences']),
-    loadIncidencesError: state.getIn(['incidences', 'loadIncidencesError'])
+    loadIncidencesError: state.getIn(['incidences', 'loadIncidencesError']),
+    incidencesFilters: state.getIn(['incidences', 'filters'])
   };
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   loadIncidences: loadIncidencesRequest,
   toggleIncidenceVisibility: actions.toggleIncidenceVisibility,
-  showMessage: generalActions.showMessage
+  showMessage: generalActions.showMessage,
+  mutateFilters: actions.mutateFilters
 }, dispatch);
 
 

@@ -4,7 +4,7 @@
  *
  */
 
-import URLSearchParams from 'url-search-params';
+//import URLSearchParams from 'url-search-params';
 
 export async function loadDiseases(
   {
@@ -109,63 +109,53 @@ export async function loadGeozonesGroups(
  */
 export async function loadIncidences(
   {
-    from,
-    to,
-    cities,
-    companies,
-    deliveries,
-    tags
+    institution,
+    gender,
+    startDate,
+    endDate,
+    season,
+    city,
+    disease,
+    geogroup,
+    age,
+    type,
+    department
   },
   { apiUrl, apiToken }
 ) {
-
-  const url = new URL(apiUrl);
-  url.pathname = '/v1/incidences/';
-  const searchParams = new URLSearchParams();
-  searchParams.append('from', from);
-  searchParams.append('to', to);
-  if (cities && cities.length) {
-    cities.map((city) => {
-      searchParams.append('cities[]', city);
-    });
-  }
-  if (companies && companies.length) {
-    companies.map((company) => {
-      searchParams.append('companies[]', company.id);
-    });
-  }
-  if (deliveries && deliveries.length) {
-    deliveries.map((delivery) => {
-      searchParams.append('deliveries[]', delivery.id);
-    });
-  }
-  if (tags && tags.length) {
-    tags.map((tag) => {
-      searchParams.append('tags[]', tag.id);
-    });
-  }
-  url.search = searchParams.toString();
-  let response;
-  try {
-    response = await fetch(url, {
-      headers: {
-        Authorization: `Basic ${apiToken}`,
-        'Content-Type': 'application/json'
-      }
-    });
-  } catch (err) {
-    throw new Error('load_failure');
-  }
-  if (response.status === 401) {
-    window.location.replace('/logout');
-  }
-  if (response.status >= 400 && response.status < 500) {
-    throw new Error('client_error');
-  }
-  if (response.status >= 500 && response.status < 600) {
-    throw new Error('server_error');
-  }
-  const { payload: { routes } } = await response.json();
-
-  return routes;
+  console.log(institution, gender, startDate, endDate, season, city);
+  console.log(disease, geogroup, age, type, department, apiUrl, apiToken);
+  var promise = new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        {
+          id: 1,
+          name: 'Alborada',
+          value: 4805,
+          color: '#aaa'
+        },
+        {
+          id: 2,
+          name: 'Mucho Lote',
+          value: 3847,
+          color: '#bbb'
+        },
+        {
+          id: 3,
+          name: 'Los Ceibos',
+          value: 1843,
+          geozones: '#ccc'
+        },
+        {
+          id: 4,
+          name: 'La Florida',
+          descripcion: 583,
+          geozones: '#ddd'
+        }
+      ]);
+    }, 2000);
+  });
+  let x = await promise;
+  console.log(x);
+  return x;
 }

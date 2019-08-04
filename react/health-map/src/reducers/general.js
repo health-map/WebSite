@@ -18,7 +18,7 @@ const initialState = Map({
       name: 'broadcasting'
     }
   ],
-  routes: List(),
+  incidences: [],
   isLoadingCities: false,
   isLoadingIncidences: false,
   loadIncidencesError: '',

@@ -9,15 +9,15 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ChromePicker } from 'react-color';
 
-import { actions } from './../../actions/incidences';
-// import { thunks } from './../../actions/thunks/routes';
+import { actions } from '../../actions/incidences';
+//import { thunks } from './../../actions/thunks/incidences';
 
-import './route.css';
+import './incidence.css';
 
 /**
  *
  */
-class Route extends React.Component {
+class Incidence extends React.Component {
   state = {
     loadedRoute: false,
     isColorSketchVisible: false,
@@ -150,4 +150,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 export default connect(
   null,
   mapDispatchToProps
-)(Route);
+)(Incidence);

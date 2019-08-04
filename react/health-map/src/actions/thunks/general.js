@@ -7,11 +7,11 @@ export const thunks = {
     return async (dispatch, getState) => {
       dispatch(actions.loadIncidences.begin());
       try {
-        let routes = await loadIncidences({
+        let incidences = await loadIncidences({
           apiUrl: getState().getIn(['general', 'user', 'apiUrl']),
           apiToken: getState().getIn(['general', 'user', 'apiToken'])
         });
-        dispatch(actions.loadIncidences.success(routes));
+        dispatch(actions.loadIncidences.success(incidences));
       } catch (err) {
         dispatch(actions.loadIncidences.failure());
       }

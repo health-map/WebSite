@@ -3,32 +3,24 @@ import Immutable from 'immutable';
 
 import { types } from '../actions/incidences';
 
-const availableColors = [
-  // '#00BCD4',
-  // '#03A9F4',
-  '#3F51B5',
-  '#8BC34A',
-  '#9C27B0',
-  '#259B24',
-  // '#607D8B',
-  '#673AB7',
-  '#5677FC',
-  '#009688',
-  '#795548',
-  // '#E62A10',	
-  // '#E91E63',
-  // '#CDDC39',
-  '#FF5722',
-  '#FF9800',
-  '#FFC107'
-  // '#FFEB3B'
-];
-
 const initialState = Immutable.Map({
-  data: Immutable.List(),
+  data: [],
   isLoadingIncidences: false,
   loadIncidencesError: '',
-  selectedGeozone: undefined
+  selectedGeozone: undefined,
+  filters: {
+    institution: 1,
+    gender: undefined,
+    startDate: '01-01-2018',
+    endDate: '01-01-2019',
+    season: undefined,
+    city: 1,
+    disease: undefined,
+    geogroup: undefined,
+    age: undefined,
+    type: 'absolute',
+    department: undefined
+  }
 });
 
 /**
@@ -42,26 +34,15 @@ const loadIncidencesBegin = (state) => {
  *
  */
 const loadIncidencesSuccess = (state, action) => {
-  let routes = Immutable.fromJS(action.payload.routes);
-  if (
-    (routes.getIn([0, 'id']) === 'Single') &&
-    (routes.getIn([0, 'schedule']).size === 0)
-  ) {
-    routes = routes.delete(0);
+  let incidences = action.payload.incidences;
+  for (let i=0; i<incidences.length; i++) {
+    incidences[i].isVisible = false;
+    incidences[i].isSelected = false;
   }
-  for (let i=0; i<routes.size; i++) {
-    const randomColor = availableColors[
-      Math.floor(Math.random() * (availableColors.length - 1))
-    ];
-    const route = routes.get(i)
-      .set('color', randomColor)
-      .set('isSelected', false)
-      .set('isVisible', false);
-    routes = routes.set(i, route);
-  }
+  console.log('seteando incidencias sucess');
   return state
     .set('loadIncidencesError', '')
-    .set('data', routes);
+    .set('data', incidences);
 };
 
 /**
@@ -70,7 +51,7 @@ const loadIncidencesSuccess = (state, action) => {
 const loadIncidencesFailure = (state) => {
   return state.set(
     'loadIncidencesError',
-    'Could not load the routes. Please try again'
+    'Ha ocurrido un error al cargas las incidencias.'
   );
 };
 
@@ -86,18 +67,15 @@ const loadIncidencesEnd = (state) => {
  *
  */
 const toggleIncidenceVisibility = (state, action) => {
-  const routeId = action.payload.routeId;
+  const incidenceId = action.payload.incidenceId;
   const isVisible = action.payload.isVisible;
-  const index = state.get('data').findIndex((route) => {
-    return route.get('id') === routeId;
+  const index = state.get('data').findIndex((incidence) => {
+    return incidence.id === incidenceId;
   });
   if (index >= 0) {
-    const routes = state.get('data');
-    const route = routes.get(index);
-    return state.set('data', routes.set(
-      index,
-      route.set('isVisible', isVisible)
-    ));
+    let incidences = state.get('data');
+    incidences[index].isVisible = isVisible;  
+    return state.set('data', incidences);
   }
   return state;
 };
@@ -106,18 +84,16 @@ const toggleIncidenceVisibility = (state, action) => {
 /**
  *
  */
-const changeRouteColor = (state, action) => {
-  const routeId = action.payload.routeId;
-  const index = state.get('data').findIndex((route) => {
-    return route.get('id') === routeId;
+const changeIncidenceColor = (state, action) => {
+  const incidenceId = action.payload.incidenceId;
+  const color = action.payload.color;
+  const index = state.get('data').findIndex((incidence) => {
+    return incidence.id === incidenceId;
   });
   if (index >= 0) {
-    const routes = state.get('data');
-    const route = routes.get(index);
-    return state.set('data', routes.set(
-      index,
-      route.set('color', action.payload.color)
-    ));
+    let incidences = state.get('data');
+    incidences[index].color = color;  
+    return state.set('data', incidences);
   }
   return state;
 };
@@ -126,16 +102,24 @@ const changeRouteColor = (state, action) => {
  *
  */
 const selectGeozone = (state, action) => {
-  const { routeId, deliveryId, activityType, color } = action.payload;
-  if (routeId && deliveryId && activityType) {
-    return state.set('selectedGeozone', {
-      routeId,
-      deliveryId,
-      activityType,
-      color
-    });
+  if (action) {
+    return state.set('selectedGeozone', {});
   }
   return state.set('selectedGeozone', undefined);
+};
+
+/**
+ *
+ */
+const mutateFilters = (state, action) => {
+  const key = action.payload.filterKey;
+  const value = action.payload.filterValue;
+  const actualFilters = state.get('filters');
+  const newFilters = Object.assign({}, actualFilters, { [key]: value });
+  return state.set(
+    'filters', 
+    newFilters
+  );
 };
 
 
@@ -145,6 +129,8 @@ const selectGeozone = (state, action) => {
 
 export default function general(state = initialState, action) {
   switch (action.type) {
+  case types.MUTATE_FILTERS:
+    return mutateFilters(state, action);
   case types.LOAD_INCIDENCES_BEGIN:
     return loadIncidencesBegin(state);
   case types.LOAD_INCIDENCES_SUCCESS:
@@ -155,8 +141,8 @@ export default function general(state = initialState, action) {
     return loadIncidencesEnd(state);
   case types.TOGGLE_INCIDENCE_VISIBILITY:
     return toggleIncidenceVisibility(state, action);
-  case types.CHANGE_ROUTE_COLOR:
-    return changeRouteColor(state, action);
+  case types.CHANGE_INCIDENCE_COLOR:
+    return changeIncidenceColor(state, action);
   case types.SELECT_GEOZONE:
     return selectGeozone(state, action);
   default:

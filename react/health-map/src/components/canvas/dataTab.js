@@ -1,15 +1,14 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-//import ReactTooltip from 'react-tooltip';
 import { bindActionCreators } from 'redux';
 
-import Route from './route';
+import Incidence from './incidence';
 import Error from '../shared/error';
 import Loading from '../shared/loading';
 import { actions } from '../../actions/incidences';
 import { actions as generalActions } from '../../actions/general';
-import { thunks } from '../../actions/thunks/routes';
+import { thunks } from '../../actions/thunks/incidences';
 const { loadIncidences: loadIncidencesRequest } = thunks;
 
 import './dataTab.css';
@@ -18,6 +17,9 @@ import './dataTab.css';
  *
  */
 class DataTab extends React.Component {
+  state = {
+
+  }
   componentDidMount() {
 
   }
@@ -25,6 +27,9 @@ class DataTab extends React.Component {
 
   }
   render() {
+    const {
+      incidencesFilters, incidences
+    } = this.props;
     return (
       <div className="hm-tab-container">
         <div className="hm-datatab-firstinfo">
@@ -33,71 +38,43 @@ class DataTab extends React.Component {
           }
         </div>
         {
-          false &&
           this.props.isLoadingIncidences &&
           <Loading/>
         }
         {
-          false &&
           !this.props.isLoadingIncidences &&
           (this.props.loadIncidencesError.length > 0) &&
           <Error
-            text={this.props.loadIncidencesError}
-            onRetry={() => this.props.loadIncidences({
-              from: this.props.from,
-              to: this.props.to,
-              tags: this.props.selectedTags,
-              cities: this.props.selectedCities,
-              companies: this.props.selectedCompanies,
-              deliveries: this.props.selectedDeliveries,
-              statuses: this.props.selectedStatuses
-            })}/>
+            text={'Ha ocurrido un error al cargar las geozonas.'}
+            onRetry={() => this.props.loadIncidences(incidencesFilters)}/>
         }
         {
-          false &&
           !this.props.isLoadingIncidences &&
           (this.props.loadIncidencesError.length === 0) &&
-          <div className="routes-container">
+          <div className="hm-data-container">
             {
-              (this.props.routes.size === 0) &&
-              <div className="no-routes-available-container">
-                <div className="flex flex-column no-routes-available">
+              (incidences.length === 0) &&
+              <div className="no-data-available-container">
+                <div className="flex flex-column no-data-available">
                   <img src="https://cdn.shippify.co/images/img-no-results.svg"/>
                   <span>
-                    { window.translation('There are no routes available for the moment.') }
+                    { 'No existen incidencias por el momento'}
                   </span>
                 </div>
               </div>
             }
             {
-              (this.props.routes.size > 0) &&
+              (incidences.length > 0) &&
               <div>
-                <div className="routes-options-container">
-                  <div className="routes-options-description">
-                    { 'Select one or more routes to enable this options' }
-                  </div>
-                </div>
-                <div className="route">
-                  <div className="select-all-routes">
-                    <div>
-                      { window.translation('Select all routes') }
-                    </div>
-                  </div>
-                  <div className="route-actions">
-                    <span
-                      className="color"
-                      style={{ backgroundColor: '#757575' }}></span>
-                    <div style={{ width: '16px' }}></div>
-                  </div>
-                </div>
-                <div className="routes">
+                <div className="hm-data-incidences-container">
+                  CARGUE CARGUE CARGUE
                   {
                     false &&
-                    this.props.routes.map((route, idx) => {
+                    this.props.incidences.map((incidence, idx) => {
                       return (
-                        <Route
+                        <Incidence
                           key={idx}
-                          data={route}
+                          data={incidence}
                           isResponsive={this.props.isResponsive}/>
                       );
                     })
@@ -115,16 +92,18 @@ class DataTab extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    routes: state.getIn(['incidences', 'data']),
+    incidences: state.getIn(['incidences', 'data']),
     isLoadingIncidences: state.getIn(['incidences', 'isLoadingIncidences']),
-    loadIncidencesError: state.getIn(['incidences', 'loadIncidencesError'])
+    loadIncidencesError: state.getIn(['incidences', 'loadIncidencesError']),
+    incidencesFilters: state.getIn(['incidences', 'filters'])
   };
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   loadIncidences: loadIncidencesRequest,
   toggleIncidenceVisibility: actions.toggleIncidenceVisibility,
-  showMessage: generalActions.showMessage
+  showMessage: generalActions.showMessage,
+  mutateFilters: actions.mutateFilters
 }, dispatch);
 
 

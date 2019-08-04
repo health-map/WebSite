@@ -1,17 +1,17 @@
 
-import { actions } from './../incidences';
-import { loadIncidences } from './../../services/remoteAPI';
+import { actions } from '../incidences';
+import { loadIncidences } from '../../services/remoteAPI';
 
 export const thunks = {
   loadIncidences(filters) {
     return async (dispatch, getState) => {
       dispatch(actions.loadIncidences.begin());
       try {
-        let routes = await loadIncidences(filters, {
+        let incidences = await loadIncidences(filters, {
           apiUrl: getState().getIn(['general', 'user', 'apiUrl']),
           apiToken: getState().getIn(['general', 'user', 'apiToken'])
         });
-        dispatch(actions.loadIncidences.success(routes));
+        dispatch(actions.loadIncidences.success(incidences));
       } catch (err) {
         dispatch(actions.loadIncidences.failure());
       }

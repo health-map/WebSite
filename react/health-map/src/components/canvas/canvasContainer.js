@@ -11,7 +11,7 @@ import { bindActionCreators } from 'redux';
 
 import Canvas from './canvas';
 import { actions } from './../../actions/general';
-import { thunks } from './../../actions/thunks/routes';
+import { thunks } from './../../actions/thunks/incidences';
 const { loadIncidences: loadIncidencesRequest } = thunks;
 
 import cityOptions from './cityOptions.json';

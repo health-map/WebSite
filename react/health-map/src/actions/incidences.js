@@ -5,13 +5,14 @@ import { createAction } from 'redux-actions';
  *
  */
 export const types = {
-  TOGGLE_INCIDENCE_VISIBILITY: 'ROUTES/TOGGLE_INCIDENCE_VISIBILITY',
-  LOAD_INCIDENCES_BEGIN: 'ROUTES/LOAD_INCIDENCES_BEGIN',
-  LOAD_INCIDENCES_SUCCESS: 'ROUTES/LOAD_INCIDENCES_SUCCESS',
-  LOAD_INCIDENCES_FAILURE: 'ROUTES/LOAD_INCIDENCES_FAILURE',
-  LOAD_INCIDENCES_END: 'ROUTES/LOAD_INCIDENCES_END',
-  CHANGE_ROUTE_COLOR: 'ROUTES/CHANGE_ROUTE_COLOR',
-  SELECT_GEOZONE: 'ROUTES/SELECT_GEOZONE'
+  TOGGLE_INCIDENCE_VISIBILITY: 'INCIDENCES/TOGGLE_INCIDENCE_VISIBILITY',
+  LOAD_INCIDENCES_BEGIN: 'INCIDENCES/LOAD_INCIDENCES_BEGIN',
+  LOAD_INCIDENCES_SUCCESS: 'INCIDENCES/LOAD_INCIDENCES_SUCCESS',
+  LOAD_INCIDENCES_FAILURE: 'INCIDENCES/LOAD_INCIDENCES_FAILURE',
+  LOAD_INCIDENCES_END: 'INCIDENCES/LOAD_INCIDENCES_END',
+  CHANGE_INCIDENCE_COLOR: 'INCIDENCES/CHANGE_INCIDENCE_COLOR',
+  SELECT_GEOZONE: 'INCIDENCES/SELECT_GEOZONE',
+  MUTATE_FILTERS: 'INCIDENCES/MUTATE_FILTERS'
 };
 
 /**
@@ -20,8 +21,13 @@ export const types = {
 export const actions = {
   toggleIncidenceVisibility: createAction(
     types.TOGGLE_INCIDENCE_VISIBILITY,
-    (routeId, isVisible) => ({ routeId,
+    (incidenceId, isVisible) => ({ incidenceId,
       isVisible })
+  ),
+  mutateFilters: createAction(
+    types.MUTATE_FILTERS,
+    (filterKey, filterValue) => ({ filterKey,
+      filterValue })
   ),
   loadIncidences: {
     begin: createAction(types.LOAD_INCIDENCES_BEGIN),
@@ -32,9 +38,9 @@ export const actions = {
     failure: createAction(types.LOAD_INCIDENCES_FAILURE),
     end: createAction(types.LOAD_INCIDENCES_END)
   },
-  changeRouteColor: createAction(
-    types.CHANGE_ROUTE_COLOR,
-    (routeId, color) => ({ routeId,
+  changeIncidenceColor: createAction(
+    types.CHANGE_INCIDENCE_COLOR,
+    (incidenceId, color) => ({ incidenceId,
       color })
   ),
   selectGeozone: createAction(

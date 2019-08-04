@@ -25,7 +25,7 @@ import './canvas.css';
  *
  */
 const TABS = {
-  ROUTES: 'ROUTES',
+  INCIDENCES: 'INCIDENCES',
   MAP: 'MAP',
   ALL: 'ALL'
 };
@@ -50,7 +50,7 @@ class Canvas extends React.Component {
   updateView = () => {
     if (window.innerWidth <= MAX_WIDTH) {
       this.setState({
-        selectedTab: TABS.ROUTES,
+        selectedTab: TABS.INCIDENCES,
         isResponsive: true
       });
     } else {
@@ -104,7 +104,7 @@ class Canvas extends React.Component {
     const self = this;
     const {
       isFiltersDialogVisible, toggleFiltersDialog, 
-      selectedRoute,message, showMessage
+      message, showMessage
     } = this.props;
     return (
       <div className="canvas">
@@ -172,8 +172,7 @@ class Canvas extends React.Component {
               selectedCities={this.props.selectedCities}
               selectedCompanies={this.props.selectedCompanies}
               selectedDeliveries={this.props.selectedDeliveries}
-              selectedStatuses={this.props.selectedStatuses}
-              selectedRoute={selectedRoute}/>
+              selectedStatuses={this.props.selectedStatuses}/>
           </div>
         }
         {

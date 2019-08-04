@@ -857,7 +857,7 @@
   font-style: italic;
 }
 
-.routes-list {
+.hm-main-panel {
   z-index: -1;
   height: 100%;
   overflow: auto;
@@ -1456,12 +1456,6 @@ input[type='range']::-webkit-slider-thumb {
 }
 
 .icon-person-add {
-  width: 22px;
-  height: 16px;
-  padding: 4px 1px;
-}
-
-.icon-divide-route {
   width: 22px;
   height: 16px;
   padding: 4px 1px;
