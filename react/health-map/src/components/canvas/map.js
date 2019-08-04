@@ -87,7 +87,6 @@ class MapComponent extends React.Component {
                   <Layer
                     key={id}
                     type="fill"
-                    before="disabled-steps"
                     paint={{
                       'fill-color': polygon.get('color'),
                       'fill-outline-color': polygon.get('color'),

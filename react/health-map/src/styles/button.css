@@ -1,3 +1,48 @@
+.hm-btn{
+  min-height: 48px;
+  min-width: 95px;
+  width: auto;
+  border: none;
+  text-align: center;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  cursor: pointer;
+  outline: none;
+  padding-left: 24px;
+  padding-right: 24px;
+  text-transform: uppercase;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s;
+}
+
+.hm-btn-full-width{
+  width: -webkit-fill-available;
+  margin: 16px;
+}
+
+.hm-btn-primary {
+  color: #0092E1;
+  border: 2px solid #0092E1;
+}
+
+.hm-btn-primary:hover {
+  color: white;
+  background-color: #0092E1;
+}
+
+.hm-btn-primary:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
 .shy-btn {
   min-height: 35px;
   min-width: 95px;

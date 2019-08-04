@@ -16,7 +16,7 @@ const Loading = () => {
         src="https://cdn.shippify.co/images/img-loading.svg"
         alt=""/>
       <span className="margin-top-m">
-        { `${window.translation('Processing')}...` }
+        { `${window.translation('Procesando')}...` }
       </span>
     </div>
   );

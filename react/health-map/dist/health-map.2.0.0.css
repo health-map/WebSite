@@ -649,12 +649,157 @@
   color: #AEAEAE;
   border-bottom: 1px solid #ccc;
 }
+.hm-disease-tab-container{
+  width: 100%;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-pack: justify;
+      justify-content: space-between;
+}
 
+.hm-disease-row{
+  color: #757575;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+      flex-direction: row;
+  -ms-flex-pack: justify;
+      justify-content: space-between;
+  -ms-flex-align: center;
+      align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #ccc;
+}
+
+.hm-disease-row:hover{
+  background-color: #eee; 
+}
+
+.hm-disease-row-preselected{
+  background-color: #ccc; 
+}
+
+
+.hm-disease-row-name{
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.hm-number-icon{
+  margin-right: 4px;
+}
+
+.hm-disease-row-agrpnumber{
+  color: #aaa;
+}
+
+.hm-disease-row-name-blanked{
+  color: #aaa;
+}
+
+.hm-disease-row-name-container{
+  width: 60%;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.hm-disease-row-cod{
+  display: -ms-flexbox;
+  display: flex;
+  width: 30%;
+  margin-right: 8px;
+  margin-left: 8px;
+}
+
+.hm-disease-row-checkbox{
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.hm-disease-search{
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  padding: 16px;
+}
+
+.hm-disease-search-box{
+  width: 100%;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  margin-bottom: 8px;
+}
+
+.hm-disease-search-results{
+  color: #aaa;
+}
+
+.hm-disease-no-results{
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+      justify-content: center;
+  -ms-flex-align: center;
+      align-items: center;
+  text-align: center;
+  width: auto;
+  font-size: 18px;
+  color: #aaa;
+}
+
+.hm-disease-result-groupname{
+  font-size: 16px;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  -ms-flex-pack: center;
+      justify-content: center;
+  color: #aaa;
+}
+
+.hm-disease-results{
+  max-height: 80% !important;
+  overflow-x: scroll;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+}
+
+.hm-disease-button{
+  -ms-flex-pack: end;
+      justify-content: flex-end;
+  border-top: 1px solid #ccc;
+}
+
+.react-tabs__tab-panel--selected{
+  height: calc(100% - 54px);
+}
+
+.hm-disease-results-header{
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+      flex-direction: row;
+  padding: 16px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
 
 
 .routes-list {
   z-index: -1;
-  height: calc(100% - 64px);
+  height: 100%;
   overflow: auto;
 }
 
@@ -669,7 +814,7 @@
       flex-direction: column;
   overflow: auto;
 }
-
+ 
 .routes-list-button {
   display: -ms-flexbox !important;
   display: flex !important;
@@ -1438,6 +1583,54 @@ input[type='range']::-webkit-slider-thumb {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.hm-btn{
+  min-height: 48px;
+  min-width: 95px;
+  width: auto;
+  border: none;
+  text-align: center;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  cursor: pointer;
+  outline: none;
+  padding-left: 24px;
+  padding-right: 24px;
+  text-transform: uppercase;
+  background-color: white;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: center;
+      justify-content: center;
+  transition: all 0.4s;
+}
+
+.hm-btn-full-width{
+  width: -webkit-fill-available;
+  margin: 16px;
+}
+
+.hm-btn-primary {
+  color: #0092E1;
+  border: 2px solid #0092E1;
+}
+
+.hm-btn-primary:hover {
+  color: white;
+  background-color: #0092E1;
+}
+
+.hm-btn-primary:disabled {
+  cursor: default;
+  opacity: 0.6;
 }
 
 .shy-btn {

@@ -1,7 +1,7 @@
 
 .routes-list {
   z-index: -1;
-  height: calc(100% - 64px);
+  height: 100%;
   overflow: auto;
 }
 
@@ -14,7 +14,7 @@
   flex-direction: column;
   overflow: auto;
 }
-
+ 
 .routes-list-button {
   display: flex !important;
   align-items: center;
