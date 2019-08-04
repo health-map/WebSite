@@ -207,11 +207,11 @@ class Filters extends React.Component {
                 onClick={this.props.onClose}/>
             </div>
             <div className="shy-dialog-body shy-dialog-body-sm">
-              <div>
-                <div className="shy-form-field-label">
+              <div className="hm-filters-field">
+                <div className="shy-form-field-label hm-filters-field-label">
                   { window.translation('Select a city') }
                 </div>
-                <div className="shy-form-field">
+                <div className="shy-form-field hm-select-datatype">
                   <Select
                     valueKey="id"
                     labelKey="name"
@@ -225,11 +225,11 @@ class Filters extends React.Component {
                     placeholder={window.translation('Type a city name')}/>
                 </div>
               </div>
-              <div className="margin-top-16">
-                <div className="shy-form-field-label">
+              <div className="hm-filters-field margin-top-16">
+                <div className="shy-form-field-label hm-filters-field-label">
                   { window.translation('Select a company') }
                 </div>
-                <div className="shy-form-field">
+                <div className="shy-form-field hm-select-datatype">
                   <Select
                     multi
                     valueKey="id"
@@ -242,14 +242,11 @@ class Filters extends React.Component {
                 </div>
               </div>
               <div
-                className={
-                  (companyAccess !== 1) ?
-                    'margin-top-16' : ''
-                }>
-                <div className="shy-form-field-label">
+                className="margin-top-16 hm-filters-field">
+                <div className="shy-form-field-label hm-filters-field-label">
                   { window.translation('Select a tag') }
                 </div>
-                <div className="shy-form-field">
+                <div className="shy-form-field hm-select-datatype">
                   <Select
                     multi
                     valueKey="id"
@@ -262,48 +259,13 @@ class Filters extends React.Component {
                     isLoading={this.state.isLoadingTags}/>
                 </div>
               </div>
-              <div className="margin-top-16">
-                <div className="shy-form-field-label">
-                  {
-                    window.translation('Select a status')
-                  }
-                </div>
-                <div className="shy-form-field">
-                  <Select
-                    multi
-                    valueKey="id"
-                    labelKey="name"
-                    onChange={e => this.handleStatusesChange(e)}
-                    options={this.state.statuses.map((status) => {
-                      if (typeof status === 'string') {
-                        return {
-                          id: status,
-                          name: status
-                        };
-                      }
-                      return status;
-                    })}
-                    value={this.state.selectedStatuses.map((status) => {
-                      if (typeof status === 'string') {
-                        return {
-                          id: status,
-                          name: status
-                        };
-                      }
-                      return status;
-                    })}
-                    placeholder={'Type a Delivery Status'}
-                    onInputChange={this.loadStatuses}
-                    isLoading={this.state.isLoadingStatuses}/>
-                </div>
-              </div>
-              <div className="margin-top-16">
-                <div className="shy-form-field-label">
+              <div className="margin-top-16 hm-filters-field">
+                <div className="shy-form-field-label hm-filters-field-label">
                   {
                     window.translation('Search by delivery ID or reference ID')
                   }
                 </div>
-                <div className="shy-form-field">
+                <div className="shy-form-field hm-select-datatype">
                   <Select
                     multi
                     valueKey="id"
@@ -316,8 +278,8 @@ class Filters extends React.Component {
                     isLoading={this.state.isLoadingDeliveries}/>
                 </div>
               </div>
-              <div className="margin-top-16">
-                <div className="shy-form-field-label">
+              <div className="margin-top-16 hm-filters-field">
+                <div className="shy-form-field-label hm-filters-field-label">
                   {
                     window.translation('Select a date')
                   }
@@ -334,8 +296,10 @@ class Filters extends React.Component {
               <div className="shy-dialog-body-buttons">
                 <button
                   onClick={this.applyFilters}
-                  className="shy-btn shy-btn-primary">
-                  { window.translation('APPLY') }
+                  className="hm-btn hm-btn-primary hm-btn-full-width no-margin">
+                  { 
+                    'FILTRAR'
+                  }
                 </button>
               </div>
             </div>

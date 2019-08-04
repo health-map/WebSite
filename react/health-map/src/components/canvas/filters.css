@@ -6,3 +6,20 @@
 .Select-multi-value-wrapper{
   max-width: 285px;
 }
+
+.hm-filters-field{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 48px;
+  align-items: center;
+}
+
+.hm-filters-field-label{
+  max-width: 100px;
+  font-size: 14px;
+}
+
+.hm-filters-field .Select-control{
+  border: 0px !important;
+}
