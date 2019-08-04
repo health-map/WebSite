@@ -1,5 +1,6 @@
 
 import React from 'react';
+import Select from 'react-select';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -27,10 +28,21 @@ class DataTab extends React.Component {
   componentDidUpdate() {
 
   }
+  handleDataTypeChange = (selectedDataType) => {
+    console.log(selectedDataType);
+    this.props.mutateFilters(
+      'type',
+      selectedDataType
+    );
+  }
   render() {
     const {
       incidencesFilters, incidences
     } = this.props;
+    const selectedDataType = DataTypesMapping.filter((dt) => {
+      return dt.id === incidencesFilters.get('type');
+    })[0];
+
     return (
       <div className="hm-tab-container">
         {
@@ -77,6 +89,17 @@ class DataTab extends React.Component {
                     {
                       DataTypesMapping[incidencesFilters.get('type')]
                     }
+                    <div className="shy-form-field hm-select-datatype">
+                      <Select
+                        valueKey="id"
+                        labelKey="name"
+                        value={selectedDataType}
+                        onChange={(e) => {
+                          this.handleDataTypeChange(e.id);
+                        }}
+                        isSearchable={false}
+                        options={DataTypesMapping}/>
+                    </div>
                   </div>
                 </div>
                 <div className="hm-data-incidences-container">

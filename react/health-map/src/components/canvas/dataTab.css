@@ -18,3 +18,17 @@
 .hm-slighly-down{
   margin-top: 32px;
 }
+
+.hm-datatab-datatype{
+  display: flex;
+  color: #757575;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center; 
+  padding: 16px;
+  padding-bottom: 8px;
+}
+
+.hm-select-datatype{
+  width: 200px !important;
+}

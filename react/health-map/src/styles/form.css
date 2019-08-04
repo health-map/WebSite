@@ -19,7 +19,7 @@
 	align-items: flex-start;
 }
   .shy-form-field-input {
-    height: 47px;
+    height: 40px;
     outline: none;
     padding: 16px 12px;
   	border-radius: 3px;
@@ -42,7 +42,7 @@
   	text-align: left;
   	color: #757575;
     width: 100%;
-		min-height: 100px;
+		min-incidence: 100px;
 	}
 
 	.shy-form-field-text-area.has-error,
@@ -65,7 +65,7 @@
     margin-left: -32px;
   }
   .shy-form-field-select {
-    height: 47px;
+    height: 40px;
     outline: none;
     padding: 16px 12px;
   	border-radius: 3px;
@@ -94,7 +94,7 @@
 		width: 100%;
 	}
 	.shy-form-field-map {
-		height: 180px;
+		incidence: 180px;
 		width: 100%;
 		padding: 4px;
 		border-radius: 4px;
@@ -120,11 +120,11 @@
 	}
 
 .Select-input {
-  height: 48px !important;
+  height: 40px !important;
 }
 .Select-placeholder, .Select--single > .Select-control .Select-value {
-  height: 48px !important;
-  line-height: 48px !important;
+  height: 40px !important;
+  line-height: 40px !important;
 }
 .Select-input > input {
   width: 100%;

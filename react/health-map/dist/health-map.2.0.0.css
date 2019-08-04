@@ -569,6 +569,24 @@
 .hm-slighly-down{
   margin-top: 32px;
 }
+
+.hm-datatab-datatype{
+  display: -ms-flexbox;
+  display: flex;
+  color: #757575;
+  -ms-flex-direction: row;
+      flex-direction: row;
+  -ms-flex-pack: justify;
+      justify-content: space-between;
+  -ms-flex-align: center;
+      align-items: center; 
+  padding: 16px;
+  padding-bottom: 8px;
+}
+
+.hm-select-datatype{
+  width: 200px !important;
+}
 .hm-disease-tab-container{
   width: 100%;
   display: -ms-flexbox;
@@ -1963,7 +1981,7 @@ input[type='range']::-webkit-slider-thumb {
 	    align-items: flex-start;
 }
   .shy-form-field-input {
-    height: 47px;
+    height: 40px;
     outline: none;
     padding: 16px 12px;
   	border-radius: 3px;
@@ -1986,7 +2004,7 @@ input[type='range']::-webkit-slider-thumb {
   	text-align: left;
   	color: #757575;
     width: 100%;
-		min-height: 100px;
+		min-incidence: 100px;
 	}
 
 	.shy-form-field-text-area.has-error,
@@ -2013,7 +2031,7 @@ input[type='range']::-webkit-slider-thumb {
     margin-left: -32px;
   }
   .shy-form-field-select {
-    height: 47px;
+    height: 40px;
     outline: none;
     padding: 16px 12px;
   	border-radius: 3px;
@@ -2044,7 +2062,7 @@ input[type='range']::-webkit-slider-thumb {
 		width: 100%;
 	}
 	.shy-form-field-map {
-		height: 180px;
+		incidence: 180px;
 		width: 100%;
 		padding: 4px;
 		border-radius: 4px;
@@ -2072,11 +2090,11 @@ input[type='range']::-webkit-slider-thumb {
 	}
 
 .Select-input {
-  height: 48px !important;
+  height: 40px !important;
 }
 .Select-placeholder, .Select--single > .Select-control .Select-value {
-  height: 48px !important;
-  line-height: 48px !important;
+  height: 40px !important;
+  line-height: 40px !important;
 }
 .Select-input > input {
   width: 100%;

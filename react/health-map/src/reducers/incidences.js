@@ -120,7 +120,9 @@ const selectGeozone = (state, action) => {
  */
 const mutateFilters = (state, action) => {
   const key = action.payload.filterKey;
+  console.log('key', key);
   const value = action.payload.filterValue;
+  console.log('value', value);
   const filters = state.get('filters');
   return state.set(
     'filters', 

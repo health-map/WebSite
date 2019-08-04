@@ -75,12 +75,12 @@ class CanvasContainer extends React.Component {
         'cityId': this.state.selectedCities[0],
         'label': 'City',
         'bounds': {
-          'east': -34.7137660964,
-          'north': 12.3747980801,
-          'south': -41.9240287948,
-          'west': -83.154061476
+          'east': -79.8607222,
+          'north': -2.0173767,
+          'south': -2.2873981,
+          'west': -80.09900090000001
         },
-        'zoom': 3
+        'zoom': 11
       };
     }
 

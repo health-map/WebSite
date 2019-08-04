@@ -11,12 +11,24 @@ export const UserRole = {
   SUPER_ADMIN: 3
 };
 
-export const DataTypesMapping = {
-  'absolute': 'Totales de un sector',
-  'per1000inhabitants': 'Por cada mil habitantes de un sector',
-  'relativeToPopulation': 'Relativo a la población de un sector',
-  'relativeToPatients': 'Relativo al número de casos en un sector de la enfermedad filtrada'
-};
+export const DataTypesMapping = [
+  {
+    id: 'absolute',
+    name: 'Totales de un sector'
+  }, 
+  {
+    id: 'per1000inhabitants',
+    name: 'Por cada mil habitantes de un sector'
+  },
+  {
+    id: 'relativeToPopulation',
+    name: 'Relativo a la población de un sector'
+  }, 
+  {
+    id: 'relativeToPatients',
+    name: 'Relativo al número de casos en un sector de la enfermedad filtrada'
+  }
+];
 
 export const sideBarStyle = {
   root: {
