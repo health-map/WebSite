@@ -7,7 +7,7 @@ import Loading from './../shared/loading';
 import Error from './../shared/error';
 
 import { loadDiseases } from './../../services/remoteAPI';
-
+import { actions } from './../../actions/general';
 
 import './diseaseTab.css';
 
@@ -56,7 +56,7 @@ class DiseaseRow extends React.Component {
             <img
               className="icon-checkbox"
               src= {
-                this.props.selected ? 
+                this.props.selected || this.props.isPreSelected? 
                   'https://cdn.shippify.co/images/img-checkbox-on.svg' :
                   'https://cdn.shippify.co/images/img-checkbox-off.svg'
               }
@@ -136,7 +136,7 @@ class DiseaseTab extends React.Component {
     });
   }
   visualizeDiseases() {
-    // loadIncidences
+    this.props.setDisease(this.state.selectedDisease);
   }
   render() {
     const self = this;
@@ -266,7 +266,14 @@ class DiseaseTab extends React.Component {
           }/>
         }
         <div className="hm-disease-button">
-          <button className="hm-btn hm-btn-primary hm-btn-full-width">
+          <button 
+            className="hm-btn hm-btn-primary hm-btn-full-width"
+            disabled={!this.state.selectedDisease}
+            onClick={() => {
+              if (this.state.selectedDisease) {
+                this.visualizeDiseases();
+              }
+            }}>
             {
               'VISUALIZAR'
             }
@@ -285,6 +292,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+  setDisease: actions.setDisease
 }, dispatch);
 
 

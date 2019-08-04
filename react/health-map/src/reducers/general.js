@@ -22,9 +22,53 @@ const initialState = Map({
   isLoadingCities: false,
   isLoadingIncidences: false,
   loadIncidencesError: '',
-  message: ''
+  message: '',
+  selectedGeozoneGroup: undefined,
+  selectedDisease: undefined,
+  selectedGeozonesForGroup: [],
+  isGeozoneSelectionModeOn: false
 });
 
+/**
+ *
+ */
+const removeSelectedGeofenceOnGroup = (state, action) => {
+  return state.set(
+    'selectedGeozonesForGroup', 
+    state.get('selectedGeozonesForGroup').filter((geozone) => {
+      return geozone.id != action.payload.geofence.id;
+    }));
+};
+
+/**
+ *
+ */
+const addSelectedGeofenceOnGroup = (state, action) => {
+  return state.set(
+    'selectedGeozonesForGroup', 
+    state.get('selectedGeozonesForGroup').push(action.payload.geofence));
+};
+
+/**
+ *
+ */
+const toggleGeozoneSelectionMode = (state, action) => {
+  return state.set('isGeozoneSelectionModeOn', action.payload.selectionMode);
+};
+
+/**
+ *
+ */
+const setDisease = (state, action) => {
+  return state.set('selectedDisease', action.payload.disease);
+};
+
+/**
+ *
+ */
+const setGeozoneGroup = (state, action) => {
+  return state.set('selectedGeozoneGroup', action.payload.geozoneGroup);
+};
 
 /**
  *
@@ -106,7 +150,17 @@ export default function general(state = initialState, action) {
     return loadIncidencesEnd(state);
   case types.SHOW_MESSAGE:
     return showMessage(state, action);
-  default:
+  case types.SET_GEOZONE_GROUP:
+    return setGeozoneGroup(state, action);
+  case types.SET_DISEASE:
+    return setDisease(state, action);
+  case types.TOGGLE_GEOZONE_SELECTION_MODE:
+    return toggleGeozoneSelectionMode(state, action);
+  case types.REMOVE_SELECTED_GEOFENCE_ON_GROUP:
+    return removeSelectedGeofenceOnGroup(state, action);
+  case types.ADD_SELECTED_GEOFENCE_ON_GROUP:
+    return addSelectedGeofenceOnGroup(state, action);
+  default: 
     return state;
   }
 }

@@ -5,7 +5,6 @@
 
 import React from 'react';
 
-import './canvas.css';
 
 import MapTitlebar from './mapTitlebar';
 import Filters from './filters';

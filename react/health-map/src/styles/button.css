@@ -23,6 +23,40 @@
   transition: all 0.4s;
 }
 
+.hm-fab-btn{
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  cursor: pointer;
+  outline: none;
+  text-transform: uppercase;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16);
+  background-color: #0092E1;
+}
+
+.hm-fab-bottom-right{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 16px;
+}
+
+.hm-fab-btn:hover{
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.30);
+}
+
 .hm-btn-full-width{
   width: -webkit-fill-available;
   margin: 16px;
