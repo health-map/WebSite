@@ -38,7 +38,7 @@ class MapTitlebar extends React.Component {
   }
   render() {
     const {
-      openFiltersDialog
+      openFiltersDialog, onSetSidebarOpen
     } = this.props;
     const filters = [];
     this.props.selectedCities.map(sc => {
@@ -73,7 +73,11 @@ class MapTitlebar extends React.Component {
           backgroundColor: '#0092E1'
         }}>
         <div className="hm-map-title-box">
-          <div className="hm-map-sidemenu">
+          <div 
+            onClick={() => {
+              onSetSidebarOpen(true);
+            }}
+            className="hm-map-sidemenu">
             <MdMenu
               size={32}/>
           </div>

@@ -104,3 +104,13 @@
     color: #ececec;
     margin-top: 16px;
   }
+
+
+#hm-sidebar{
+  width: 350px;
+  background-color: white;
+}
+
+#hm-sidebar-content{
+  padding: 16px;
+}

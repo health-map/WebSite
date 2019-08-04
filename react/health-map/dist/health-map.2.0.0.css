@@ -177,7 +177,86 @@
 
   .hm-map-sidemenu{
     margin-right: 16px;
+    cursor: pointer;
   }
+.hm-sidebar-container{
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  height: 100%;
+}
+
+.hm-sidebar-header{
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  border-bottom: 4px solid #0092E1;
+}
+
+.hm-sidebar-name{
+  font-size: 18px;
+  color: #757575;
+  margin-left: 6px;
+}
+
+.hm-sidebar-header-content{
+  padding: 16px;
+  height: 80px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: justify;
+      justify-content: space-between;
+  -ms-flex-direction: column;
+      flex-direction: column;
+}
+
+.hm-sidebar-content{
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  padding: 22px;
+  padding-top: 0px;
+  -ms-flex-pack: justify;
+      justify-content: space-between;
+  height: 100%;
+}
+
+.hm-sidebar-option-text{
+  margin-left: 24px;
+}
+
+.hm-sidebar-option{
+  display: -ms-flexbox;
+  display: flex;
+  text-decoration: none !important;
+  -ms-flex-direction: row;
+      flex-direction: row;
+  margin-top: 32px;
+  -ms-flex-align: center;
+      align-items: center;
+  color: #757575;
+  cursor: pointer;
+}
+
+.hm-sidebar-option-selected{
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+      flex-direction: row;
+  -ms-flex-align: center;
+      align-items: center;
+  margin-top: 32px;
+  color: #0092E1 !important;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+
+.hm-sidebar-option:hover{
+  color: #0092E1 !important;
+}
 
 .shy-dialog .shy-filter-icon {
   margin-left: 0;
@@ -1181,6 +1260,15 @@
     margin-top: 16px;
   }
 
+
+#hm-sidebar{
+  width: 350px;
+  background-color: white;
+}
+
+#hm-sidebar-content{
+  padding: 16px;
+}
 
 html,
 body {

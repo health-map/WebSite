@@ -4,15 +4,20 @@
  */
 
 import React from 'react';
-
+import Sidebar from 'react-sidebar';
 
 import MapTitlebar from './mapTitlebar';
+import HMSidebar from './hmSidebar';
 import Filters from './filters';
 import Map from './map';
 import DataPanel from './dataPanel';
 import ErrorBoundaryDialog from './../shared/errorBoundaryDialog';
 import MessageDialog from './../dialogs/message';
 import MapFooter from './mapFooter';
+import {
+  sideBarStyle
+} from './../../constants';
+
 import './canvas.css';
 
 
@@ -38,7 +43,8 @@ class Canvas extends React.Component {
       isDragging: false,
       originalX: 0,
       selectedTab: TABS.ALL,
-      isResponsive: false
+      isResponsive: false,
+      sidebarOpen: false
     };
   }
   updateView = () => {
@@ -91,13 +97,29 @@ class Canvas extends React.Component {
     window.removeEventListener('mouseup', this.handleMouseUp);
     window.removeEventListener('resize', this.updateView);
   }
+  onSetSidebarOpen = (open) => {
+    this.setState({ sidebarOpen: open });
+  }
   render() {
+    const self = this;
     const {
       isFiltersDialogVisible, toggleFiltersDialog, 
       selectedRoute,message, showMessage
     } = this.props;
     return (
       <div className="canvas">
+        <Sidebar
+          sidebar={
+            <HMSidebar
+              onSetSidebarOpen={self.onSetSidebarOpen.bind(self)}/>
+          }
+          open={this.state.sidebarOpen}
+          onSetOpen={this.onSetSidebarOpen}
+          sidebarId="hm-sidebar"
+          contentId="hm-sidebar-content"
+          styles={sideBarStyle}>
+          <b></b>
+        </Sidebar>
         {
           true &&
           <div className="list-container">
@@ -137,6 +159,7 @@ class Canvas extends React.Component {
                 selectedCities={this.props.selectedCities}
                 selectedCompanies={this.props.selectedCompanies}
                 selectedDeliveries={this.props.selectedDeliveries}
+                onSetSidebarOpen={self.onSetSidebarOpen.bind(self)}
                 selectedStatuses={this.props.selectedStatuses}/>
             }
             <Map
