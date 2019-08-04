@@ -125,6 +125,7 @@ export async function loadIncidences(
 ) {
   console.log(institution, gender, startDate, endDate, season, city);
   console.log(disease, geogroup, age, type, department, apiUrl, apiToken);
+  console.log('holi');
   var promise = new Promise((resolve) => {
     setTimeout(() => {
       resolve([
@@ -144,13 +145,13 @@ export async function loadIncidences(
           id: 3,
           name: 'Los Ceibos',
           value: 1843,
-          geozones: '#ccc'
+          color: '#ccc'
         },
         {
           id: 4,
           name: 'La Florida',
-          descripcion: 583,
-          geozones: '#ddd'
+          value: 583,
+          color: '#ddd'
         }
       ]);
     }, 2000);

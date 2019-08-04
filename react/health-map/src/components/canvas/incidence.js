@@ -1,6 +1,6 @@
 /**
- * @file route.js
- * @description Route component
+ * @file incidence.js
+ * @description incidence component
  *
  */
 
@@ -10,7 +10,6 @@ import { bindActionCreators } from 'redux';
 import { ChromePicker } from 'react-color';
 
 import { actions } from '../../actions/incidences';
-//import { thunks } from './../../actions/thunks/incidences';
 
 import './incidence.css';
 
@@ -19,7 +18,7 @@ import './incidence.css';
  */
 class Incidence extends React.Component {
   state = {
-    loadedRoute: false,
+    loadedincidence: false,
     isColorSketchVisible: false,
     colorSketchX: 0,
     colorSketchY: 0
@@ -37,20 +36,22 @@ class Incidence extends React.Component {
       colorSketchY: e ? e.clientY : 0
     });
   }
-  handleColorChange = (routeId, color) => {
-    this.props.changeRouteColor(routeId, color.hex);
+  handleColorChange = (incidenceId, color) => {
+    this.props.changeIncidenceColor(incidenceId, color.hex);
+  }
+  toggleIncidenceVisibility = (incidenceId, isVisible) => {
+    this.props.toggleIncidenceVisibility(incidenceId, isVisible);
   }
   render() {
     const {
-      data
+      incidence
     } = this.props;
 
+    console.log(incidence);
+
     let actionImg = 'https://cdn.shippify.co/icons/icon-visibility-off-gray.svg';
-    if (data.get('isVisible')) {
+    if (incidence.isVisible) {
       actionImg = 'https://cdn.shippify.co/icons/icon-visibility-on-gray.svg';
-    }
-    if (data.get('isLoading')) {
-      actionImg = 'https://cdn.shippify.co/images/img-loading.svg';
     }
 
     let actionStyle = {
@@ -60,7 +61,7 @@ class Incidence extends React.Component {
       minWidth: '22px',
       minHeight: '19px'
     };
-    if (data.get('isVisible')) {
+    if (incidence.isVisible) {
       actionStyle = {
         width: '22px',
         height: '15px',
@@ -69,45 +70,34 @@ class Incidence extends React.Component {
         minHeight: '15px'
       };
     }
-    if (data.get('isLoading')) {
-      actionStyle = {
-        width: '22px',
-        height: '22px',
-        padding: '1px',
-        minWidth: '22px',
-        minHeight: '22px'
-      };
-    }
 
     return (
-      <div className="route">
-        <div className="route-description">
-          <div className="route-id">
-            {
-              'id'
-            }
-          </div>
-          <div className="route-deliveries">
-            { '3' }
-          </div>
-        </div>
-        <div className="route-companies">
+      <div className="incidence">
+        <div className="incidence-sector">
           {
-            'companies'
+            incidence.name
           }
         </div>
-        <div className="route-actions">
+        <div className="incidence-value">
+          {
+            incidence.value
+          }
+        </div>
+        <div className="incidence-actions">
           <img
             src={actionImg}
             alt={'Visibility'}
             style={actionStyle}
-            className={
-              data.get('isLoading') ?
-                'spin icon-visibility' : 'icon-visibility'
-            }/>
+            className="icon-visibility"
+            onClick={() => {
+              this.toggleIncidenceVisibility(
+                incidence.id, 
+                !incidence.isVisible
+              );
+            }}/>
           <span
             className="color"
-            style={{ backgroundColor: data.get('color') }}
+            style={{ backgroundColor: incidence.color }}
             onClick={(e) => {
               this.toggleColorSketchVisibility(e);
               e.stopPropagation();
@@ -125,10 +115,10 @@ class Incidence extends React.Component {
               }}
               onMouseLeave={() => this.toggleColorSketchVisibility()}>
               <ChromePicker
-                color={this.props.data.get('color')}
+                color={incidence.color}
                 onChange={(color) => {
                   this.handleColorChange(
-                    this.props.data.get('id'),
+                    incidence.id,
                     color
                   );
                 }}/>
@@ -143,7 +133,8 @@ class Incidence extends React.Component {
 
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  changeRouteColor: actions.changeRouteColor
+  changeIncidenceColor: actions.changeIncidenceColor,
+  toggleIncidenceVisibility: actions.toggleIncidenceVisibility
 }, dispatch);
 
 

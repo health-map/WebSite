@@ -23,8 +23,7 @@ import 'react-tabs/style/react-tabs.css';
 class DataPanel extends React.Component {
   componentDidMount() {
     if (this.props.incidences.length === 0) {
-      console.log('cargando incidencias');
-      this.props.loadIncidences(this.props.incidencesFilters);
+      this.props.loadIncidences(this.props.incidencesFilters.toJS());
     }
   }
   componentDidUpdate() {
@@ -79,7 +78,7 @@ class DataPanel extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    incidences: state.getIn(['incidences', 'data']),
+    incidences: state.getIn(['incidences', 'data']).toJS(),
     isLoadingIncidences: state.getIn(['incidences', 'isLoadingIncidences']),
     loadIncidencesError: state.getIn(['incidences', 'loadIncidencesError']),
     incidencesFilters: state.getIn(['incidences', 'filters'])

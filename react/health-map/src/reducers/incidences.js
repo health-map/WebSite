@@ -4,11 +4,11 @@ import Immutable from 'immutable';
 import { types } from '../actions/incidences';
 
 const initialState = Immutable.Map({
-  data: [],
+  data: Immutable.List(),
   isLoadingIncidences: false,
   loadIncidencesError: '',
   selectedGeozone: undefined,
-  filters: {
+  filters: Immutable.Map({
     institution: 1,
     gender: undefined,
     startDate: '01-01-2018',
@@ -20,7 +20,7 @@ const initialState = Immutable.Map({
     age: undefined,
     type: 'absolute',
     department: undefined
-  }
+  })
 });
 
 /**
@@ -34,12 +34,13 @@ const loadIncidencesBegin = (state) => {
  *
  */
 const loadIncidencesSuccess = (state, action) => {
-  let incidences = action.payload.incidences;
-  for (let i=0; i<incidences.length; i++) {
-    incidences[i].isVisible = false;
-    incidences[i].isSelected = false;
+  let incidences = Immutable.fromJS(action.payload.incidences);
+  for (let i=0; i<incidences.size; i++) {
+    const incidence = incidences.get(i)
+      .set('isSelected', false)
+      .set('isVisible', false);
+    incidences = incidences.set(i, incidence);
   }
-  console.log('seteando incidencias sucess');
   return state
     .set('loadIncidencesError', '')
     .set('data', incidences);
@@ -70,12 +71,15 @@ const toggleIncidenceVisibility = (state, action) => {
   const incidenceId = action.payload.incidenceId;
   const isVisible = action.payload.isVisible;
   const index = state.get('data').findIndex((incidence) => {
-    return incidence.id === incidenceId;
+    return incidence.get('id') === incidenceId;
   });
   if (index >= 0) {
-    let incidences = state.get('data');
-    incidences[index].isVisible = isVisible;  
-    return state.set('data', incidences);
+    const incidences = state.get('data');
+    const incidence = incidences.get(index);
+    return state.set('data', incidences.set(
+      index,
+      incidence.set('isVisible', isVisible)
+    ));
   }
   return state;
 };
@@ -88,12 +92,15 @@ const changeIncidenceColor = (state, action) => {
   const incidenceId = action.payload.incidenceId;
   const color = action.payload.color;
   const index = state.get('data').findIndex((incidence) => {
-    return incidence.id === incidenceId;
+    return incidence.get('id') === incidenceId;
   });
   if (index >= 0) {
-    let incidences = state.get('data');
-    incidences[index].color = color;  
-    return state.set('data', incidences);
+    const incidences = state.get('data');
+    const incidence = incidences.get(index);
+    return state.set('data', incidences.set(
+      index,
+      incidence.set('color', color)
+    ));
   }
   return state;
 };
@@ -114,11 +121,10 @@ const selectGeozone = (state, action) => {
 const mutateFilters = (state, action) => {
   const key = action.payload.filterKey;
   const value = action.payload.filterValue;
-  const actualFilters = state.get('filters');
-  const newFilters = Object.assign({}, actualFilters, { [key]: value });
+  const filters = state.get('filters');
   return state.set(
     'filters', 
-    newFilters
+    filters.set(key, value)
   );
 };
 
