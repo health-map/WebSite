@@ -54,7 +54,7 @@ const loadIncidencesSuccess = (state, action) => {
   for (let i=0; i<incidences.size; i++) {
     const incidence = incidences.get(i)
       .set('isSelected', false)
-      .set('isVisible', false);
+      .set('isVisible', true);
     incidences = incidences.set(i, incidence);
   }
   return state

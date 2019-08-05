@@ -63,7 +63,7 @@ class MapComponent extends React.Component {
   }
   render() {
     const {
-      polygons
+      incidences
     } = this.props;
     return (
       <MapboxMap
@@ -83,25 +83,38 @@ class MapComponent extends React.Component {
           map.addControl(new MapboxTraffic());
         }}>
         {
-          false &&
+          !!incidences.length &&
           <div>
             {
-              polygons.map((polygon, id) => {
-                return (
-                  <Layer
-                    key={id}
-                    type="fill"
-                    paint={{
-                      'fill-color': polygon.get('color'),
-                      'fill-outline-color': polygon.get('color'),
-                      'fill-opacity': 0.4
-                    }}>
-                    <Feature coordinates={
-                      [polygon.get('coordinates').toArray()]
-                    }/>
-                  </Layer>
-                );
-              }).toArray()
+              incidences
+                .filter((incidence) => incidence.isVisible)
+                .map((incidence, id) => {
+                  return (
+                    <Layer
+                      key={id}
+                      type="fill"
+                      paint={{
+                        'fill-color': incidence.color,
+                        'fill-outline-color': incidence.color,
+                        'fill-opacity': 0.6
+                      }}>
+                      <Feature 
+                        key={`feature-polygons-${id}`}
+                        onMouseEnter={(e) => {
+                          e.map.getCanvas().style.cursor = 'pointer';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.map.getCanvas().style.cursor = '';
+                        }}
+                        coordinates={
+                          [incidence.coordinates[0]]
+                        }
+                        onClick={() => {
+                          
+                        }}/>
+                    </Layer>
+                  );
+                })
             }
           </div>
         }
@@ -134,8 +147,7 @@ class MapComponent extends React.Component {
  */
 const mapStateToProps = (state) => {
   return {
-    selectedGeozone: state.getIn(['incidences', 'selectedGeozone']),
-    polygons: state.getIn(['polygon', 'polygons'])
+    incidences: state.getIn(['incidences', 'data']).toJS()
   };
 };
 
