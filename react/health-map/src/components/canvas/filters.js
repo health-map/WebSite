@@ -21,6 +21,8 @@ import {
 } from './../../services/remoteAPI';
 
 import { actions } from './../../actions/incidences';
+import { thunks } from '../../actions/thunks/incidences';
+const { loadIncidences: loadIncidencesRequest } = thunks;
 
 import './filters.css';
 
@@ -213,6 +215,7 @@ class Filters extends React.Component {
         endDate: this.state.endDate
       }
     );
+    this.props.loadIncidences(this.props.incidencesFilters.toJS());
     this.props.onClose();
   }
   render() {
@@ -379,7 +382,8 @@ class Filters extends React.Component {
  */
 const mapDispatchToProps = dispatch => bindActionCreators({
   mutateFilters: actions.mutateFilters,
-  mutateManyFilters: actions.mutateManyFilters
+  mutateManyFilters: actions.mutateManyFilters,
+  loadIncidences: loadIncidencesRequest
 }, dispatch);
 
 /**

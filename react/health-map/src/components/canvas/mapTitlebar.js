@@ -4,8 +4,9 @@
  */
 
 import React from 'react';
-import moment from 'moment';
+import Immutable from 'immutable';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { 
   FaVenusMars,
   FaHospitalSymbol,
@@ -19,28 +20,46 @@ import {
   MdMenu
 } from 'react-icons/md';
 
+import { actions } from './../../actions/incidences';
+import { thunks } from '../../actions/thunks/incidences';
+const { loadIncidences: loadIncidencesRequest } = thunks;
+
 import './mapTitlebar.css';
 
 /**
  *
  */
 class MapTitlebar extends React.Component {
-  handleDateChange = (date) => {
-    this.props.applyFilters({
-      cities: this.props.selectedCities,
-      companies: this.props.selectedCompanies,
-      deliveries: this.props.selectedDeliveries,
-      statuses: this.props.selectedStatuses,
-      tags: this.props.selectedTags,
-      from: moment(date).startOf('day').unix(),
-      to: moment(date).endOf('day').unix()
-    });
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedSeason: '',
+      selectedInstitution: '',
+      selectedGender: '',
+      selectedStartDate: '',
+      selectedEndDate: ''
+    };
+  }
+  mutateAndApplyFilters = (filterKey, filterValue) => {
+    this.props.mutateFilters(filterKey, filterValue);
+    this.props.loadIncidences(this.props.incidencesFilters.toJS());
+  }
+  mutateAndApplyManyFilters = (mutations) => {
+    this.props.mutateManyFilters(mutations);
+    this.props.loadIncidences(this.props.incidencesFilters.toJS());
   }
   render() {
     const {
-      openFiltersDialog, onSetSidebarOpen
+      openFiltersDialog, onSetSidebarOpen, incidencesFilters
     } = this.props;
 
+    // const selectedInstitution = incidencesFilters.getIn(
+    //   ['institution', 'name']
+    // );
+    const selectedStartDate = incidencesFilters.get('startDate');
+    const selectedEndDate = incidencesFilters.get('endDate');
+    const selectedGender = incidencesFilters.getIn(['gender']);
+    const selectedSeason = incidencesFilters.getIn(['season']);
     return (
       <div
         className="hm-map-titlebar"
@@ -103,32 +122,42 @@ class MapTitlebar extends React.Component {
             <div className="shy-quick-actions">
               <span
                 className={
-                  moment().isSame(moment.unix(this.props.from), 'day') ?
+                  selectedGender && selectedGender.get('name') === 'M' ?
                     'shy-quick-action shy-quick-action-left shy-quick-action-active' :
                     'shy-quick-action shy-quick-action-left'
                 }
-                onClick={() => this.handleDateChange(moment().startOf('day'))}>
+                onClick={() => {
+                  this.mutateAndApplyFilters('gender', Immutable.Map({
+                    id: 98,
+                    name: 'M'
+                  }));
+                }}>
                 { 'M' }
               </span>
               <span
                 className={
-                  moment().isSame(moment.unix(this.props.from), 'day') ?
+                  selectedGender && selectedGender.get('name') === 'F' ?
                     'shy-quick-action hm-quick-action-middle shy-quick-action-active' :
                     'shy-quick-action hm-quick-action-middle'
                 }
-                onClick={() => this.handleDateChange(moment().startOf('day'))}>
+                onClick={() => {
+                  this.mutateAndApplyFilters('gender', Immutable.Map({
+                    id: 99,
+                    name: 'F'
+                  }));
+                }}>
                 { 'F' }
               </span>
               <span
                 className={
-                  moment().add(1, 'day').isSame(moment.unix(this.props.from), 'day') ?
+                  (!selectedGender || !selectedGender.get('name') 
+                  || selectedGender.get('name') === ''
+                  || selectedGender.get('name') === 'TODO') ?
                     'shy-quick-action shy-quick-action-right shy-quick-action-active' :
                     'shy-quick-action shy-quick-action-right'
                 }
                 onClick={() => {
-                  this.handleDateChange(
-                    moment().add(1, 'day').startOf('day')
-                  );
+                  this.mutateAndApplyFilters('gender', Immutable.Map());
                 }}>
                 { 'TODO' }
               </span>
@@ -147,34 +176,47 @@ class MapTitlebar extends React.Component {
             <div className="shy-quick-actions">
               <span
                 className={
-                  moment().isSame(moment.unix(this.props.from), 'day') ?
+                  (selectedStartDate === '01-01-2018' && 
+                    selectedEndDate === '01-01-2019') ?
                     'shy-quick-action shy-quick-action-left shy-quick-action-active' :
                     'shy-quick-action shy-quick-action-left'
                 }
-                onClick={() => this.handleDateChange(moment().startOf('day'))}>
+                onClick={() => {
+                  this.mutateAndApplyManyFilters({
+                    startDate: '01-01-2018',
+                    endDate: '01-01-2018'
+                  });
+                }}>
                 { '2018' }
               </span>
               <span
                 className={
-                  moment().isSame(moment.unix(this.props.from), 'day') ?
+                  (selectedStartDate === '01-01-2019' && 
+                    selectedEndDate === '01-01-2020') ?
                     'shy-quick-action hm-quick-action-middle shy-quick-action-active' :
                     'shy-quick-action hm-quick-action-middle'
                 }
-                onClick={() => this.handleDateChange(moment().startOf('day'))}>
+                onClick={() => {
+                  this.mutateAndApplyManyFilters({
+                    startDate: '01-01-2019',
+                    endDate: '01-01-2020'
+                  });
+                }}>
                 { '2019' }
               </span>
               <span
                 className={
-                  moment().add(1, 'day').isSame(moment.unix(this.props.from), 'day') ?
+                  (!selectedStartDate || !selectedEndDate) ?
                     'shy-quick-action shy-quick-action-right shy-quick-action-active' :
                     'shy-quick-action shy-quick-action-right'
                 }
                 onClick={() => {
-                  this.handleDateChange(
-                    moment().add(1, 'day').startOf('day')
-                  );
+                  this.mutateAndApplyManyFilters({
+                    startDate: undefined,
+                    endDate: undefined
+                  });
                 }}>
-                { 'PERSONALIZADO' }
+                { 'TODO' }
               </span>
             </div>
           </div>
@@ -191,30 +233,32 @@ class MapTitlebar extends React.Component {
             <div className="shy-quick-actions">
               <span
                 className={
-                  moment().isSame(moment.unix(this.props.from), 'day') ?
+                  selectedSeason === 'INVIERNO' ?
                     'shy-quick-action shy-quick-action-left shy-quick-action-active' :
                     'shy-quick-action shy-quick-action-left'
                 }
-                onClick={() => this.handleDateChange()}>
-                { 'INVIERNO' }
+                onClick={() => this.mutateAndApplyFilters('season', 'INVIERNO')}>
+                { 
+                  'INVIERNO' 
+                }
               </span>
               <span
                 className={
-                  moment().isSame(moment.unix(this.props.from), 'day') ?
+                  selectedSeason === 'VERANO' ?
                     'shy-quick-action hm-quick-action-middle shy-quick-action-active' :
                     'shy-quick-action hm-quick-action-middle'
                 }
-                onClick={() => this.handleDateChange()}>
+                onClick={() => this.mutateAndApplyFilters('season', 'VERANO')}>
                 { 'VERANO' }
               </span>
               <span
                 className={
-                  moment().add(1, 'day').isSame(moment.unix(this.props.from), 'day') ?
+                  (!selectedSeason || selectedSeason === '') ?
                     'shy-quick-action shy-quick-action-right shy-quick-action-active' :
                     'shy-quick-action shy-quick-action-right'
                 }
                 onClick={() => {
-                  this.handleDateChange();
+                  this.mutateAndApplyFilters('season', undefined);
                 }}>
                 { 'TODO' }
               </span>
@@ -229,7 +273,7 @@ class MapTitlebar extends React.Component {
                   size={22}/>
                 <span className="hm-button-text-icon">
                   { 
-                    'OPCIONES'
+                    'MÁS FILTROS'
                   }
                 </span>
               </span>
@@ -244,9 +288,21 @@ class MapTitlebar extends React.Component {
 /**
  *
  */
+const mapDispatchToProps = dispatch => bindActionCreators({
+  mutateFilters: actions.mutateFilters,
+  mutateManyFilters: actions.mutateManyFilters,
+  loadIncidences: loadIncidencesRequest
+}, dispatch);
+
+/**
+ *
+ */
 const mapStateToProps = state => {
   return {
-    cities: state.getIn(['general', 'cities'])
+    incidencesFilters: state.getIn(['incidences', 'filters']),
+    accessToken: state.getIn(['general', 'user', 'accessToken']),
+    apiUrl: state.getIn(['general', 'user', 'apiUrl']),
+    apiToken: state.getIn(['general', 'user', 'apiToken'])
   };
 };
 
@@ -254,5 +310,6 @@ const mapStateToProps = state => {
  *
  */
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(MapTitlebar);
