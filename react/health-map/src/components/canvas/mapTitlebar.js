@@ -5,6 +5,7 @@
 
 import React from 'react';
 import Immutable from 'immutable';
+import Select from 'react-select';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { 
@@ -13,12 +14,15 @@ import {
   FaRegCalendar,
   FaArrowCircleDown
 } from 'react-icons/fa';
-
 import { 
   MdTimelapse, 
   MdFilterList,
   MdMenu
 } from 'react-icons/md';
+
+import { 
+  loadInstitutions
+} from './../../services/remoteAPI';
 
 import { actions } from './../../actions/incidences';
 import { thunks } from '../../actions/thunks/incidences';
@@ -33,12 +37,12 @@ class MapTitlebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedSeason: '',
-      selectedInstitution: '',
-      selectedGender: '',
-      selectedStartDate: '',
-      selectedEndDate: ''
+      isLoadingInstitution: false,
+      institutions: []
     };
+  }
+  componentDidMount() {
+    this.loadInstitutions();
   }
   mutateAndApplyFilters = (filterKey, filterValue) => {
     this.props.mutateFilters(filterKey, filterValue);
@@ -48,18 +52,40 @@ class MapTitlebar extends React.Component {
     this.props.mutateManyFilters(mutations);
     this.props.loadIncidences(this.props.incidencesFilters.toJS());
   }
+  handleInstitutionChange = (selectedInstitution) => {
+    this.setState({
+      isLoadingInstitution: false
+    });
+    this.props.mutateFilters('institution', Immutable.Map(selectedInstitution));
+    this.props.loadIncidences(this.props.incidencesFilters.toJS());
+  }
+  loadInstitutions = () => {
+    const self = this;
+    this.setState({
+      isLoadingInstitution: true
+    }, () => {
+      loadInstitutions(
+        {
+          apiUrl: self.props.apiUrl,
+          apiToken: self.props.apiToken
+        }
+      )
+        .then(institutions => self.setState({
+          institutions,
+          isLoadingInstitution: false
+        }));
+    });
+  }
   render() {
     const {
       openFiltersDialog, onSetSidebarOpen, incidencesFilters
     } = this.props;
 
-    // const selectedInstitution = incidencesFilters.getIn(
-    //   ['institution', 'name']
-    // );
     const selectedStartDate = incidencesFilters.get('startDate');
     const selectedEndDate = incidencesFilters.get('endDate');
     const selectedGender = incidencesFilters.getIn(['gender']);
     const selectedSeason = incidencesFilters.getIn(['season']);
+    const selectedInstitution = incidencesFilters.get('institution');
     return (
       <div
         className="hm-map-titlebar"
@@ -100,9 +126,15 @@ class MapTitlebar extends React.Component {
                 onClick={() => {
                 }}>
                 <div className="hm-quick-selector-value">
-                  { 
-                    'HOSPITAL LEÓN BECERRA'
-                  }
+                  <div className="hm-special-transparent-select">
+                    <Select
+                      valueKey="id"
+                      labelKey="name"
+                      onChange={e => this.handleInstitutionChange(e)}
+                      options={this.state.institutions}
+                      value={selectedInstitution.toJS()}
+                      isLoading={this.state.isLoadingInstitution}/>
+                  </div>
                 </div>
                 <FaArrowCircleDown 
                   size={12}/>

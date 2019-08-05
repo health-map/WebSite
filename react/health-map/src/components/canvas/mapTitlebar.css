@@ -134,6 +134,8 @@
   .hm-quick-selector-action{
     display: flex;
     border-radius: 4px;
+    align-items: center;
+    height: 14px;
   }
 
   .hm-quick-selector-value{
@@ -159,3 +161,49 @@
     margin-right: 16px;
     cursor: pointer;
   }
+
+.hm-special-transparent-select{
+  height: 28px;
+  width: 150px;
+  z-index: 99;
+}
+
+.hm-special-transparent-select .Select-control{
+  background-color: transparent !important;
+  border: 0px !important;
+  height: 28px;
+  width: 150px;
+}
+
+.hm-special-transparent-select .Select--single > .Select-control .Select-value {
+  height: 28px !important;
+  line-height: 28px !important;
+  width: 150px;
+  padding: 0px !important;
+}
+
+.hm-special-transparent-select .Select--single > .Select-control .Select-value {
+  height: 28px !important;
+  line-height: 28px !important;
+  width: 150px;
+}
+
+.hm-special-transparent-select .Select-clear-zone {
+  display: none !important;
+}
+
+.hm-special-transparent-select .Select-arrow-zone {
+  display: none !important;
+}
+
+.hm-special-transparent-select .Select-value-label{
+  color: white !important;
+}
+
+.hm-special-transparent-select .Select-value-label:hover{
+  color: #757575 !important;
+}
+
+.Select-menu-outer, .Select-menu{
+  z-index: 99 !important;
+}
