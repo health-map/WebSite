@@ -9,12 +9,18 @@ const initialState = Immutable.Map({
   loadIncidencesError: '',
   selectedGeozone: undefined,
   filters: Immutable.Map({
-    institution: 1,
+    institution: Inmmutable.map({
+      id: 1,
+      value: 'Hospital Leon Becerra' 
+    }),
     gender: undefined,
     startDate: '01-01-2018',
     endDate: '01-01-2019',
     season: undefined,
-    city: 1,
+    city: Inmmutable.map({
+      id: 1,
+      value: 'Guayaquil' 
+    }),
     disease: undefined,
     geogroup: undefined,
     age: undefined,
@@ -120,13 +126,30 @@ const selectGeozone = (state, action) => {
  */
 const mutateFilters = (state, action) => {
   const key = action.payload.filterKey;
-  console.log('key', key);
   const value = action.payload.filterValue;
-  console.log('value', value);
   const filters = state.get('filters');
   return state.set(
     'filters', 
     filters.set(key, value)
+  );
+};
+
+/**
+ *
+ */
+const mutateManyFilters = (state, action) => {
+  const mutations = action.payload.mutations;
+  const mutatedKeys = Object.keys(mutations);
+  let filters = state.get('filters');
+  mutatedKeys.map((key) => {
+    filters.set(
+      key,
+      mutations[key]
+    );
+  });
+  return state.set(
+    'filters', 
+    filters
   );
 };
 
@@ -139,6 +162,8 @@ export default function general(state = initialState, action) {
   switch (action.type) {
   case types.MUTATE_FILTERS:
     return mutateFilters(state, action);
+  case types.MUTATE_MANY_FILTERS:
+    return mutateManyFilters(state, action);
   case types.LOAD_INCIDENCES_BEGIN:
     return loadIncidencesBegin(state);
   case types.LOAD_INCIDENCES_SUCCESS:

@@ -6,6 +6,130 @@
 
 //import URLSearchParams from 'url-search-params';
 
+
+export async function loadCities({ apiUrl, apiToken }) {
+  console.log(apiUrl);
+  console.log(apiToken);
+
+  var promise = new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        {
+          id: 1,
+          name: 'Guayaquil'
+        },
+        {
+          id: 2,
+          name: 'Quito'
+        }
+      ]);
+    }, 2000);
+  });
+  let x = await promise;
+  console.log(x);
+  return x;
+}
+
+export async function loadInstitutions({ apiUrl, apiToken }) {
+  console.log(apiUrl);
+  console.log(apiToken);
+
+  var promise = new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        {
+          id: 1,
+          name: 'Hospital Leon Becerra'
+        },
+        {
+          id: 2,
+          name: 'Gil Gilbert'
+        }
+      ]);
+    }, 2000);
+  });
+  let x = await promise;
+  console.log(x);
+  return x;
+}
+
+export async function loadDepartments({ apiUrl, apiToken }) {
+  console.log(apiUrl);
+  console.log(apiToken);
+
+  var promise = new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        {
+          id: 1,
+          name: 'GENERAL'
+        }
+      ]);
+    }, 2000);
+  });
+  let x = await promise;
+  console.log(x);
+  return x;
+}
+
+export async function loadAges({ apiUrl, apiToken }) {
+  console.log(apiUrl);
+  console.log(apiToken);
+
+  var promise = new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        {
+          id: 1,
+          name: '0 - 12 meses' 
+        },
+        {
+          id: 2,
+          name: '1 - 2 años' 
+        },
+        {
+          id: 3,
+          name: '2 - 10 años'
+        },        
+        {
+          id: 4,
+          name: '10 - 18 años'
+        }
+      ]);
+    }, 2000);
+  });
+  let x = await promise;
+  console.log(x);
+  return x;
+}
+
+export async function loadGenders({ apiUrl, apiToken }) {
+  console.log(apiUrl);
+  console.log(apiToken);
+
+  var promise = new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        {
+          id: 1,
+          name: 'M' 
+        },
+        {
+          id: 2,
+          name: 'F' 
+        },
+        {
+          id: 3,
+          name: 'TODOS'
+        }
+      ]);
+    }, 2000);
+  });
+  let x = await promise;
+  console.log(x);
+  return x;
+}
+
 export async function loadDiseases(
   {
     q

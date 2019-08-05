@@ -11,7 +11,13 @@ import Select from 'react-select';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { loadTags, loadDeliveries } from './../../services/remoteAPI';
+import { 
+  loadCities,
+  loadInstitutions,
+  loadDepartments,
+  loadGenders,
+  loadAges
+} from './../../services/remoteAPI';
 
 import { actions } from './../../actions/incidences';
 
@@ -25,167 +31,181 @@ class Filters extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      from: this.props.from,
-      to: this.props.to,
-      selectedTags: this.props.selectedTags,
-      selectedCities: this.props.selectedCities,
-      selectedCompanies: this.props.selectedCompanies,
-      selectedDeliveries: this.props.selectedDeliveries,
-      selectedStatuses: this.props.selectedStatuses,
-      cities: this.props.cities,
-      companies: [],
-      tags: [],
-      deliveries: [],
-      statuses: this.props.statuses,
-      deliveriesQueryIncludesComa: false,
-      isLoadingCompanies: false,
-      isLoadingTags: false,
-      isLoadingDeliveries: false
+      cities: undefined,
+      institutions: undefined,
+      departments: undefined,
+      genders: undefined,
+      ages: undefined,
+      isLoadingCities: false,
+      isLoadingInstitution: false,
+      isLoadingDepartment: false,
+      isLoadingGender: false,
+      isLoadingAge: false,
+      selectedCity: undefined,
+      selectedInstitution: undefined,
+      selectedDepartment: undefined,
+      selectedGender: undefined,
+      selectedAge: undefined,
+      selectedDivision: undefined,
+      startDate: undefined,
+      endDate: undefined
     };
   }
-  handleCityChange = (cityId) => {
+  componentDidMount() {
+    const filters = this.props.incidencesFilters;
     this.setState({
-      selectedCities: [cityId]
+      selectedCity: filters.get('city').toJS(),
+      selectedInstitution: filters.get('institution').toJS(),
+      selectedDepartment: filters.get('department').toJS(),
+      startDate: filters.get('startDate'),
+      endDate: filters.get('endDate'),
+      selectedGender: filters.get('gender').toJS(),
+      selectedAge: filters.get('age').toJS(),
+      selectedDivision: filters.get('division').toJS()
     });
   }
-  handleSAASCitiesChange = (cities) => {
+  handleCityChange = (selectedCity) => {
+    console.log(selectedCity);
     this.setState({
-      selectedCities: cities.map((c) => {
-        return c.id;
-      })
-    });
-  }  
-  handleCompaniesChange = (companies) => {
-    this.setState({
-      selectedCompanies: companies,
-      isLoadingCompanies: false
+      selectedCity,
+      isLoadingCities: false
     });
   }
-  handleTagsChange = (tags) => {
+  handleInstitutionChange = (selectedInstitution) => {
     this.setState({
-      selectedTags: tags,
-      isLoadingTags: false
+      selectedInstitution,
+      isLoadingInstitution: false
     });
   }
-  handleStatusesChange = (statuses) => {
+  handleDepartmentChange = (selectedDepartment) => {
     this.setState({
-      selectedStatuses: statuses,
-      isLoadingStatuses: false
+      selectedDepartment,
+      isLoadingDepartment: false
     });
   }
-  handleDeliveriesChange = (deliveries) => {
+  handleGenderChange = (selectedGender) => {
     this.setState({
-      selectedDeliveries: deliveries,
-      isLoadingDeliveries: false
+      selectedGender,
+      isLoadingGender: false
     });
   }
-  handleDateChange = (date) => {
+  handleAgeChange = (selectedAge) => {
     this.setState({
-      from: moment(date).startOf('day').unix(),
-      to: moment(date).endOf('day').unix()
+      selectedAge,
+      isLoadingAge: false
     });
   }
-  loadTags = (q) => {
+  handleDivisionChange = (selectedDivision) => {
+    this.setState({
+      selectedDivision
+    });
+  }
+  handleDateRangeChange = (startDate, endDate) => {
+    this.setState({
+      startDate: moment(startDate).startOf('day').unix(),
+      endDate: moment(endDate).endOf('day').unix()
+    });
+  }
+  loadInstitutions = () => {
     const self = this;
-    if ( q.length < 3 ) {
-      return;
-    }
     this.setState({
-      isLoadingTags: true
+      isLoadingInstitution: true
     }, () => {
-      loadTags(
-        {
-          q,
-          companies: self.state.selectedCompanies.map(company => {
-            return company.id;
-          })
-        },
+      loadInstitutions(
         {
           apiUrl: self.props.apiUrl,
           apiToken: self.props.apiToken
         }
       )
-        .then(tags => self.setState({
-          tags,
-          isLoadingTags: false
+        .then(institutions => self.setState({
+          institutions,
+          isLoadingInstitution: false
         }));
     });
   }
-  loadStatuses = () => {
-    this.setState({
-      statuses: this.state.statuses,
-      isLoadingStatuses: false
-    });
-  }
-  loadDeliveries = (q) => {
+  loadCities = () => {
     const self = this;
-    q = q.trim().replace(/ /g, ',');
-    let deliveriesQueryIncludesComa = false;
-    if (q && q.includes(',')) {
-      deliveriesQueryIncludesComa = true;
-    }
     this.setState({
-      deliveriesQueryIncludesComa,
-      isLoadingDeliveries: true
+      isLoadingCities: true
     }, () => {
-      loadDeliveries(
+      loadCities(
         {
-          q,
-          companies: this.state.selectedCompanies.map(company => {
-            return company.id;
-          })
-        },
-        {
-          apiUrl: this.props.apiUrl,
-          apiToken: this.props.apiToken
+          apiUrl: self.props.apiUrl,
+          apiToken: self.props.apiToken
         }
       )
-        .then(deliveries => {
-          if (deliveries) {
-            const reducedDeliveries = deliveries.map(d => ({
-              id: d.id,
-              name: d.referenceId ? `${d.id} | ${d.referenceId}` : d.id
-            }));
-            self.setState(this.state.deliveriesQueryIncludesComa ?
-              {
-                deliveries: deliveries ? reducedDeliveries : [],
-                selectedDeliveries: reducedDeliveries,
-                isLoadingDeliveries: false
-              } :
-              {
-                deliveries: deliveries ? reducedDeliveries : [],
-                isLoadingDeliveries: false
-              }
-            );
-          }
-        });
+        .then(cities => self.setState({
+          cities,
+          isLoadingCities: false
+        }));
+    });
+  }
+  loadDepartment = () => {
+    const self = this;
+    this.setState({
+      isLoadingDepartment: true
+    }, () => {
+      loadDepartments(
+        {
+          apiUrl: self.props.apiUrl,
+          apiToken: self.props.apiToken
+        }
+      )
+        .then(departments => self.setState({
+          departments,
+          isLoadingDepartment: false
+        }));
+    });
+  }
+  loadGenders = () => {
+    const self = this;
+    this.setState({
+      isLoadingGender: true
+    }, () => {
+      loadGenders(
+        {
+          apiUrl: self.props.apiUrl,
+          apiToken: self.props.apiToken
+        }
+      )
+        .then(genders => self.setState({
+          genders,
+          isLoadingGender: false
+        }));
+    });
+  }
+  loadAges = () => {
+    const self = this;
+    this.setState({
+      isLoadingAge: true
+    }, () => {
+      loadAges(
+        {
+          apiUrl: self.props.apiUrl,
+          apiToken: self.props.apiToken
+        }
+      )
+        .then(ages => self.setState({
+          ages,
+          isLoadingAge: false
+        }));
     });
   }
   applyFilters = () => {
-    this.props.selectGeozone();
-    this.props.applyFilters(
+    this.props.mutateManyFilters(
       {
-        cities: this.state.selectedCities,
-        companies: this.state.selectedCompanies,
-        deliveries: this.state.selectedDeliveries,
-        tags: this.state.selectedTags,
-        statuses: this.state.selectedStatuses,
-        from: this.state.from,
-        to: this.state.to
+        institution: Inmmutable.map(this.state.selectedInstitution),
+        gender: Inmmutable.map(this.state.selectedGender),
+        city: Inmmutable.map(this.state.selectedCity),
+        age: Inmutable.map(this.state.selectedAge),
+        department: Inmutable.map(this.state.department),
+        startDate: this.state.startDate,
+        endDate: this.state.endDate
       }
     );
     this.props.onClose();
   }
   render() {
-    const { companyAccess } = this.props;
-    // const kronosOptions = {
-    //   color: '#0092E1',
-    //   font: 'Roboto',
-    //   locale: moment.updateLocale('es', {
-    //     weekdaysMin: ['do', 'lu', 'ma', 'mi', 'ju', 'vi', 'sá']
-    //   })
-    // };
-
     return (
       <div className="shy-dialog" onClick={this.props.onClose}>
         <div className="shy-dialog-content-wrapper">
@@ -198,7 +218,9 @@ class Filters extends React.Component {
                   className="shy-filter-icon"
                   src="https://cdn.shippify.co/icons/icon-filter-white.svg"
                   alt=""/>
-                { window.translation('Select the filters') }
+                { 
+                  'FILTROS Y CONFIGURACIONES' 
+                }
               </div>
               <img
                 className="shy-dialog-close"
@@ -209,73 +231,73 @@ class Filters extends React.Component {
             <div className="shy-dialog-body shy-dialog-body-sm">
               <div className="hm-filters-field">
                 <div className="shy-form-field-label hm-filters-field-label">
-                  { window.translation('Select a city') }
+                  { 
+                    'Selecciona una ciudad' 
+                  }
                 </div>
                 <div className="shy-form-field hm-select-datatype">
                   <Select
                     valueKey="id"
                     labelKey="name"
-                    value={this.state.selectedCities[0]}
+                    value={this.state.selectedCity}
                     onChange={(e) => {
-                      this.handleCityChange(
-                        (e && e.id) || this.state.cities.get(0).id
-                      );
+                      this.handleCityChange(e);
                     }}
+                    onMenuOpen={this.loadCities}
                     options={this.state.cities.toJSON()}
-                    placeholder={window.translation('Type a city name')}/>
+                    isLoading={this.state.isLoadingCities}/>
                 </div>
               </div>
               <div className="hm-filters-field margin-top-16">
                 <div className="shy-form-field-label hm-filters-field-label">
-                  { window.translation('Select a company') }
+                  { 
+                    'Selecciona una institucion'
+                  }
                 </div>
                 <div className="shy-form-field hm-select-datatype">
                   <Select
-                    multi
                     valueKey="id"
                     labelKey="name"
-                    onChange={e => this.handleCompaniesChange(e)}
-                    options={this.state.companies}
-                    value={this.state.selectedCompanies}
-                    placeholder={window.translation('Type a company name')}
-                    isLoading={this.state.isLoadingCompanies}/>
+                    onChange={e => this.handleInstitutionChange(e)}
+                    options={this.state.institutions}
+                    value={this.state.selectedInstitution}
+                    onMenuOpen={this.loadInstitutions}
+                    isLoading={this.state.isLoadingInstitution}/>
                 </div>
               </div>
               <div
                 className="margin-top-16 hm-filters-field">
                 <div className="shy-form-field-label hm-filters-field-label">
-                  { window.translation('Select a tag') }
+                  { 
+                    'Selecciona un departamento'
+                  }
                 </div>
                 <div className="shy-form-field hm-select-datatype">
                   <Select
-                    multi
                     valueKey="id"
-                    labelKey={(companyAccess === 3 ? 'displayName' : 'name')}
-                    onChange={e => this.handleTagsChange(e)}
-                    options={this.state.tags}
-                    value={this.state.selectedTags}
-                    placeholder={window.translation('Type a tag name')}
-                    onInputChange={this.loadTags}
-                    isLoading={this.state.isLoadingTags}/>
+                    labelKey="name"
+                    onChange={e => this.handleDepartmentChange(e)}
+                    options={this.state.departments}
+                    value={this.state.selectedDepartment}
+                    onMenuOpen={this.loadDepartment}
+                    isLoading={this.state.isLoadingDepartment}/>
                 </div>
               </div>
               <div className="margin-top-16 hm-filters-field">
                 <div className="shy-form-field-label hm-filters-field-label">
                   {
-                    window.translation('Search by delivery ID or reference ID')
+                    'Selecciona un rango de edad'
                   }
                 </div>
                 <div className="shy-form-field hm-select-datatype">
                   <Select
-                    multi
                     valueKey="id"
                     labelKey="name"
-                    onChange={e => this.handleDeliveriesChange(e)}
-                    options={this.state.deliveries}
-                    value={this.state.selectedDeliveries}
-                    placeholder={window.translation('Type a delivery ID or reference ID')}
-                    onInputChange={this.loadDeliveries}
-                    isLoading={this.state.isLoadingDeliveries}/>
+                    onChange={e => this.handleAgeChange(e)}
+                    options={this.state.ages}
+                    value={this.state.selectedAge}
+                    onMenuOpen={this.loadAges}
+                    isLoading={this.state.isLoadingAge}/>
                 </div>
               </div>
               <div className="margin-top-16 hm-filters-field">
@@ -314,7 +336,8 @@ class Filters extends React.Component {
  *
  */
 const mapDispatchToProps = dispatch => bindActionCreators({
-  selectGeozone: actions.selectGeozone
+  mutateFilters: actions.mutateFilters,
+  mutateManyFilters: actions.mutateManyFilters
 }, dispatch);
 
 /**
@@ -322,10 +345,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
  */
 const mapStateToProps = state => {
   return {
-    cities: state.getIn(['general', 'cities']),
-    statuses: state.getIn(['general', 'statuses']),
-    locale: state.getIn(['general', 'locale']),
-    companyAccess: state.getIn(['general', 'user', 'companyAccess']),
+    incidencesFilters: state.getIn(['incidences', 'filters']),
+    showWeatherData: state.getIn(['general', 'showWeather']),
     accessToken: state.getIn(['general', 'user', 'accessToken']),
     apiUrl: state.getIn(['general', 'user', 'apiUrl']),
     apiToken: state.getIn(['general', 'user', 'apiToken'])

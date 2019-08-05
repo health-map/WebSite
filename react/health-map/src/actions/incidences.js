@@ -12,7 +12,8 @@ export const types = {
   LOAD_INCIDENCES_END: 'INCIDENCES/LOAD_INCIDENCES_END',
   CHANGE_INCIDENCE_COLOR: 'INCIDENCES/CHANGE_INCIDENCE_COLOR',
   SELECT_GEOZONE: 'INCIDENCES/SELECT_GEOZONE',
-  MUTATE_FILTERS: 'INCIDENCES/MUTATE_FILTERS'
+  MUTATE_FILTERS: 'INCIDENCES/MUTATE_FILTERS',
+  MUTATE_MANY_FILTERS: 'INCIDENCES/MUTATE_MANY_FILTERS'
 };
 
 /**
@@ -28,6 +29,10 @@ export const actions = {
     types.MUTATE_FILTERS,
     (filterKey, filterValue) => ({ filterKey,
       filterValue })
+  ),
+  mutateManyFilters: createAction(
+    types.MUTATE_MANY_FILTERS,
+    (mutations) => ({ mutations })
   ),
   loadIncidences: {
     begin: createAction(types.LOAD_INCIDENCES_BEGIN),
