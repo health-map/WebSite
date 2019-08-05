@@ -96,7 +96,7 @@ class MapComponent extends React.Component {
                       paint={{
                         'fill-color': incidence.color,
                         'fill-outline-color': incidence.color,
-                        'fill-opacity': 0.6
+                        'fill-opacity': 0.5
                       }}>
                       <Feature 
                         key={`feature-polygons-${id}`}
@@ -110,7 +110,7 @@ class MapComponent extends React.Component {
                           [incidence.coordinates[0]]
                         }
                         onClick={() => {
-                          
+
                         }}/>
                     </Layer>
                   );
