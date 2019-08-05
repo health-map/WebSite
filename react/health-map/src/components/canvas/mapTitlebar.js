@@ -40,32 +40,7 @@ class MapTitlebar extends React.Component {
     const {
       openFiltersDialog, onSetSidebarOpen
     } = this.props;
-    const filters = [];
-    this.props.selectedCities.map(sc => {
-      this.props.cities.map(c => {
-        if (`${c.id}` === `${sc}`) {
-          filters.push(c.name);
-        }
-      });
-    });
-    this.props.selectedTags.map(t => {
-      filters.push(t.name);
-    });
-    this.props.selectedCompanies.map(c => {
-      if (c.name) {
-        filters.push(c.name);
-      }
-    });
-    this.props.selectedStatuses.map(c => {
-      filters.push(window.translation(c.name));
-    });
-    if (this.props.selectedDeliveries.length > 10) {
-      filters.push(`${window.translation('NUMBER deliveries selected').replace('NUMBER', this.props.selectedDeliveries.length)}`);
-    } else {
-      this.props.selectedDeliveries.map(d => {
-        filters.push(window.translation(d.name));
-      });
-    }
+
     return (
       <div
         className="hm-map-titlebar"

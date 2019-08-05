@@ -151,16 +151,8 @@ class Canvas extends React.Component {
               (window.innerWidth > MAX_WIDTH) &&
               <MapTitlebar
                 openFiltersDialog={() => toggleFiltersDialog()}
-                applyFilters={this.props.applyFilters}
-                from={this.props.from}
-                to={this.props.to}
                 displayType="desktop"
-                selectedTags={this.props.selectedTags}
-                selectedCities={this.props.selectedCities}
-                selectedCompanies={this.props.selectedCompanies}
-                selectedDeliveries={this.props.selectedDeliveries}
-                onSetSidebarOpen={self.onSetSidebarOpen.bind(self)}
-                selectedStatuses={this.props.selectedStatuses}/>
+                onSetSidebarOpen={self.onSetSidebarOpen.bind(self)}/>
             }
             <Map
               defaultLocation={this.props.defaultLocation}
@@ -179,16 +171,10 @@ class Canvas extends React.Component {
           isFiltersDialogVisible &&
           <ErrorBoundaryDialog onClose={() => toggleFiltersDialog()}>
             <Filters
-              from={this.props.from}
-              to={this.props.to}
-              selectedTags={this.props.selectedTags}
-              selectedCities={this.props.selectedCities}
-              selectedCompanies={this.props.selectedCompanies}
-              selectedDeliveries={this.props.selectedDeliveries}
-              selectedStatuses={this.props.selectedStatuses}
-              handleRefreshFiltersChange={this.handleRefreshFiltersChange}
               applyFilters={this.props.applyFilters}
-              onClose={() => toggleFiltersDialog()}/>
+              onClose={() => {
+                toggleFiltersDialog();
+              }}/>
           </ErrorBoundaryDialog>
         }
         {

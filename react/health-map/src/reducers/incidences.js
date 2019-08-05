@@ -9,23 +9,33 @@ const initialState = Immutable.Map({
   loadIncidencesError: '',
   selectedGeozone: undefined,
   filters: Immutable.Map({
-    institution: Inmmutable.map({
+    institution: Immutable.Map({
       id: 1,
-      value: 'Hospital Leon Becerra' 
+      name: 'HOSPITAL LEON BECERRA' 
     }),
-    gender: undefined,
+    gender: Immutable.Map(),
     startDate: '01-01-2018',
     endDate: '01-01-2019',
     season: undefined,
-    city: Inmmutable.map({
+    city: Immutable.Map({
       id: 1,
-      value: 'Guayaquil' 
+      name: 'GUAYAQUIL' 
     }),
     disease: undefined,
     geogroup: undefined,
-    age: undefined,
+    age: Immutable.Map({
+      id: 1,
+      name: 'TODAS'
+    }),
     type: 'absolute',
-    department: undefined
+    department: Immutable.Map({
+      id: 1,
+      name: 'GENERAL'
+    }),
+    division: Immutable.Map({
+      id: 1,
+      name: 'SECTORES URBANOS'
+    })
   })
 });
 
@@ -140,17 +150,11 @@ const mutateFilters = (state, action) => {
 const mutateManyFilters = (state, action) => {
   const mutations = action.payload.mutations;
   const mutatedKeys = Object.keys(mutations);
-  let filters = state.get('filters');
   mutatedKeys.map((key) => {
-    filters.set(
-      key,
-      mutations[key]
-    );
+    console.log('filtros mutados', key, mutations[key]);
+    state = state.setIn(['filters', key], mutations[key]);
   });
-  return state.set(
-    'filters', 
-    filters
-  );
+  return state;
 };
 
 

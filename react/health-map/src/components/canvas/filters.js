@@ -6,6 +6,7 @@
 
 import React from 'react';
 import moment from 'moment';
+import Immutable from 'immutable';
 // import Kronos from 'react-kronos';
 import Select from 'react-select';
 import { connect } from 'react-redux';
@@ -31,11 +32,17 @@ class Filters extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cities: undefined,
-      institutions: undefined,
-      departments: undefined,
-      genders: undefined,
-      ages: undefined,
+      cities: [],
+      institutions: [],
+      departments: [],
+      genders: [],
+      ages: [],
+      divisions: [
+        {
+          id: 1,
+          name: 'SECTORES URBANOS'
+        }
+      ],
       isLoadingCities: false,
       isLoadingInstitution: false,
       isLoadingDepartment: false,
@@ -53,6 +60,7 @@ class Filters extends React.Component {
   }
   componentDidMount() {
     const filters = this.props.incidencesFilters;
+    console.log('FILTERS', filters);
     this.setState({
       selectedCity: filters.get('city').toJS(),
       selectedInstitution: filters.get('institution').toJS(),
@@ -63,6 +71,7 @@ class Filters extends React.Component {
       selectedAge: filters.get('age').toJS(),
       selectedDivision: filters.get('division').toJS()
     });
+    console.log('STATE', this.state);
   }
   handleCityChange = (selectedCity) => {
     console.log(selectedCity);
@@ -140,7 +149,7 @@ class Filters extends React.Component {
         }));
     });
   }
-  loadDepartment = () => {
+  loadDepartments = () => {
     const self = this;
     this.setState({
       isLoadingDepartment: true
@@ -194,11 +203,12 @@ class Filters extends React.Component {
   applyFilters = () => {
     this.props.mutateManyFilters(
       {
-        institution: Inmmutable.map(this.state.selectedInstitution),
-        gender: Inmmutable.map(this.state.selectedGender),
-        city: Inmmutable.map(this.state.selectedCity),
-        age: Inmutable.map(this.state.selectedAge),
-        department: Inmutable.map(this.state.department),
+        institution: Immutable.Map(this.state.selectedInstitution),
+        gender: Immutable.Map(this.state.selectedGender),
+        city: Immutable.Map(this.state.selectedCity),
+        age: Immutable.Map(this.state.selectedAge),
+        department: this.state.selectedDepartment ?
+          Immutable.Map(this.state.selectedDepartment) : undefined,
         startDate: this.state.startDate,
         endDate: this.state.endDate
       }
@@ -243,8 +253,8 @@ class Filters extends React.Component {
                     onChange={(e) => {
                       this.handleCityChange(e);
                     }}
-                    onMenuOpen={this.loadCities}
-                    options={this.state.cities.toJSON()}
+                    onFocus={this.loadCities}
+                    options={this.state.cities}
                     isLoading={this.state.isLoadingCities}/>
                 </div>
               </div>
@@ -261,7 +271,7 @@ class Filters extends React.Component {
                     onChange={e => this.handleInstitutionChange(e)}
                     options={this.state.institutions}
                     value={this.state.selectedInstitution}
-                    onMenuOpen={this.loadInstitutions}
+                    onFocus={this.loadInstitutions}
                     isLoading={this.state.isLoadingInstitution}/>
                 </div>
               </div>
@@ -279,7 +289,7 @@ class Filters extends React.Component {
                     onChange={e => this.handleDepartmentChange(e)}
                     options={this.state.departments}
                     value={this.state.selectedDepartment}
-                    onMenuOpen={this.loadDepartment}
+                    onFocus={this.loadDepartments}
                     isLoading={this.state.isLoadingDepartment}/>
                 </div>
               </div>
@@ -296,14 +306,46 @@ class Filters extends React.Component {
                     onChange={e => this.handleAgeChange(e)}
                     options={this.state.ages}
                     value={this.state.selectedAge}
-                    onMenuOpen={this.loadAges}
+                    onFocus={this.loadAges}
                     isLoading={this.state.isLoadingAge}/>
                 </div>
               </div>
               <div className="margin-top-16 hm-filters-field">
                 <div className="shy-form-field-label hm-filters-field-label">
                   {
-                    window.translation('Select a date')
+                    'Selecciona un genero'
+                  }
+                </div>
+                <div className="shy-form-field hm-select-datatype">
+                  <Select
+                    valueKey="id"
+                    labelKey="name"
+                    onChange={e => this.handleGenderChange(e)}
+                    options={this.state.genders}
+                    value={this.state.selectedGender}
+                    onFocus={this.loadGenders}
+                    isLoading={this.state.isLoadingGender}/>
+                </div>
+              </div>
+              <div className="margin-top-16 hm-filters-field">
+                <div className="shy-form-field-label hm-filters-field-label">
+                  {
+                    'Dividir la ciudad por'
+                  }
+                </div>
+                <div className="shy-form-field hm-select-datatype">
+                  <Select
+                    valueKey="id"
+                    labelKey="name"
+                    onChange={e => this.handleDivisionChange(e)}
+                    options={this.state.divisions}
+                    value={this.state.selectedDivision}/>
+                </div>
+              </div>
+              <div className="margin-top-16 hm-filters-field">
+                <div className="shy-form-field-label hm-filters-field-label">
+                  {
+                    'Selecciona un rango de fechas'
                   }
                 </div>
                 <div className="shy-form-field">

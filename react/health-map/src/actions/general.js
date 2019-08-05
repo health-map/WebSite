@@ -7,7 +7,6 @@ import { createAction } from 'redux-actions';
 export const types = {
   UPDATE_LOCALE: 'GENERAL/UPDATE_LOCALE',
   UPDATE_USER_INFORMATION: 'GENERAL/UPDATE_USER_INFORMATION',
-  LOAD_STATUSES: 'GENERAL/LOAD_STATUSES',
   LOAD_INCIDENCES_BEGIN: 'GENERAL/LOAD_INCIDENCES_BEGIN',
   LOAD_INCIDENCES_SUCCESS: 'GENERAL/LOAD_INCIDENCES_SUCCESS',
   LOAD_INCIDENCES_FAILURE: 'GENERAL/LOAD_INCIDENCES_FAILURE',
@@ -47,10 +46,6 @@ export const actions = {
   updateUserInformation: createAction(
     types.UPDATE_USER_INFORMATION,
     user => ({ user })
-  ),
-  loadStatuses: createAction (
-    types.LOAD_STATUSES,
-    statuses => ({ statuses })
   ),
   setGeozoneGroup: createAction (
     types.SET_GEOZONE_GROUP,
