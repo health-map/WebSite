@@ -548,6 +548,12 @@
   border-bottom-right-radius: 0;
 }
 
+.mapboxgl-ctrl-traffic, .mapboxgl-ctrl-map{
+  background-image: url("http://icons.iconarchive.com/icons/thesquid.ink/free-flat-sample/1024/traffic-light-icon.png");
+  background-size: contain;
+  margin: 4px;
+}
+
 
 .incidence {
   display: -ms-flexbox;

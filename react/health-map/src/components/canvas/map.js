@@ -6,6 +6,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import MapboxTraffic from '@mapbox/mapbox-gl-traffic';
 import ReactMapboxGl, {
   Layer,
   Feature,
@@ -77,7 +78,10 @@ class MapComponent extends React.Component {
             zoom: map.getZoom()
           });
         }}
-        onStyleLoad={(map) => this.setState({ map })}>
+        onStyleLoad={(map) => {
+          this.setState({ map });
+          map.addControl(new MapboxTraffic());
+        }}>
         {
           false &&
           <div>
@@ -114,7 +118,11 @@ class MapComponent extends React.Component {
             selectedDeliveries={this.props.selectedDeliveries}
             selectedStatuses={this.props.selectedStatuses}/>
         }
-        <ZoomControl position="bottom-right"/>
+        <ZoomControl 
+          style={{
+            bottom: '60px'
+          }}
+          position="bottom-right"/>
       </MapboxMap>
     );
   }
