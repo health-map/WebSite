@@ -13,7 +13,10 @@ const initialState = Immutable.Map({
       id: 1,
       name: 'HOSPITAL LEON BECERRA' 
     }),
-    gender: Immutable.Map(),
+    gender: Immutable.Map({
+      id: 3,
+      name: 'TODOS'
+    }),
     startDate: '01-01-2018',
     endDate: '01-01-2019',
     season: undefined,

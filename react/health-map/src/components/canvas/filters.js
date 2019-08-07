@@ -173,12 +173,7 @@ class Filters extends React.Component {
     this.setState({
       isLoadingGender: true
     }, () => {
-      loadGenders(
-        {
-          apiUrl: self.props.apiUrl,
-          apiToken: self.props.apiToken
-        }
-      )
+      loadGenders()
         .then(genders => self.setState({
           genders,
           isLoadingGender: false

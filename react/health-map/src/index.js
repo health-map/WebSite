@@ -33,7 +33,15 @@ const store = createStore(
  */
 export const init = (data, selector) => {
   store.dispatch(generalActions.updateLocale(data.locale));
-  store.dispatch(generalActions.updateUserInformation(data.user));
+  console.log(data.user);
+  let userData = data.user;
+  if (!userData) {
+    userData = {
+      apiUrl: 'http://localhost:8020',
+      apiToken: 'YWJjZGU6YWJjZGU='
+    };
+  }
+  store.dispatch(generalActions.updateUserInformation(userData));
   window.translation = (text) => {
     return data.translations[text] ? data.translations[text] : text;
   };

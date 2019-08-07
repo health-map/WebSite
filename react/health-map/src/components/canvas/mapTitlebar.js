@@ -184,14 +184,14 @@ class MapTitlebar extends React.Component {
                 className={
                   (!selectedGender || !selectedGender.get('name') 
                   || selectedGender.get('name') === ''
-                  || selectedGender.get('name') === 'TODO') ?
+                  || selectedGender.get('name') === 'TODOS') ?
                     'shy-quick-action shy-quick-action-right shy-quick-action-active' :
                     'shy-quick-action shy-quick-action-right'
                 }
                 onClick={() => {
                   this.mutateAndApplyFilters('gender', Immutable.Map());
                 }}>
-                { 'TODO' }
+                { 'TODOS' }
               </span>
             </div>
           </div>

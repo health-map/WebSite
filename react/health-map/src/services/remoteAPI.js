@@ -17,10 +17,6 @@ export async function loadCities({ apiUrl, apiToken }) {
         {
           id: 1,
           name: 'Guayaquil'
-        },
-        {
-          id: 2,
-          name: 'Quito'
         }
       ]);
     }, 2000);
@@ -75,59 +71,65 @@ export async function loadDepartments({ apiUrl, apiToken }) {
 export async function loadAges({ apiUrl, apiToken }) {
   console.log(apiUrl);
   console.log(apiToken);
+  const url = new URL(apiUrl);
+  url.pathname = '/age';
 
-  var promise = new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          id: 1,
-          name: '0 - 12 meses' 
-        },
-        {
-          id: 2,
-          name: '1 - 2 años' 
-        },
-        {
-          id: 3,
-          name: '2 - 10 años'
-        },        
-        {
-          id: 4,
-          name: '10 - 18 años'
-        }
-      ]);
-    }, 2000);
+  let response;
+  try {
+    response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Basic ${apiToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
+  } catch (err) {
+    throw new Error('load_failure');
+  }
+  if (response.status === 401) {
+    throw new Error('client_error');
+    //window.location.replace('/logout');
+  }
+  if (response.status >= 400 && response.status < 500) {
+    throw new Error('client_error');
+  }
+  if (response.status >= 500 && response.status < 600) {
+    throw new Error('server_error');
+  }
+  const { data: { ranges } } = await response.json();
+
+  const ages = ranges.map((r) => {
+    return {
+      id: r.id,
+      name: r.description.concat(': ', r.start_age, ' - ', r.end_age, ' ', r.period_type),
+      description: r.description,
+      r_name: r.name
+    };
   });
-  let x = await promise;
-  console.log(x);
-  return x;
+
+  console.log('MIS EDADES', ranges);
+  console.log('MIS EDADES', ages);
+  // array of id and name
+  return ages;
+
 }
 
-export async function loadGenders({ apiUrl, apiToken }) {
-  console.log(apiUrl);
-  console.log(apiToken);
-
-  var promise = new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          id: 1,
-          name: 'M' 
-        },
-        {
-          id: 2,
-          name: 'F' 
-        },
-        {
-          id: 3,
-          name: 'TODOS'
-        }
-      ]);
-    }, 2000);
-  });
-  let x = await promise;
-  console.log(x);
-  return x;
+export async function loadGenders() {
+  const gendersOptions = [
+    {
+      id: 1,
+      name: 'M' 
+    },
+    {
+      id: 2,
+      name: 'F' 
+    },
+    {
+      id: 3,
+      name: 'TODOS'
+    }
+  ];
+  return gendersOptions;
 }
 
 export async function loadDiseases(
