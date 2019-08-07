@@ -7,7 +7,9 @@ import Loading from './../shared/loading';
 import Error from './../shared/error';
 
 import { loadDiseases } from './../../services/remoteAPI';
-import { actions } from './../../actions/general';
+import { actions } from './../../actions/incidences';
+import { thunks } from '../../actions/thunks/incidences';
+const { loadIncidences: loadIncidencesRequest } = thunks;
 
 import './diseaseTab.css';
 
@@ -20,7 +22,7 @@ class DiseaseRow extends React.Component {
   }
   render() {
     const {
-      disease
+      disease, type
     } = this.props;
     console.log(this.props.selected);
     return (
@@ -32,23 +34,29 @@ class DiseaseRow extends React.Component {
           }
         }}>
         <div className="hm-disease-row-name-container">
-          <span className="hm-disease-row-name">{disease.name}</span>
+          <span className="hm-disease-row-name">
+            {
+              this.props.isPreSelected ? 
+                'ESTAS VIENDO: ' + disease.name : 
+                disease.name
+            }
+          </span>
           {
-            disease.type === 'agrupacion' &&
+            type === 'aggregation' &&
             <span className="hm-disease-row-agrpnumber">
               <img
                 className="hm-number-icon"
                 src="https://cdn.shippify.co/icons/icon-notes-holder-gray-mini.svg"
                 alt=""/>
               {
-                `7 ${'enfermedades'}`
+                `${disease.numberofdiseases} ${'enfermedades'}`
               }
             </span>
           }
         </div>
         <div className="hm-disease-row-cod">
           { 
-            disease.cie10
+            type === 'aggregation' ? disease.description : disease.cie10_code
           }
         </div>
         <div className="hm-disease-row-checkbox">
@@ -78,10 +86,16 @@ class DiseaseTab extends React.Component {
     errorLoadingDiseases: false,
     selectedDisease: undefined,
     diseaseQuery: '',
-    diseasesOptions: []
+    diseasesOptions: [],
+    aggregationOptions: [],
+    preSelectedDisease: undefined
   }
   componentDidMount() {
-
+    const filters = this.props.incidencesFilters;
+    this.setState({
+      preSelectedDisease: filters.get('disease') ? 
+        filters.get('disease').toJS() : undefined
+    });
   }
   componentDidUpdate() {
 
@@ -91,11 +105,12 @@ class DiseaseTab extends React.Component {
       selectedDisease
     });
   }
-  isDiseaseSelected(diseaseId) {
+  isDiseaseSelected(disease) {
     if (!this.state.selectedDisease) {
       return false;
     }
-    return diseaseId == this.state.selectedDisease.id;
+    return disease.id === this.state.selectedDisease.id && 
+      disease.name === this.state.selectedDisease.name;
   }
   searchDiseases(q) {
     const self = this;
@@ -119,40 +134,42 @@ class DiseaseTab extends React.Component {
           apiToken: self.props.apiToken
         }
       )
-        .then((diseases) => {
-          console.log('diseases', diseases);
+        .then((data) => {
           self.setState({
             isLoadingDiseases: false,
-            diseasesOptions: diseases
+            diseasesOptions: data.diseases,
+            aggregationOptions: data.aggregation
           });
         })
         .catch((e) => {
           console.log('error', e);
           self.setState({
             errorLoadingDiseases: true,
-            diseasesOptions: []
+            isLoadingDiseases: false,
+            diseasesOptions: [],
+            aggregationOptions: []
           });
         }); 
     });
   }
   visualizeDiseases() {
-    this.props.setDisease(this.state.selectedDisease);
+    this.props.mutateFilters('disease', this.state.selectedDisease);
+    this.props.loadIncidences(this.props.incidencesFilters.toJS());
+    this.setState({
+      preSelectedDisease: this.state.selectedDisease
+    });
   }
   render() {
     const self = this;
-    const {
-      preSelectedDisease
-    } = this.props;
     return (
       <div className="hm-disease-tab-container">
         {
-          !!preSelectedDisease && 
+          !!this.state.preSelectedDisease && 
           <div className="hm-disease-preselected">
-            { 'La siguiente enfermedad esta siendo mostrada actualmente: ' }
             <DiseaseRow
-              disease={preSelectedDisease}
+              disease={this.state.preSelectedDisease}
               isPreSelected={true}
-              selected={self.isDiseaseSelected(disease.id)}
+              selected={self.isDiseaseSelected(this.state.preSelectedDisease)}
               selectDisease={self.selectDisease.bind(self)} />
           </div>
         }
@@ -175,13 +192,14 @@ class DiseaseTab extends React.Component {
             !!this.state.diseasesOptions.length && 
             <div className="hm-disease-search-results">
               {
-                `${this.state.diseasesOptions.length} resultados de la búsqueda`
+                `${this.state.diseasesOptions.length + this.state.aggregationOptions.length} resultados de la búsqueda`
               }
             </div>
           }
         </div>
         {
           !this.state.diseasesOptions.length && 
+          !this.state.aggregationOptions.length && 
           !this.state.isLoadingDiseases &&
           !!this.state.diseaseQuery.length &&
           <div className="hm-disease-no-results">
@@ -190,6 +208,7 @@ class DiseaseTab extends React.Component {
         }
         {
           !this.state.diseasesOptions.length && 
+          !this.state.aggregationOptions.length && 
           !this.state.isLoadingDiseases &&
           !this.state.diseaseQuery.length &&
           <div className="hm-disease-no-results">
@@ -197,7 +216,7 @@ class DiseaseTab extends React.Component {
           </div>
         }
         {
-          !!this.state.diseasesOptions.length && 
+          !!this.state.aggregationOptions.length && 
           <div className="hm-disease-results">
             <div className="hm-disease-results-agrupaciones">
               <span className="hm-disease-result-groupname"> 
@@ -214,14 +233,14 @@ class DiseaseTab extends React.Component {
                 </div>
               </div>
               {
-                this.state.diseasesOptions
-                  .filter(disease => disease.type === 'agrupacion')
+                this.state.aggregationOptions
                   .map((disease, idx) => {
                     return <DiseaseRow
                       key={idx}
                       disease={disease}
-                      selected={self.isDiseaseSelected(disease.id)}
+                      selected={self.isDiseaseSelected(disease)}
                       isPreSelected={false}
+                      type="aggregation"
                       selectDisease={self.selectDisease.bind(self)} />;
                   })
               }
@@ -242,12 +261,12 @@ class DiseaseTab extends React.Component {
               </div>
               {
                 this.state.diseasesOptions
-                  .filter(disease => disease.type === 'disease')
                   .map((disease, idx) => {
                     return <DiseaseRow
                       key={idx}
                       disease={disease}
-                      selected={self.isDiseaseSelected(disease.id)}
+                      type="disease"
+                      selected={self.isDiseaseSelected(disease)}
                       isPreSelected={false}
                       selectDisease={self.selectDisease.bind(self)} />;
                   })
@@ -287,12 +306,15 @@ class DiseaseTab extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    preSelectedDisease: state.getIn(['general', 'selectedDisease'])
+    incidencesFilters: state.getIn(['incidences', 'filters']),
+    apiUrl: state.getIn(['general', 'user', 'apiUrl']),
+    apiToken: state.getIn(['general', 'user', 'apiToken'])
   };
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  setDisease: actions.setDisease
+  mutateFilters: actions.mutateFilters,
+  loadIncidences: loadIncidencesRequest
 }, dispatch);
 
 

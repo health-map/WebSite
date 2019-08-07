@@ -148,49 +148,36 @@ export async function loadDiseases(
   },
   { apiUrl, apiToken }
 ) {
-  console.log(q);
-  console.log(apiUrl);
-  console.log(apiToken);
 
-  var promise = new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          id: 1,
-          name: 'Enfermedades del sistema Digestivo',
-          cie10: 'A09',
-          type: 'disease'
-        },
-        {
-          id: 2,
-          name: 'Enfermedades del sistema Nervioso',
-          cie10: 'X',
-          type: 'agrupacion'
-        },
-        {
-          id: 3,
-          name: 'Enfermedades del sistema Respiratorio',
-          cie10: 'XX',
-          type: 'agrupacion'
-        },
-        {
-          id: 4,
-          name: 'Enfermedades del Ojo',
-          cie10: 'XXI',
-          type: 'agrupacion'
-        },
-        {
-          id: 5,
-          name: 'Enfermedades de la vista',
-          cie10: 'J199',
-          type: 'disease'
-        }
-      ]);
-    }, 2000);
-  });
-  let x = await promise;
-  console.log(x);
-  return x;
+  const url = new URL(apiUrl);
+  const searchParams = new URLSearchParams();
+  url.pathname = '/diseases';
+  searchParams.append('q', q);
+  url.search = searchParams.toString();
+  let response;
+  try {
+    response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Basic ${apiToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
+  } catch (err) {
+    throw new Error('load_failure');
+  }
+  if (response.status === 401) {
+    window.location.replace('/logout');
+  }
+  if (response.status >= 400 && response.status < 500) {
+    throw new Error('client_error');
+  }
+  if (response.status >= 500 && response.status < 600) {
+    throw new Error('server_error');
+  }
+  const { data } = await response.json();
+
+  return data;
 }
 
 

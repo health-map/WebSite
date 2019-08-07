@@ -26,6 +26,10 @@
   background-color: #ccc; 
 }
 
+.hm-disease-row-preselected:hover{
+  background-color: #ccc; 
+}
+
 
 .hm-disease-row-name{
   font-size: 14px;
