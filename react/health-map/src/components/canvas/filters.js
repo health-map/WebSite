@@ -122,12 +122,13 @@ class Filters extends React.Component {
     this.setState({
       isLoadingInstitution: true
     }, () => {
-      loadInstitutions(
-        {
-          apiUrl: self.props.apiUrl,
-          apiToken: self.props.apiToken
-        }
-      )
+      loadInstitutions({
+        cityId: self.state.selectedCity.id
+      },
+      {
+        apiUrl: self.props.apiUrl,
+        apiToken: self.props.apiToken
+      })
         .then(institutions => self.setState({
           institutions,
           isLoadingInstitution: false
@@ -156,11 +157,13 @@ class Filters extends React.Component {
     this.setState({
       isLoadingDepartment: true
     }, () => {
-      loadDepartments(
-        {
-          apiUrl: self.props.apiUrl,
-          apiToken: self.props.apiToken
-        }
+      loadDepartments({
+        institutionId: this.state.selectedInstitution.id
+      },
+      {
+        apiUrl: self.props.apiUrl,
+        apiToken: self.props.apiToken
+      }
       )
         .then(departments => self.setState({
           departments,

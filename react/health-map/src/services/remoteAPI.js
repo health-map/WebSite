@@ -37,10 +37,12 @@ export async function loadCities({ apiUrl, apiToken }) {
   return cities;
 }
 
-export async function loadInstitutions({ apiUrl, apiToken }) {
+export async function loadInstitutions({ cityId }, { apiUrl, apiToken }) {
   const url = new URL(apiUrl);
   url.pathname = '/institutions';
-
+  const searchParams = new URLSearchParams();
+  searchParams.append('cityId', cityId);
+  url.search = searchParams.toString();
   let response;
   try {
     response = await fetch(url, {
@@ -72,23 +74,42 @@ export async function loadInstitutions({ apiUrl, apiToken }) {
   return institutions;
 }
 
-export async function loadDepartments({ apiUrl, apiToken }) {
-  console.log(apiUrl);
-  console.log(apiToken);
+export async function loadDepartments( { institutionId },
+  { apiUrl, apiToken }) {
+  const url = new URL(apiUrl);
+  url.pathname = '/departments';
+  const searchParams = new URLSearchParams();
+  searchParams.append('institutionId', institutionId);
+  url.search = searchParams.toString();
+  let response;
+  try {
+    response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Basic ${apiToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
+  } catch (err) {
+    throw new Error('load_failure');
+  }
+  if (response.status === 401) {
+    window.location.replace('/logout');
+  }
+  if (response.status >= 400 && response.status < 500) {
+    throw new Error('client_error');
+  }
+  if (response.status >= 500 && response.status < 600) {
+    throw new Error('server_error');
+  }
+  let { data: { departments } } = await response.json();
 
-  var promise = new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          id: 1,
-          name: 'GENERAL'
-        }
-      ]);
-    }, 2000);
+  departments.push({
+    id: 99,
+    name: 'TODOS'
   });
-  let x = await promise;
-  console.log(x);
-  return x;
+
+  return departments;
 }
 
 export async function loadAges({ apiUrl, apiToken }) {

@@ -64,11 +64,13 @@ class MapTitlebar extends React.Component {
     this.setState({
       isLoadingInstitution: true
     }, () => {
-      loadInstitutions(
-        {
-          apiUrl: self.props.apiUrl,
-          apiToken: self.props.apiToken
-        }
+      loadInstitutions({
+        cityId: self.props.incidencesFilters.get('city').toJS().id
+      },
+      {
+        apiUrl: self.props.apiUrl,
+        apiToken: self.props.apiToken
+      }
       )
         .then(institutions => self.setState({
           institutions,
