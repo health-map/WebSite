@@ -1,11 +1,11 @@
 
 import React from 'react';
+import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import Loading from './../shared/loading';
 import Error from './../shared/error';
-
 import { loadDiseases } from './../../services/remoteAPI';
 import { actions } from './../../actions/incidences';
 import { thunks } from '../../actions/thunks/incidences';
@@ -24,7 +24,6 @@ class DiseaseRow extends React.Component {
     const {
       disease, type
     } = this.props;
-    console.log(this.props.selected);
     return (
       <div 
         className={`hm-disease-row ${this.props.isPreSelected ? 'hm-disease-row-preselected' : ''}`}
@@ -153,7 +152,7 @@ class DiseaseTab extends React.Component {
     });
   }
   visualizeDiseases() {
-    this.props.mutateFilters('disease', this.state.selectedDisease);
+    this.props.mutateFilters('disease', Immutable.Map(this.state.selectedDisease));
     this.props.loadIncidences(this.props.incidencesFilters.toJS());
     this.setState({
       preSelectedDisease: this.state.selectedDisease

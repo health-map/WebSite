@@ -187,43 +187,36 @@ export async function loadGeozonesGroups(
   },
   { apiUrl, apiToken }
 ) {
-  console.log(q);
-  console.log(apiUrl);
-  console.log(apiToken);
 
-  var promise = new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          id: 1,
-          name: 'Zona con alto nivel de contaminacion',
-          descripcion: 'Zonas con alto nivel de contaminacion dado por el smog del trafico vehicular. Monitorear: J45, A09',
-          geozones: [1,2,3,4,5]
-        },
-        {
-          id: 2,
-          name: 'Zona de Riesgo por botaderos de Basura',
-          descripcion: 'Zonas con muchos botaderos de basura cerca de zonas urbanas',
-          geozones: [1,2,3]
-        },
-        {
-          id: 3,
-          name: 'Zona de Altura',
-          descripcion: 'Zonas mas altas que el resto de la ciudad',
-          geozones: [1,2]
-        },
-        {
-          id: 4,
-          name: 'Zona de Riesgo de Gripe en Invierno',
-          descripcion: '',
-          geozones: [1,2,3,4,5,8,9]
-        }
-      ]);
-    }, 2000);
-  });
-  let x = await promise;
-  console.log(x);
-  return x;
+  const url = new URL(apiUrl);
+  const searchParams = new URLSearchParams();
+  url.pathname = '/geogroups';
+  searchParams.append('q', q);
+  url.search = searchParams.toString();
+  let response;
+  try {
+    response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Basic ${apiToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
+  } catch (err) {
+    throw new Error('load_failure');
+  }
+  if (response.status === 401) {
+    window.location.replace('/logout');
+  }
+  if (response.status >= 400 && response.status < 500) {
+    throw new Error('client_error');
+  }
+  if (response.status >= 500 && response.status < 600) {
+    throw new Error('server_error');
+  }
+  const { data: { geogroups } } = await response.json();
+
+  return geogroups;
 }
 
 

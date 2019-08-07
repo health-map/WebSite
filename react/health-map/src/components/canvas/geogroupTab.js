@@ -23,7 +23,6 @@ class GeogroupRow extends React.Component {
     const {
       geozone
     } = this.props;
-    console.log(this.props.selected);
     return (
       <div 
         className="hm-disease-row"
@@ -40,13 +39,13 @@ class GeogroupRow extends React.Component {
               src="https://cdn.shippify.co/icons/icon-notes-holder-gray-mini.svg"
               alt=""/>
             {
-              `${geozone.geozones.length} zonas`
+              `${geozone.polygons.length} zonas`
             }
           </span>
         </div>
         <div className="hm-geozone-row-cod">
           { 
-            geozone.descripcion
+            geozone.description
           }
         </div>
         <div className="hm-geozone-row-checkbox">
@@ -138,9 +137,6 @@ class GeogroupTab extends React.Component {
     this.setState({
       geozonesQuery: q
     });
-    if (q && q.length < 3) {
-      return;
-    }
     this.setState({
       isLoadingGeozones: true,
       geozonesOptions: [],
@@ -155,17 +151,17 @@ class GeogroupTab extends React.Component {
           apiToken: self.props.apiToken
         }
       )
-        .then((diseases) => {
-          console.log('diseases', diseases);
+        .then((geogroups) => {
           self.setState({
             isLoadingGeozones: false,
-            geozonesOptions: diseases
+            geozonesOptions: geogroups
           });
         })
         .catch((e) => {
           console.log('error', e);
           self.setState({
             errorLoadingDiseases: true,
+            isLoadingGeozones: false,
             geozonesOptions: []
           });
         }); 
@@ -396,7 +392,9 @@ const mapStateToProps = (state) => {
   return {
     selectedGeozoneGroup: state.getIn(['general', 'selectedGeozoneGroup']),
     selectedGeozonesForGroup: state.getIn(['general', 'selectedGeozonesForGroup']),
-    isGeozoneSelectionModeOn: state.getIn(['general', 'isGeozoneSelectionModeOn'])
+    isGeozoneSelectionModeOn: state.getIn(['general', 'isGeozoneSelectionModeOn']),
+    apiUrl: state.getIn(['general', 'user', 'apiUrl']),
+    apiToken: state.getIn(['general', 'user', 'apiToken'])
   };
 };
 
