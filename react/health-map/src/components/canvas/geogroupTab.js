@@ -6,7 +6,10 @@ import { bindActionCreators } from 'redux';
 import Loading from './../shared/loading';
 import Error from './../shared/error';
 
-import { loadGeozonesGroups } from './../../services/remoteAPI';
+import { 
+  loadGeozonesGroups,
+  createGeozoneGroup
+} from './../../services/remoteAPI';
 import { actions } from './../../actions/general';
 
 
@@ -72,7 +75,7 @@ class GeogroupRow extends React.Component {
 class GeogroupTab extends React.Component {
   state = {
     isLoadingGeozones: false,
-    errorLoadingDiseases: false,
+    errorLoadingGeozones: false,
     selectedGeozone: undefined,
     geozonesQuery: '',
     geozonesOptions: [],
@@ -87,7 +90,9 @@ class GeogroupTab extends React.Component {
 
   }
   toggleCreateGeozoneGroup() {
-    this.props.toggleGeozoneSelectionMode(!this.props.isGeozoneSelectionModeOn);
+    this.props.toggleGeozoneSelectionMode(
+      !this.props.isGeozoneSelectionModeOn
+    );
   }
   handleNewGeogroupDescriptionChange = (newGeogroupDescription) => {
     return this.setState({
@@ -139,6 +144,7 @@ class GeogroupTab extends React.Component {
     });
     this.setState({
       isLoadingGeozones: true,
+      errorLoadingGeozones: false,
       geozonesOptions: [],
       selectedGeozone: undefined
     }, () => {
@@ -160,7 +166,7 @@ class GeogroupTab extends React.Component {
         .catch((e) => {
           console.log('error', e);
           self.setState({
-            errorLoadingDiseases: true,
+            errorLoadingGeozones: true,
             isLoadingGeozones: false,
             geozonesOptions: []
           });
@@ -168,7 +174,42 @@ class GeogroupTab extends React.Component {
     });
   }
   createGeozoneGroup() {
-    
+    const self = this;
+    if (!this.validateNewGeogroupName() 
+      || !this.props.selectedGeozonesForGroup.length) {
+      return;
+    }
+    this.setState({
+      isLoadingGeozones: true,
+      geozonesOptions: [],
+      selectedGeozoneGroup: undefined
+    }, () => {
+      createGeozoneGroup({
+        name: self.state.newGeogroupName, 
+        description: self.state.newGeogroupDescription, 
+        geofences: self.props.selectedGeozonesForGroup.map(g => g.id)
+      }, {
+        apiUrl: self.props.apiUrl,
+        apiToken: self.props.apiToken
+      })
+        .then(() => {
+          self.toggleCreateGeozoneGroup();
+          self.searchGeozones('');
+        })
+        .catch((e) => {
+          console.log(e);
+          self.toggleCreateGeozoneGroup();
+          self.setState({
+            errorLoadingGeozones: true,
+            isLoadingGeozones: false,
+            geozonesOptions: []
+          }, () => {
+            setTimeout(() => {
+              self.searchGeozones('');
+            }, 2000);
+          });
+        });
+    });
   }
   render() {
     const self = this;
@@ -234,7 +275,7 @@ class GeogroupTab extends React.Component {
               <div>
                 <div className="shy-form-field-label geozone-new-form-field">
                   <div>
-                    { 'Ingresa una descripcion' }
+                    { 'Ingresa una descripción para la zona de interés' }
                   </div>
                 </div>
                 <div className="shy-form-field">
@@ -267,13 +308,6 @@ class GeogroupTab extends React.Component {
               {
                 !!this.props.selectedGeozonesForGroup.length &&
                 <div>
-                  <div
-                    key={idx}
-                    className="hm-geozone-new-geozone">
-                    {
-                      'Nombre de Sector'
-                    }
-                  </div>;
                   {
                     this.props.selectedGeozonesForGroup
                       .map((geozone, idx) => {
@@ -367,7 +401,7 @@ class GeogroupTab extends React.Component {
               <Loading />
             }
             {
-              this.state.errorLoadingDiseases && 
+              this.state.errorLoadingGeozones && 
               <Error text={
                 'Algo salió mal. Por favor, intentalo nuevamente.'
               }/>
@@ -391,7 +425,10 @@ class GeogroupTab extends React.Component {
 const mapStateToProps = (state) => {
   return {
     selectedGeozoneGroup: state.getIn(['general', 'selectedGeozoneGroup']),
-    selectedGeozonesForGroup: state.getIn(['general', 'selectedGeozonesForGroup']),
+    selectedGeozonesForGroup: state.getIn(['general', 'selectedGeozonesForGroup']).length ? 
+      state.getIn(['general', 'selectedGeozonesForGroup']) : [{ id: 30,
+        name: 'Guasmo Sur' },{ id: 48,
+        name: 'Alborada' }],
     isGeozoneSelectionModeOn: state.getIn(['general', 'isGeozoneSelectionModeOn']),
     apiUrl: state.getIn(['general', 'user', 'apiUrl']),
     apiToken: state.getIn(['general', 'user', 'apiToken'])

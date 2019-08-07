@@ -219,6 +219,49 @@ export async function loadGeozonesGroups(
   return geogroups;
 }
 
+export async function createGeozoneGroup(
+  {
+    name, description, geofences
+  },
+  { apiUrl, apiToken }
+) {
+
+  const url = new URL(apiUrl);
+  url.pathname = '/geogroups';
+  let response;
+
+  try {
+    response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Authorization: `Basic ${apiToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        geogroup: {
+          name,
+          description,
+          geofences
+        }
+      })
+    });
+  } catch (error) {
+    console.log(error);
+    throw new Error('load_failure');
+  }
+  if (response.status === 401) {
+    window.location.replace('/logout');
+  }
+  if (response.status >= 400 && response.status < 500) {
+    throw new Error('client_error');
+  }
+  if (response.status >= 500 && response.status < 600) {
+    throw new Error('server_error');
+  }
+  const { message } = await response.json();
+  return message;
+
+}
 
 /**
  *
