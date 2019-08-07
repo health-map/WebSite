@@ -27,26 +27,38 @@ export async function loadCities({ apiUrl, apiToken }) {
 }
 
 export async function loadInstitutions({ apiUrl, apiToken }) {
-  console.log(apiUrl);
-  console.log(apiToken);
+  const url = new URL(apiUrl);
+  url.pathname = '/institutions';
 
-  var promise = new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          id: 1,
-          name: 'Hospital Leon Becerra'
-        },
-        {
-          id: 2,
-          name: 'Gil Gilbert'
-        }
-      ]);
-    }, 2000);
+  let response;
+  try {
+    response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Basic ${apiToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
+  } catch (err) {
+    throw new Error('load_failure');
+  }
+  if (response.status === 401) {
+    window.location.replace('/logout');
+  }
+  if (response.status >= 400 && response.status < 500) {
+    throw new Error('client_error');
+  }
+  if (response.status >= 500 && response.status < 600) {
+    throw new Error('server_error');
+  }
+  let { data: { institutions } } = await response.json();
+
+  institutions.push({
+    id: 99,
+    name: 'TODAS'
   });
-  let x = await promise;
-  console.log(x);
-  return x;
+
+  return institutions;
 }
 
 export async function loadDepartments({ apiUrl, apiToken }) {
@@ -69,8 +81,6 @@ export async function loadDepartments({ apiUrl, apiToken }) {
 }
 
 export async function loadAges({ apiUrl, apiToken }) {
-  console.log(apiUrl);
-  console.log(apiToken);
   const url = new URL(apiUrl);
   url.pathname = '/age';
 
@@ -87,8 +97,7 @@ export async function loadAges({ apiUrl, apiToken }) {
     throw new Error('load_failure');
   }
   if (response.status === 401) {
-    throw new Error('client_error');
-    //window.location.replace('/logout');
+    window.location.replace('/logout');
   }
   if (response.status >= 400 && response.status < 500) {
     throw new Error('client_error');
@@ -98,7 +107,7 @@ export async function loadAges({ apiUrl, apiToken }) {
   }
   const { data: { ranges } } = await response.json();
 
-  const ages = ranges.map((r) => {
+  let ages = ranges.map((r) => {
     return {
       id: r.id,
       name: r.description.concat(': ', r.start_age, ' - ', r.end_age, ' ', r.period_type),
@@ -107,11 +116,12 @@ export async function loadAges({ apiUrl, apiToken }) {
     };
   });
 
-  console.log('MIS EDADES', ranges);
-  console.log('MIS EDADES', ages);
-  // array of id and name
-  return ages;
+  ages.push({
+    id: 99,
+    name: 'TODOS'
+  });
 
+  return ages;
 }
 
 export async function loadGenders() {

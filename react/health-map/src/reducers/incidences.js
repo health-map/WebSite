@@ -28,7 +28,7 @@ const initialState = Immutable.Map({
     geogroup: undefined,
     age: Immutable.Map({
       id: 1,
-      name: 'TODAS'
+      name: 'TODOS'
     }),
     type: 'absolute',
     department: Immutable.Map({
