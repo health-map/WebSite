@@ -8,22 +8,33 @@
 
 
 export async function loadCities({ apiUrl, apiToken }) {
-  console.log(apiUrl);
-  console.log(apiToken);
+  const url = new URL(apiUrl);
+  url.pathname = '/cities';
 
-  var promise = new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          id: 1,
-          name: 'Guayaquil'
-        }
-      ]);
-    }, 2000);
-  });
-  let x = await promise;
-  console.log(x);
-  return x;
+  let response;
+  try {
+    response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Basic ${apiToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
+  } catch (err) {
+    throw new Error('load_failure');
+  }
+  if (response.status === 401) {
+    window.location.replace('/logout');
+  }
+  if (response.status >= 400 && response.status < 500) {
+    throw new Error('client_error');
+  }
+  if (response.status >= 500 && response.status < 600) {
+    throw new Error('server_error');
+  }
+  let { data: { cities } } = await response.json();
+
+  return cities;
 }
 
 export async function loadInstitutions({ apiUrl, apiToken }) {
