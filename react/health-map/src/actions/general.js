@@ -7,10 +7,6 @@ import { createAction } from 'redux-actions';
 export const types = {
   UPDATE_LOCALE: 'GENERAL/UPDATE_LOCALE',
   UPDATE_USER_INFORMATION: 'GENERAL/UPDATE_USER_INFORMATION',
-  LOAD_INCIDENCES_BEGIN: 'GENERAL/LOAD_INCIDENCES_BEGIN',
-  LOAD_INCIDENCES_SUCCESS: 'GENERAL/LOAD_INCIDENCES_SUCCESS',
-  LOAD_INCIDENCES_FAILURE: 'GENERAL/LOAD_INCIDENCES_FAILURE',
-  LOAD_INCIDENCES_END: 'GENERAL/LOAD_INCIDENCES_END',
   SHOW_MESSAGE: 'GENERAL/SHOW_MESSAGE',
   SET_GEOZONE_GROUP: 'GENERAL/SET_GEOZONE_GROUP',
   SET_DISEASE: 'GENERAL/SET_DISEASE',
@@ -54,14 +50,5 @@ export const actions = {
   setDisease: createAction(
     types.SET_DISEASE,
     disease => ({ disease })
-  ),
-  loadIncidences: {
-    begin: createAction(types.LOAD_INCIDENCES_BEGIN),
-    success: createAction(
-      types.LOAD_INCIDENCES_SUCCESS,
-      incidences => ({ incidences })
-    ),
-    failure: createAction(types.LOAD_INCIDENCES_FAILURE),
-    end: createAction(types.LOAD_INCIDENCES_END)
-  }
+  )
 };

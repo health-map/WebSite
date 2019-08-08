@@ -1,8 +1,50 @@
 
+import Immutable from 'immutable';
+import MAP_STYLE from './styles/map-style-basic-v8.json';
+
 export const Mapbox = {
   TOKEN: 'pk.eyJ1Ijoic2hpcHBpZnkiLCJhIjoiZjQ2ZGI3Yjk5MTA1YjJkZTEyNzUwYmViMDNiMWRmMDkifQ.i8JV0AnyqRmfWSfaqKSGfQ',
-  STYLE: 'mapbox://styles/mapbox/traffic-day-v2'
+  STYLE: 'mapbox://styles/mapbox/traffic-day-v1?optimize=true'
 };
+
+export const defaultMapStyle = Immutable.fromJS(MAP_STYLE);
+
+export const dataLayer = Immutable.fromJS({
+  id: 'data',
+  source: 'incomeByState',
+  type: 'fill',
+  interactive: true,
+  paint: {
+    'fill-color': {
+      property: 'percentile',
+      stops: [
+        [0, '#3288bd'],
+        [1, '#66c2a5'],
+        [2, '#abdda4'],
+        [3, '#e6f598'],
+        [4, '#ffffbf'],
+        [5, '#fee08b'],
+        [6, '#fdae61'],
+        [7, '#f46d43'],
+        [8, '#d53e4f']
+      ]
+    },
+    'fill-opacity': 0.5
+  }
+});
+
+
+// stops: [
+//   [0, '#A53400'],
+//   [1, '#C1520D'],
+//   [2, '#D16C00'],
+//   [3, '#D68904'],
+//   [4, '#E5AD20'],
+//   [5, '#F9D16B'],
+//   [6, '#FFDD89'],
+//   [7, '#F7E3AF'],
+//   [8, '#EFE1BD'],
+//   [9, '#EFECE6']
 
 export const UserRole = {
   VIEWER: 0,

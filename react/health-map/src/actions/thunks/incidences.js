@@ -13,6 +13,7 @@ export const thunks = {
         });
         dispatch(actions.loadIncidences.success(incidences));
       } catch (err) {
+        console.log(err);
         dispatch(actions.loadIncidences.failure());
       }
       dispatch(actions.loadIncidences.end());

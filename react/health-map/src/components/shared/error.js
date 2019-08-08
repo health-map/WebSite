@@ -6,15 +6,18 @@
 
 
 import React from 'react';
+import { 
+  FaExclamationCircle
+} from 'react-icons/fa';
 
 
 const Error = ({ text, onRetry, enableRefreshButton }) => {
   return (
     <div className="shy-error-container">
       <div className="shy-error">
-        <img
-          src="https://cdn.shippify.co/images/img-no-results.svg"
-          alt=""/>
+        <FaExclamationCircle
+          size={92}
+          color="#0092E1"/>
         <span>
           { window.translation(text) }
         </span>
@@ -23,7 +26,7 @@ const Error = ({ text, onRetry, enableRefreshButton }) => {
           <button
             className="shy-btn shy-btn-primary margin-top-16"
             onClick={onRetry}>
-            { window.translation('RETRY') }
+            { 'REINTENTAR' }
           </button>
         }
         {
@@ -33,7 +36,7 @@ const Error = ({ text, onRetry, enableRefreshButton }) => {
             onClick={() => location.reload() }
             style={{ width: 'auto' }}>
             {
-              window.translation('RELOAD')
+              'RECARGAR'
             }
           </button>
         }

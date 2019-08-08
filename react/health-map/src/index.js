@@ -33,7 +33,6 @@ const store = createStore(
  */
 export const init = (data, selector) => {
   store.dispatch(generalActions.updateLocale(data.locale));
-  console.log(data.user);
   let userData = data.user;
   if (!userData) {
     userData = {

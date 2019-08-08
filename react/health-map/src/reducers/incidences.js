@@ -4,7 +4,10 @@ import Immutable from 'immutable';
 import { types } from '../actions/incidences';
 
 const initialState = Immutable.Map({
-  data: Immutable.List(),
+  data: Immutable.Map({
+    init: true,
+    features: []
+  }),
   isLoadingIncidences: false,
   loadIncidencesError: '',
   selectedGeozone: undefined,
@@ -53,16 +56,12 @@ const loadIncidencesBegin = (state) => {
  *
  */
 const loadIncidencesSuccess = (state, action) => {
-  let incidences = Immutable.fromJS(action.payload.incidences);
-  for (let i=0; i<incidences.size; i++) {
-    const incidence = incidences.get(i)
-      .set('isSelected', false)
-      .set('isVisible', true);
-    incidences = incidences.set(i, incidence);
-  }
+  console.log('hey', action.payload.incidences);
+  let incidencesGeojson = Immutable.fromJS(action.payload.incidences.geojson);
+
   return state
     .set('loadIncidencesError', '')
-    .set('data', incidences);
+    .set('data', incidencesGeojson);
 };
 
 /**
@@ -89,16 +88,22 @@ const loadIncidencesEnd = (state) => {
 const toggleIncidenceVisibility = (state, action) => {
   const incidenceId = action.payload.incidenceId;
   const isVisible = action.payload.isVisible;
-  const index = state.get('data').findIndex((incidence) => {
-    return incidence.get('id') === incidenceId;
+  const index = state.getIn(['data', 'features']).findIndex((incidence) => {
+    return incidence.getIn(['properties', 'id']) === incidenceId;
   });
   if (index >= 0) {
     const incidences = state.get('data');
-    const incidence = incidences.get(index);
-    return state.set('data', incidences.set(
-      index,
-      incidence.set('isVisible', isVisible)
-    ));
+    const incidence = incidences.getIn(['features', index]);
+    return state.set(
+      'data', 
+      incidences.setIn(
+        ['features', index],
+        incidence.setIn(
+          ['properties', 'isVisible'], 
+          isVisible
+        )
+      )
+    );
   }
   return state;
 };
@@ -154,7 +159,6 @@ const mutateManyFilters = (state, action) => {
   const mutations = action.payload.mutations;
   const mutatedKeys = Object.keys(mutations);
   mutatedKeys.map((key) => {
-    console.log('filtros mutados', key, mutations[key]);
     state = state.setIn(['filters', key], mutations[key]);
   });
   return state;

@@ -37,7 +37,7 @@ class ErrorBoundaryDialog extends React.Component {
                     className="shy-error-icon"
                     src="https://cdn.shippify.co/icons/icon-error-white.svg"
                     alt=""/>
-                  { window.translation('Oh no!') }
+                  { 'Oh no!' }
                 </div>
                 <img
                   className="shy-dialog-close"
@@ -48,7 +48,7 @@ class ErrorBoundaryDialog extends React.Component {
               <div className="shy-dialog-body shy-dialog-body-sm">
                 <p className="shy-dialog-body-text-detail">
                   {
-                    window.translation('Something went wrong. Please try again')
+                    'Algo salió mal. Por favor, inténtalo de nuevo'
                   }
                 </p>
                 <div className="shy-dialog-body-buttons">

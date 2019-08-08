@@ -34,9 +34,6 @@ class CanvasContainer extends React.Component {
   componentDidMount() {
     
   }
-  componentDidUpdate(prevProps) {
-    console.log(prevProps);
-  }
   applyFilters = (filters) => {
     localStorage.setItem('filter_rm', JSON.stringify(filters));
     localStorage.setItem('filter_rm_type', 'custom');

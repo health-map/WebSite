@@ -7,7 +7,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { ChromePicker } from 'react-color';
 
 import { actions } from '../../actions/incidences';
 
@@ -18,10 +17,7 @@ import './incidence.css';
  */
 class Incidence extends React.Component {
   state = {
-    loadedincidence: false,
-    isColorSketchVisible: false,
-    colorSketchX: 0,
-    colorSketchY: 0
+    loadedincidence: false
   }
   componentDidUpdate() {
 
@@ -29,25 +25,15 @@ class Incidence extends React.Component {
   componentDidMount() {
 
   }
-  toggleColorSketchVisibility = (e) => {
-    this.setState({
-      isColorSketchVisible: !this.state.isColorSketchVisible,
-      colorSketchX: e ? e.clientX : 0,
-      colorSketchY: e ? e.clientY : 0
-    });
-  }
-  handleColorChange = (incidenceId, color) => {
-    this.props.changeIncidenceColor(incidenceId, color.hex);
-  }
   toggleIncidenceVisibility = (incidenceId, isVisible) => {
     this.props.toggleIncidenceVisibility(incidenceId, isVisible);
   }
   render() {
-    const {
+    let {
       incidence
     } = this.props;
 
-    console.log(incidence);
+    incidence = incidence.properties;
 
     let actionImg = 'https://cdn.shippify.co/icons/icon-visibility-off-gray.svg';
     if (incidence.isVisible) {
@@ -75,12 +61,12 @@ class Incidence extends React.Component {
       <div className="incidence">
         <div className="incidence-sector">
           {
-            incidence.name
+            incidence.geofence_name
           }
         </div>
         <div className="incidence-value">
           {
-            incidence.value
+            incidence.metrics.absolute
           }
         </div>
         <div className="incidence-actions">
@@ -95,35 +81,6 @@ class Incidence extends React.Component {
                 !incidence.isVisible
               );
             }}/>
-          <span
-            className="color"
-            style={{ backgroundColor: incidence.color }}
-            onClick={(e) => {
-              this.toggleColorSketchVisibility(e);
-              e.stopPropagation();
-            }}>
-          </span>
-          {
-            this.state.isColorSketchVisible &&
-            <div
-              className="color-picker"
-              style={{
-                top: ((this.state.colorSketchY + 242) > window.innerHeight) ?
-                  (window.innerHeight - 258) :
-                  this.state.colorSketchY,
-                left: this.state.colorSketchX + 16
-              }}
-              onMouseLeave={() => this.toggleColorSketchVisibility()}>
-              <ChromePicker
-                color={incidence.color}
-                onChange={(color) => {
-                  this.handleColorChange(
-                    incidence.id,
-                    color
-                  );
-                }}/>
-            </div>
-          }
           <div style={{ width: '16px' }}></div>
         </div>
       </div>
@@ -131,14 +88,18 @@ class Incidence extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    incidencesFilters: state.getIn(['incidences', 'filters'])
+  };
+};
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  changeIncidenceColor: actions.changeIncidenceColor,
   toggleIncidenceVisibility: actions.toggleIncidenceVisibility
 }, dispatch);
 
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Incidence);

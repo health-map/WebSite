@@ -62,7 +62,6 @@ class Filters extends React.Component {
   }
   componentDidMount() {
     const filters = this.props.incidencesFilters;
-    console.log('FILTERS', filters);
     this.setState({
       selectedCity: filters.get('city').toJS(),
       selectedInstitution: filters.get('institution').toJS(),
@@ -73,10 +72,8 @@ class Filters extends React.Component {
       selectedAge: filters.get('age').toJS(),
       selectedDivision: filters.get('division').toJS()
     });
-    console.log('STATE', this.state);
   }
   handleCityChange = (selectedCity) => {
-    console.log(selectedCity);
     this.setState({
       selectedCity,
       isLoadingCities: false

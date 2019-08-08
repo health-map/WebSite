@@ -27,7 +27,7 @@ class ErrorBoundary extends React.Component {
     if (this.state.hasError) {
       return (
         <p className="error-boundary-message">
-          { window.translation('Something went wrong. Please try again') }
+          { 'Algo salió mal. Por favor, inténtalo de nuevo' }
         </p>
       );
     }

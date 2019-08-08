@@ -34,7 +34,7 @@ class ErrorBoundaryGeneral extends React.Component {
           }}>
           <Error
             enableRefreshButton={true}
-            text={ window.translation('There has been an unexpected error. Please reload your browser.') }/>
+            text={ 'Algo salió mal. Por favor, recarga tu navegador.' }/>
         </div>
       );
     }

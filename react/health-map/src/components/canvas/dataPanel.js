@@ -22,7 +22,7 @@ import 'react-tabs/style/react-tabs.css';
  */
 class DataPanel extends React.Component {
   componentDidMount() {
-    if (this.props.incidences.length === 0) {
+    if (!this.props.incidences.features.length) {
       this.props.loadIncidences(this.props.incidencesFilters.toJS());
     }
   }

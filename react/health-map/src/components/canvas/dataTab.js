@@ -4,6 +4,9 @@ import Select from 'react-select';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import { 
+  FaExclamationCircle
+} from 'react-icons/fa';
 import Incidence from './incidence';
 import Error from '../shared/error';
 import Loading from '../shared/loading';
@@ -29,7 +32,6 @@ class DataTab extends React.Component {
 
   }
   handleDataTypeChange = (selectedDataType) => {
-    console.log(selectedDataType);
     this.props.mutateFilters(
       'type',
       selectedDataType
@@ -39,9 +41,15 @@ class DataTab extends React.Component {
     const {
       incidencesFilters, incidences
     } = this.props;
+
     const selectedDataType = DataTypesMapping.filter((dt) => {
       return dt.id === incidencesFilters.get('type');
     })[0];
+    if (incidences.features.length) {
+      incidences.features = incidences.features.sort((a, b) => {
+        return b.properties.metrics.absolute - a.properties.metrics.absolute;
+      });
+    }
 
     return (
       <div className="hm-tab-container">
@@ -65,18 +73,20 @@ class DataTab extends React.Component {
           (this.props.loadIncidencesError.length === 0) &&
           <div className="hm-data-container">
             {
-              (incidences.length === 0) &&
-              <div className="no-data-available-container">
-                <div className="flex flex-column no-data-available">
-                  <img src="https://cdn.shippify.co/images/img-no-results.svg"/>
-                  <span>
-                    { 'No existen incidencias por el momento'}
-                  </span>
+              (incidences.features.length === 0) &&
+                <div className="shy-error-container">
+                  <div className="shy-error">
+                    <FaExclamationCircle
+                      size={92}
+                      color="#0092E1"/>
+                    <span>
+                      { 'No existen incidencias por el momento' }
+                    </span>
+                  </div>
                 </div>
-              </div>
             }
             {
-              (incidences.length > 0) &&
+              (incidences.features.length > 0) &&
               <div>
                 <div className="hm-datatab-firstinfo">
                   {
@@ -116,7 +126,7 @@ class DataTab extends React.Component {
                     </div>
                   </div>
                   {
-                    incidences.map((incidence, idx) => {
+                    incidences.features.map((incidence, idx) => {
                       return (
                         <Incidence
                           key={idx}
