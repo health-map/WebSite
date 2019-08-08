@@ -47,7 +47,8 @@ class DataTab extends React.Component {
     })[0];
     if (incidences.features.length) {
       incidences.features = incidences.features.sort((a, b) => {
-        return b.properties.metrics.absolute - a.properties.metrics.absolute;
+        return b.properties.metrics[incidencesFilters.get('type')] 
+          - a.properties.metrics[incidencesFilters.get('type')];
       });
     }
 

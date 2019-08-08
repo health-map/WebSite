@@ -56,9 +56,7 @@ const loadIncidencesBegin = (state) => {
  *
  */
 const loadIncidencesSuccess = (state, action) => {
-  console.log('hey', action.payload.incidences);
   let incidencesGeojson = Immutable.fromJS(action.payload.incidences.geojson);
-
   return state
     .set('loadIncidencesError', '')
     .set('data', incidencesGeojson);

@@ -54,7 +54,9 @@ class MapComponent extends React.Component {
   }
 
   _loadData = incidences => {
-    updatePercentiles(incidences, f => f.properties.metrics['absolute']);
+    updatePercentiles(incidences, (f) => {
+      return f.properties.metrics[this.props.incidencesFilters.get('type')];
+    });
     const mapStyle = defaultMapStyle
       // Add geojson source to map
       .setIn(['sources', 'incomeByState'], Immutable.fromJS({ type: 'geojson',
@@ -75,7 +77,9 @@ class MapComponent extends React.Component {
     });
     if (firstIncidencesData && incidences) {
       console.log('actualizando');
-      updatePercentiles(incidences, f => f.properties.metrics['absolute']);
+      updatePercentiles(incidences, (f) => {
+        return f.properties.metrics[this.props.incidencesFilters.get('type')];
+      } );
       const newMapStyle = mapStyle.setIn(
         ['sources', 'incomeByState', 'data'], 
         Immutable.fromJS(incidences)
@@ -107,11 +111,17 @@ class MapComponent extends React.Component {
       this._loadData(this.props.immutableIncidences.toJS());
     }
 
-    if (!!prevProps.immutableIncidences.get('features').size 
-      && !!this.props.immutableIncidences.get('features').size &&
-      !prevProps.immutableIncidences.equals(
-        this.props.immutableIncidences
-      )) {
+    if (
+      (
+        !!prevProps.immutableIncidences.get('features').size 
+        && !!this.props.immutableIncidences.get('features').size &&
+        !prevProps.immutableIncidences.equals(this.props.immutableIncidences)
+      ) 
+        ||
+      (
+        !prevProps.incidencesFilters.equals(this.props.incidencesFilters)
+      )
+    ) {
       console.log('actualizate');
       this._updateSettings(this.props.immutableIncidences.toJS());
     }

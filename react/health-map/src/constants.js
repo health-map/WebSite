@@ -59,7 +59,7 @@ export const DataTypesMapping = [
     name: 'Totales de un sector'
   }, 
   {
-    id: 'per1000inhabitants',
+    id: 'every1000Inhabitants',
     name: 'Por cada mil habitantes de un sector'
   },
   {

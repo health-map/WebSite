@@ -66,7 +66,7 @@ class Incidence extends React.Component {
         </div>
         <div className="incidence-value">
           {
-            incidence.metrics.absolute
+            incidence.metrics[this.props.incidencesFilters.get('type')]
           }
         </div>
         <div className="incidence-actions">
