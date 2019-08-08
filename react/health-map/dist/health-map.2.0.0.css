@@ -455,7 +455,9 @@
 .incidence-actions {
   display: -ms-flexbox;
   display: flex;
-  width: auto;
+  width: 100px;
+  -ms-flex-pack: end;
+      justify-content: flex-end;
   -ms-flex-align: center;
       align-items: center;
   margin-left: 16px;

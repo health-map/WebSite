@@ -7,8 +7,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { 
+  FaSearchPlus
+} from 'react-icons/fa';
 
 import { actions } from '../../actions/incidences';
+
 
 import './incidence.css';
 
@@ -75,6 +79,14 @@ class Incidence extends React.Component {
             alt={'Visibility'}
             style={actionStyle}
             className="icon-visibility"
+            onClick={() => {
+              this.toggleIncidenceVisibility(
+                incidence.id, 
+                !incidence.isVisible
+              );
+            }}/>
+          <FaSearchPlus 
+            size={18}
             onClick={() => {
               this.toggleIncidenceVisibility(
                 incidence.id, 

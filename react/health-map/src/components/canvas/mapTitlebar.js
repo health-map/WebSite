@@ -162,7 +162,7 @@ class MapTitlebar extends React.Component {
                 }
                 onClick={() => {
                   this.mutateAndApplyFilters('gender', Immutable.Map({
-                    id: 98,
+                    id: 1,
                     name: 'M'
                   }));
                 }}>
@@ -176,7 +176,7 @@ class MapTitlebar extends React.Component {
                 }
                 onClick={() => {
                   this.mutateAndApplyFilters('gender', Immutable.Map({
-                    id: 99,
+                    id: 2,
                     name: 'F'
                   }));
                 }}>

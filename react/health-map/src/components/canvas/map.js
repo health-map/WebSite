@@ -149,42 +149,7 @@ class MapComponent extends React.Component {
           this.setState({ map });
           map.addControl(new MapboxTraffic());
         }}>
-        {/* {
-          !!incidences.length &&
-          <div>
-            {
-              incidences
-                .filter((incidence) => incidence.isVisible)
-                .map((incidence, id) => {
-                  return (
-                    <Layer
-                      key={`layer-polygons-${id}`}
-                      type="fill"
-                      paint={{
-                        'fill-color': incidence.color,
-                        'fill-outline-color': incidence.color,
-                        'fill-opacity': 0.3
-                      }}>
-                      <Feature 
-                        key={`feature-polygons-${id}`}
-                        onMouseEnter={(e) => {
-                          e.map.getCanvas().style.cursor = 'pointer';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.map.getCanvas().style.cursor = '';
-                        }}
-                        coordinates={
-                          [incidence.polygon.coordinates[0]]
-                        }
-                        onClick={() => {
-
-                        }}/>
-                    </Layer>
-                  );
-                })
-            }
-          </div>
-        }
+        {/* 
         {
           false &&
           <DeliveryPopup

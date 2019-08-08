@@ -29,7 +29,7 @@ class DiseaseRow extends React.Component {
         className={`hm-disease-row ${this.props.isPreSelected ? 'hm-disease-row-preselected' : ''}`}
         onClick={() => { 
           if (this.props.selectDisease) {
-            this.props.selectDisease(disease); 
+            this.props.selectDisease(disease, type); 
           }
         }}>
         <div className="hm-disease-row-name-container">
@@ -99,7 +99,8 @@ class DiseaseTab extends React.Component {
   componentDidUpdate() {
 
   }
-  selectDisease(selectedDisease) {
+  selectDisease(selectedDisease, type) {
+    selectedDisease.type = type;
     this.setState({
       selectedDisease
     });

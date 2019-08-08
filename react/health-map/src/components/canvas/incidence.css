@@ -34,7 +34,8 @@
 
 .incidence-actions {
   display: flex;
-  width: auto;
+  width: 100px;
+  justify-content: flex-end;
   align-items: center;
   margin-left: 16px;
 }

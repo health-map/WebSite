@@ -6,27 +6,6 @@
 
 import URLSearchParams from 'url-search-params';
 
-const availableColors = [
-  '#00BCD4',
-  '#03A9F4',
-  '#3F51B5',
-  '#8BC34A',
-  '#9C27B0',
-  '#259B24',
-  '#607D8B',
-  '#673AB7',
-  '#5677FC',
-  '#009688',
-  '#795548',
-  '#CDDC39',
-  '#E91E63',
-  '#E62A10',
-  '#FF5722',
-  '#FF9800',
-  '#FFC107',
-  '#FFEB3B'
-];
-
 export async function loadCities({ apiUrl, apiToken }) {
   const url = new URL(apiUrl);
   url.pathname = '/cities';
@@ -87,7 +66,7 @@ export async function loadInstitutions({ cityId }, { apiUrl, apiToken }) {
   let { data: { institutions } } = await response.json();
 
   institutions.push({
-    id: 99,
+    id: 9999,
     name: 'TODAS'
   });
 
@@ -125,7 +104,7 @@ export async function loadDepartments( { institutionId },
   let { data: { departments } } = await response.json();
 
   departments.push({
-    id: 99,
+    id: 9999,
     name: 'TODOS'
   });
 
@@ -169,7 +148,7 @@ export async function loadAges({ apiUrl, apiToken }) {
   });
 
   ages.push({
-    id: 99,
+    id: 9999,
     name: 'TODOS'
   });
 
@@ -329,20 +308,46 @@ export async function loadIncidences(
     disease,
     geogroup,
     age,
-    type,
     department
   },
   { apiUrl, apiToken }
 ) {
-  console.log(institution, gender, startDate, endDate, season, city);
-  console.log(disease, geogroup, age, type, department, apiUrl, apiToken);
-  console.log('holi');
-
+  console.log(season);
+  console.log(age, gender);
   const url = new URL(apiUrl);
-  //const searchParams = new URLSearchParams();
+  const searchParams = new URLSearchParams();
   url.pathname = '/incidences';
-  //searchParams.append('q', q);
-  //url.search = searchParams.toString();
+  if (city && city.id) {
+    searchParams.append('city', city.id);
+  }
+  if (institution && institution.id && institution.name !== 'TODAS') {
+    searchParams.append('institution', institution.id);
+  }
+  if (department && department.id && department.name !== 'TODOS') {
+    searchParams.append('department', department.id);
+  }
+  if (geogroup && geogroup.id) {
+    searchParams.append('geoGroup', geogroup.id);
+  }
+  if (disease && disease.id) {
+    if (disease.type === 'aggregation') {
+      searchParams.append('categoryGroup', disease.id);
+    } else {
+      searchParams.append('cie10', disease.id);
+    }
+  }
+  if (gender && gender.name !== 'TODOS') {
+    searchParams.append('gender', gender.name);
+  }
+  if (age && age.id && age.name !== 'TODOS') {
+    console.log('age');
+    //searchParams.append('ageRange', age.id);
+  }
+  if (startDate && endDate) {
+    searchParams.append('startDate', startDate);
+    //searchParams.append('endDate', endDate);
+  }
+  url.search = searchParams.toString();
   let response;
   try {
     response = await fetch(url, {
@@ -366,17 +371,9 @@ export async function loadIncidences(
     throw new Error('server_error');
   }
   const { data: { incidences } } = await response.json();
-  let fIncidences = incidences.map((incidence) => {
-    return {
-      ...incidence,
-      color: availableColors[
-        Math.floor(Math.random() * (availableColors.length - 1))
-      ]
-    };
-  });
 
   return {
-    incidences: fIncidences,
+    incidences: incidences,
     geojson: {
       type: 'FeatureCollection',
       features: incidences.map((incidence) => {
