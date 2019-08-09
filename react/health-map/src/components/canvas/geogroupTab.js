@@ -11,6 +11,10 @@ import {
   createGeozoneGroup
 } from './../../services/remoteAPI';
 import { actions } from './../../actions/general';
+import { actions as incidencesActions } from './../../actions/incidences';
+
+import { thunks } from '../../actions/thunks/incidences';
+const { loadIncidences: loadIncidencesRequest } = thunks;
 
 
 import './geogroupTab.css';
@@ -118,24 +122,40 @@ class GeogroupTab extends React.Component {
     return true;
   }
   selectGeozone(selectedGeozone) {
+    const self = this;
     if (this.state.selectedGeozone && 
       this.state.selectedGeozone.id == selectedGeozone.id) {
       this.setState({
         selectedGeozone: undefined
       });
-      this.props.setGeozoneGroup(undefined);       
+      this.props.setGeozoneGroup(undefined);      
+      this.props.mutateFilters('geogroup', undefined);
+      this.props.loadIncidences({
+        ...this.props.incidencesFilters.toJS(),
+        geogroup: undefined
+      });
     } else {
       this.setState({
         selectedGeozone
+      }, () => {
+        self.props.setGeozoneGroup(self.state.selectedGeozone);
+        self.props.mutateFilters('geogroup', selectedGeozone.id);
+        self.props.loadIncidences({
+          ...self.props.incidencesFilters.toJS(),
+          geogroup: selectedGeozone.id
+        });
       });
-      this.props.setGeozoneGroup(this.state.selectedGeozone);
     }
   }
-  isGeozoneSelected(diseaseId) {
+  isGeozoneSelected(id) {
+    if (this.props.selectedGeozoneGroup && 
+      this.props.selectedGeozoneGroup.id === id) {
+      return true;
+    }
     if (!this.state.selectedGeozone) {
       return false;
     }
-    return diseaseId == this.state.selectedGeozone.id;
+    return id == this.state.selectedGeozone.id;
   }
   searchGeozones(q) {
     const self = this;
@@ -158,10 +178,15 @@ class GeogroupTab extends React.Component {
         }
       )
         .then((geogroups) => {
-          self.setState({
+          let newState = {
             isLoadingGeozones: false,
             geozonesOptions: geogroups
-          });
+          };
+          if (self.props.selectedGeozoneGroup && 
+            self.props.selectedGeozoneGroup.id) {
+            newState.selectedGeozone = self.props.selectedGeozoneGroup;
+          }
+          self.setState(newState);
         })
         .catch((e) => {
           console.log('error', e);
@@ -431,13 +456,16 @@ const mapStateToProps = (state) => {
         name: 'Alborada' }],
     isGeozoneSelectionModeOn: state.getIn(['general', 'isGeozoneSelectionModeOn']),
     apiUrl: state.getIn(['general', 'user', 'apiUrl']),
-    apiToken: state.getIn(['general', 'user', 'apiToken'])
+    apiToken: state.getIn(['general', 'user', 'apiToken']),
+    incidencesFilters: state.getIn(['incidences', 'filters'])
   };
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   setGeozoneGroup: actions.setGeozoneGroup,
-  toggleGeozoneSelectionMode: actions.toggleGeozoneSelectionMode
+  toggleGeozoneSelectionMode: actions.toggleGeozoneSelectionMode,
+  mutateFilters: incidencesActions.mutateFilters,
+  loadIncidences: loadIncidencesRequest
 }, dispatch);
 
 

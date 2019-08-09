@@ -325,8 +325,8 @@ export async function loadIncidences(
   if (department && department.id && department.name !== 'TODOS') {
     searchParams.append('department', department.id);
   }
-  if (geogroup && geogroup.id) {
-    searchParams.append('geoGroup', geogroup.id);
+  if (geogroup) {
+    searchParams.append('geoGroup', geogroup);
   }
   if (disease && disease.id) {
     if (disease.type === 'aggregation') {
