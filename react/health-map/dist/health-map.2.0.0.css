@@ -454,7 +454,7 @@
   height: fit-content;
   width: 175px;
   box-shadow:0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.1);
-  background-color: rgba(255,255,255,0.8);
+  background-color: rgba(255,255,255,0.9);
   border-radius: 6px;
   color: #757575;
 }
@@ -469,6 +469,44 @@
       align-self: center;
 }
 
+
+.hm-legend-box{
+  padding-top: 16px;
+  padding-bottom: 16px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+}
+
+.hm-legend-row{
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+      flex-direction: row;
+  -ms-flex-pack: justify;
+      justify-content: space-between;
+  -ms-flex-align: center;
+      align-items: center;
+  margin-bottom: 8px;
+}
+
+.hm-legend-color-box{
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  margin-right: 20px;
+}
+
+.hm-legend-name{
+  font-size: 12px;
+  color: #757575;
+  text-align: right;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  max-width: 140px;
+}
 
 .incidence {
   display: -ms-flexbox;
@@ -703,6 +741,14 @@
   -ms-flex-pack: center;
       justify-content: center;
   color: #757575;
+}
+
+.icon-clear{
+  width: 17px;
+}
+
+.hm-clear-icon{
+  margin-left: 8px;
 }
 
 .hm-disease-results{

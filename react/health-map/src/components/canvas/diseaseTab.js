@@ -69,6 +69,22 @@ class DiseaseRow extends React.Component {
               }
               alt=""/>
           </span>
+          {
+            this.props.isPreSelected && 
+            <span 
+              className="icon marginless v1-margin-left-lg hm-clear-icon">
+              <img
+                className="icon-clear"
+                src= {
+                  'https://cdn.shippify.co/icons/icon-remove-white.svg'
+                }
+                onClick={(e) => {
+                  this.props.selectDisease(undefined); 
+                  e.stopPropagation();
+                }}
+                alt=""/>
+            </span>
+          }
         </div> 
       </div>
     );
@@ -100,10 +116,18 @@ class DiseaseTab extends React.Component {
 
   }
   selectDisease(selectedDisease, type) {
-    selectedDisease.type = type;
-    this.setState({
-      selectedDisease
-    });
+    if (!selectedDisease) {
+      this.setState({
+        selectedDisease: undefined
+      }, () => {
+        this.visualizeDiseases();
+      });
+    } else {
+      selectedDisease.type = type;
+      this.setState({
+        selectedDisease
+      });
+    }
   }
   isDiseaseSelected(disease) {
     if (!this.state.selectedDisease) {
@@ -153,14 +177,26 @@ class DiseaseTab extends React.Component {
     });
   }
   visualizeDiseases() {
-    this.props.mutateFilters('disease', Immutable.Map(this.state.selectedDisease));
-    this.props.loadIncidences({
-      ...this.props.incidencesFilters.toJS(),
-      disease: this.state.selectedDisease
-    });
-    this.setState({
-      preSelectedDisease: this.state.selectedDisease
-    });
+    if (this.state.selectedDisease) {
+      this.props.mutateFilters('disease', Immutable.Map(this.state.selectedDisease));
+      this.props.loadIncidences({
+        ...this.props.incidencesFilters.toJS(),
+        disease: this.state.selectedDisease
+      });
+      this.setState({
+        preSelectedDisease: this.state.selectedDisease
+      });
+    } else {
+      console.log('CLEAR FILTER');
+      this.props.mutateFilters('disease', undefined);
+      this.props.loadIncidences({
+        ...this.props.incidencesFilters.toJS(),
+        disease: undefined
+      });
+      this.setState({
+        preSelectedDisease: undefined
+      });
+    }
   }
   render() {
     const self = this;

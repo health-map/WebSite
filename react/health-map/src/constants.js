@@ -11,40 +11,55 @@ export const defaultMapStyle = Immutable.fromJS(MAP_STYLE);
 
 export const dataLayer = Immutable.fromJS({
   id: 'data',
-  source: 'incomeByState',
+  source: 'incidences',
   type: 'fill',
   interactive: true,
   paint: {
     'fill-color': {
       property: 'percentile',
       stops: [
-        [0, '#3288bd'],
-        [1, '#66c2a5'],
-        [2, '#abdda4'],
-        [3, '#e6f598'],
-        [4, '#ffffbf'],
-        [5, '#fee08b'],
-        [6, '#fdae61'],
-        [7, '#f46d43'],
-        [8, '#d53e4f']
+        [0, '#c9c9c9'],
+        [1, '#fff7ec'],
+        [2, '#fee8c8'],
+        [3, '#fdd49e'],
+        [4, '#fdbb84'],
+        [5, '#fc8d59'],
+        [6, '#ef6548'],
+        [7, '#d7301f'],
+        [8, '#990000']
       ]
     },
-    'fill-opacity': 0.5
+    'fill-outline-color': '#FFFFFF',
+    'fill-opacity': {
+      property: 'percentile',
+      stops: [
+        [0, 0.60],
+        [1, 0.58],
+        [2, 0.56],
+        [3, 0.54],
+        [4, 0.52],
+        [5, 0.50],
+        [6, 0.50],
+        [7, 0.50],
+        [8, 0.50]
+      ]
+    }
   }
 });
 
 
-// stops: [
-//   [0, '#A53400'],
-//   [1, '#C1520D'],
-//   [2, '#D16C00'],
-//   [3, '#D68904'],
-//   [4, '#E5AD20'],
-//   [5, '#F9D16B'],
-//   [6, '#FFDD89'],
-//   [7, '#F7E3AF'],
-//   [8, '#EFE1BD'],
-//   [9, '#EFECE6']
+export const Colors = [
+  ['#c9c9c9', 0.60],
+  ['#fff7ec', 0.58],
+  ['#fee8c8', 0.56],
+  ['#fdd49e', 0.54],
+  ['#fdbb84', 0.52],
+  ['#fc8d59', 0.5],
+  ['#ef6548', 0.5],
+  ['#d7301f', 0.5],
+  ['#990000', 0.5]
+];
+
 
 export const UserRole = {
   VIEWER: 0,

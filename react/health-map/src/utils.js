@@ -9,6 +9,11 @@ export function updatePercentiles(featureCollection, accessor) {
   features.forEach(f => {
     const value = accessor(f);
     f.properties.value = value;
-    f.properties.percentile = scale(value);
+    if (value === 0) {
+      f.properties.percentile = 0;
+    } else {
+      f.properties.percentile = scale(value);
+    }
   });
+  return scale.quantiles();
 }

@@ -15,7 +15,8 @@ import ReactMapboxGl, {
 import { 
   Mapbox,
   defaultMapStyle, 
-  dataLayer
+  dataLayer,
+  Colors
 } from './../../constants';
 import { actions } from './../../actions/incidences';
 import { updatePercentiles } from '../../utils';
@@ -46,25 +47,61 @@ class MapComponent extends React.Component {
       ],
       zoom: (this.props.selectedCity.zoom) ? this.props.selectedCity.zoom : 10,
       mapStyle: defaultMapStyle,
-      firstIncidencesData: undefined
+      firstIncidencesData: undefined,
+      legendQuantiles: []
     };
+  }
+
+  buildLegendArray() {
+    console.log(this.state.legendQuantiles);
+    const legendArray = this.state.legendQuantiles.reduce(
+      (rlegendArray, q, idx, quantiles) => {
+        if (idx === 0) { // first element
+          rlegendArray.push({
+            name: 'No se encontraron pacientes',
+            color: Colors[0][0],
+            opacity: Colors[0][1]
+          });
+        } else {
+          if (idx === quantiles.length - 1) { //last element
+            rlegendArray.push({
+              name: `Más de ${String(q).substr(0, 5)}`,
+              color: Colors[idx][0],
+              opacity: Colors[idx][1]
+            });
+          } else if (
+            ((idx + 1) != quantiles.length -1 ) && 
+              !(q === quantiles[idx + 1])
+          ) { // if next element not the last
+            rlegendArray.push({
+              name: `${String(quantiles[idx + 1]).substr(0, 5)} a ${String(q).substr(0, 5)}`,
+              color: Colors[idx-1][0],
+              opacity: Colors[idx-1][1]
+            });
+          }
+        }
+        return rlegendArray;
+      }, []);
+    console.log('legendArray', legendArray);
+    return legendArray;
   }
 
   _loadData = incidences => {
     this.props.startLoadingMap();
-    updatePercentiles(incidences, (f) => {
+    const scale = updatePercentiles(incidences, (f) => {
       return f.properties.metrics[this.props.incidencesFilters.get('type')];
     });
     const mapStyle = defaultMapStyle
       // Add geojson source to map
-      .setIn(['sources', 'incomeByState'], Immutable.fromJS({ type: 'geojson',
+      .setIn(['sources', 'incidences'], Immutable.fromJS({ type: 'geojson',
         data: incidences }))
       // Add point layer to map
-      .set('layers', defaultMapStyle.get('layers').push(dataLayer));
+      .set('layers', defaultMapStyle.get('layers').splice(10, 0, dataLayer));
 
     this.setState({
       mapStyle,
-      firstIncidencesData: incidences
+      firstIncidencesData: incidences,
+      legendQuantiles: scale
     });
   };
 
@@ -74,15 +111,16 @@ class MapComponent extends React.Component {
       return incidence.properties.isVisible;
     });
     if (firstIncidencesData && incidences) {
-      updatePercentiles(incidences, (f) => {
+      const scale = updatePercentiles(incidences, (f) => {
         return f.properties.metrics[this.props.incidencesFilters.get('type')];
       } );
       const newMapStyle = mapStyle.setIn(
-        ['sources', 'incomeByState', 'data'], 
+        ['sources', 'incidences', 'data'], 
         Immutable.fromJS(incidences)
       );
       this.setState({ 
-        mapStyle: newMapStyle 
+        mapStyle: newMapStyle,
+        legendQuantiles: scale 
       }, () => {
         this.props.finishLoadingMap();
       });
@@ -183,8 +221,34 @@ class MapComponent extends React.Component {
           className="map-overlay hm-hover-box">
           <span
             className="hm-hover-box-title">
-              INFORMACION DE SECTOR
+              LEYENDA
           </span>
+          <div
+            className="hm-legend-box">           
+            {
+              this.buildLegendArray().map((row, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className="hm-legend-row">
+                    <div
+                      className="hm-legend-color-box"
+                      style={{ 
+                        backgroundColor: row.color,
+                        opacity: row.opacity
+                      }}>
+                    </div>
+                    <div 
+                      className="hm-legend-name">
+                      {
+                        row.name
+                      }
+                    </div>
+                  </div>
+                );
+              })
+            }
+          </div>
           <div id='pd'>
             <p>Acerca el mouse a un sector...</p>
           </div>
