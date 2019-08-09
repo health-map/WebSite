@@ -20,8 +20,8 @@ const initialState = Immutable.Map({
       id: 3,
       name: 'TODOS'
     }),
-    startDate: '01-01-2018',
-    endDate: '01-01-2019',
+    startDate: undefined,
+    endDate: undefined,
     season: undefined,
     city: Immutable.Map({
       id: 1,

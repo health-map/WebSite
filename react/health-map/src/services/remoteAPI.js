@@ -5,6 +5,7 @@
  */
 
 import URLSearchParams from 'url-search-params';
+import moment from 'moment';
 
 export async function loadCities({ apiUrl, apiToken }) {
   const url = new URL(apiUrl);
@@ -312,8 +313,6 @@ export async function loadIncidences(
   },
   { apiUrl, apiToken }
 ) {
-  console.log(season);
-  console.log(age, gender);
   const url = new URL(apiUrl);
   const searchParams = new URLSearchParams();
   url.pathname = '/incidences';
@@ -333,19 +332,34 @@ export async function loadIncidences(
     if (disease.type === 'aggregation') {
       searchParams.append('categoryGroup', disease.id);
     } else {
-      searchParams.append('cie10', disease.id);
+      searchParams.append('cie10', disease.cie10_code);
     }
   }
-  if (gender && gender.name !== 'TODOS') {
+  if (gender && gender.id && gender.name !== 'TODOS') {
     searchParams.append('gender', gender.name);
   }
   if (age && age.id && age.name !== 'TODOS') {
-    console.log('age');
-    //searchParams.append('ageRange', age.id);
+    searchParams.append('ageRange', age.id);
+  }
+  if (season) { // pivotting on startDate
+    if (!startDate) {
+      startDate = '01-01-2018';
+    }
+    if (season === 'INVIERNO') { // ENE, FEB, MAR, ABR, MAY
+      const startMoment = moment(startDate, 'DD-MM-YYYY');
+      const pivotYear = startMoment.format('YYYY');
+      startDate = '01-01-' + pivotYear;
+      endDate = '05-30-' + pivotYear;
+    } else if (season === 'VERANO') { // JUN, JUL, AGO, SEP, OCT, NOV, DEC
+      const startMoment = moment(startDate, 'DD-MM-YYYY');
+      const pivotYear = startMoment.format('YYYY');
+      startDate = '06-01-' + pivotYear;
+      endDate = '12-31-' + pivotYear;
+    }
   }
   if (startDate && endDate) {
     searchParams.append('startDate', startDate);
-    //searchParams.append('endDate', endDate);
+    searchParams.append('endDate', endDate);
   }
   url.search = searchParams.toString();
   let response;

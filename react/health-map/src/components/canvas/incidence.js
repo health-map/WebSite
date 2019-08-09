@@ -70,7 +70,11 @@ class Incidence extends React.Component {
         </div>
         <div className="incidence-value">
           {
-            incidence.metrics[this.props.incidencesFilters.get('type')]
+            `
+            ${this.props.incidencesFilters.get('type') === 'absolute' ? 
+        incidence.metrics[this.props.incidencesFilters.get('type')] : 
+        String(incidence.metrics[this.props.incidencesFilters.get('type')]).substring(0, 5) + '%'}
+              `
           }
         </div>
         <div className="incidence-actions">

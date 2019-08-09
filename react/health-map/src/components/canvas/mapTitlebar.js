@@ -46,18 +46,29 @@ class MapTitlebar extends React.Component {
   }
   mutateAndApplyFilters = (filterKey, filterValue) => {
     this.props.mutateFilters(filterKey, filterValue);
-    this.props.loadIncidences(this.props.incidencesFilters.toJS());
+
+    this.props.loadIncidences({
+      ...this.props.incidencesFilters.toJS(),
+      [filterKey]: Immutable.Iterable.isIterable(filterValue) ? 
+        filterValue.toJS() : filterValue
+    });
   }
   mutateAndApplyManyFilters = (mutations) => {
     this.props.mutateManyFilters(mutations);
-    this.props.loadIncidences(this.props.incidencesFilters.toJS());
+    this.props.loadIncidences({
+      ...this.props.incidencesFilters.toJS(),
+      ...mutations
+    });
   }
   handleInstitutionChange = (selectedInstitution) => {
     this.setState({
       isLoadingInstitution: false
     });
     this.props.mutateFilters('institution', Immutable.Map(selectedInstitution));
-    this.props.loadIncidences(this.props.incidencesFilters.toJS());
+    this.props.loadIncidences({
+      ...this.props.incidencesFilters.toJS(),
+      institution: selectedInstitution
+    });
   }
   loadInstitutions = () => {
     const self = this;
@@ -191,7 +202,10 @@ class MapTitlebar extends React.Component {
                     'shy-quick-action shy-quick-action-right'
                 }
                 onClick={() => {
-                  this.mutateAndApplyFilters('gender', Immutable.Map());
+                  this.mutateAndApplyFilters('gender', Immutable.Map({
+                    id: 9999,
+                    name: 'TODOS'
+                  }));
                 }}>
                 { 'TODOS' }
               </span>
@@ -218,7 +232,7 @@ class MapTitlebar extends React.Component {
                 onClick={() => {
                   this.mutateAndApplyManyFilters({
                     startDate: '01-01-2018',
-                    endDate: '01-01-2018'
+                    endDate: '01-01-2019'
                   });
                 }}>
                 { '2018' }

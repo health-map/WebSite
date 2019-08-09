@@ -68,7 +68,7 @@ export const DataTypesMapping = [
   }, 
   {
     id: 'relativeToPatients',
-    name: 'Relativo al número de casos en un sector de la enfermedad filtrada'
+    name: 'Relativo al número de pacientes de un sector'
   }
 ];
 

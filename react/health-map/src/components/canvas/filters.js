@@ -210,7 +210,18 @@ class Filters extends React.Component {
         endDate: this.state.endDate
       }
     );
-    this.props.loadIncidences(this.props.incidencesFilters.toJS());
+
+    this.props.loadIncidences({
+      ...this.props.incidencesFilters.toJS(),
+      institution: this.state.selectedInstitution,
+      gender: this.state.selectedGender,
+      city: this.state.selectedCity,
+      age: this.state.selectedAge,
+      department: this.state.selectedDepartment ?
+        this.state.selectedDepartment : undefined,
+      startDate: this.state.startDate,
+      endDate: this.state.endDate
+    });
     this.props.onClose();
   }
   render() {
@@ -311,7 +322,7 @@ class Filters extends React.Component {
               <div className="margin-top-16 hm-filters-field">
                 <div className="shy-form-field-label hm-filters-field-label">
                   {
-                    'Selecciona un genero'
+                    'Selecciona un género'
                   }
                 </div>
                 <div className="shy-form-field hm-select-datatype">

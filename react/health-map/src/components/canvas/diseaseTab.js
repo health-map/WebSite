@@ -154,7 +154,10 @@ class DiseaseTab extends React.Component {
   }
   visualizeDiseases() {
     this.props.mutateFilters('disease', Immutable.Map(this.state.selectedDisease));
-    this.props.loadIncidences(this.props.incidencesFilters.toJS());
+    this.props.loadIncidences({
+      ...this.props.incidencesFilters.toJS(),
+      disease: this.state.selectedDisease
+    });
     this.setState({
       preSelectedDisease: this.state.selectedDisease
     });
@@ -216,62 +219,69 @@ class DiseaseTab extends React.Component {
           </div>
         }
         {
-          !!this.state.aggregationOptions.length && 
+          (!!this.state.aggregationOptions.length || 
+            !!this.state.diseasesOptions.length) && 
           <div className="hm-disease-results">
-            <div className="hm-disease-results-agrupaciones">
-              <span className="hm-disease-result-groupname"> 
+            {
+              !!this.state.aggregationOptions.length && 
+              <div className="hm-disease-results-agrupaciones">
+                <span className="hm-disease-result-groupname"> 
+                  {
+                    'AGRUPACIONES'
+                  }
+                </span>
+                <div className="hm-disease-results-header">
+                  <div className="hm-disease-row-name-container">
+                    <span className="hm-disease-row-name-blanked"> Nombre </span>
+                  </div>
+                  <div className="hm-disease-row-cod">
+                    <span className="hm-disease-row-name-blanked"> Código </span>
+                  </div>
+                </div>
                 {
-                  'AGRUPACIONES'
+                  this.state.aggregationOptions
+                    .map((disease, idx) => {
+                      return <DiseaseRow
+                        key={idx}
+                        disease={disease}
+                        selected={self.isDiseaseSelected(disease)}
+                        isPreSelected={false}
+                        type="aggregation"
+                        selectDisease={self.selectDisease.bind(self)} />;
+                    })
                 }
-              </span>
-              <div className="hm-disease-results-header">
-                <div className="hm-disease-row-name-container">
-                  <span className="hm-disease-row-name-blanked"> Nombre </span>
-                </div>
-                <div className="hm-disease-row-cod">
-                  <span className="hm-disease-row-name-blanked"> Código </span>
-                </div>
               </div>
-              {
-                this.state.aggregationOptions
-                  .map((disease, idx) => {
-                    return <DiseaseRow
-                      key={idx}
-                      disease={disease}
-                      selected={self.isDiseaseSelected(disease)}
-                      isPreSelected={false}
-                      type="aggregation"
-                      selectDisease={self.selectDisease.bind(self)} />;
-                  })
-              }
-            </div>
-            <div className="hm-disease-results-enfermedad">
-              <span className="hm-disease-result-groupname"> 
-                {
-                  'ENFERMEDADES'
-                }
-              </span>
-              <div className="hm-disease-results-header">
-                <div className="hm-disease-row-name-container">
-                  <span className="hm-disease-row-name-blanked"> Nombre </span>
+            }
+            {
+              !!this.state.diseasesOptions.length && 
+                <div className="hm-disease-results-enfermedad">
+                  <span className="hm-disease-result-groupname"> 
+                    {
+                      'ENFERMEDADES'
+                    }
+                  </span>
+                  <div className="hm-disease-results-header">
+                    <div className="hm-disease-row-name-container">
+                      <span className="hm-disease-row-name-blanked"> Nombre </span>
+                    </div>
+                    <div className="hm-disease-row-cod">
+                      <span className="hm-disease-row-name-blanked"> Código </span>
+                    </div>
+                  </div>
+                  {
+                    this.state.diseasesOptions
+                      .map((disease, idx) => {
+                        return <DiseaseRow
+                          key={idx}
+                          disease={disease}
+                          type="disease"
+                          selected={self.isDiseaseSelected(disease)}
+                          isPreSelected={false}
+                          selectDisease={self.selectDisease.bind(self)} />;
+                      })
+                  }              
                 </div>
-                <div className="hm-disease-row-cod">
-                  <span className="hm-disease-row-name-blanked"> Código </span>
-                </div>
-              </div>
-              {
-                this.state.diseasesOptions
-                  .map((disease, idx) => {
-                    return <DiseaseRow
-                      key={idx}
-                      disease={disease}
-                      type="disease"
-                      selected={self.isDiseaseSelected(disease)}
-                      isPreSelected={false}
-                      selectDisease={self.selectDisease.bind(self)} />;
-                  })
-              }              
-            </div>
+            }
           </div>
         }
         {
