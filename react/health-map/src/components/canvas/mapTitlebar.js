@@ -99,6 +99,7 @@ class MapTitlebar extends React.Component {
     const selectedGender = incidencesFilters.getIn(['gender']);
     const selectedSeason = incidencesFilters.getIn(['season']);
     const selectedInstitution = incidencesFilters.get('institution');
+    const city = incidencesFilters.get('city').toJS();
     return (
       <div
         className="hm-map-titlebar"
@@ -116,7 +117,7 @@ class MapTitlebar extends React.Component {
           </div>
           <div className="hm-map-title-text">
             {
-              'MAPA EPIDEMIOLÓGICO DE GUAYAQUIL'
+              `MAPA EPIDEMIOLÓGICO ${city.name ? 'DE ' + city.name.toUpperCase() : ''}`
             }
           </div>
         </div>

@@ -414,18 +414,20 @@
   margin: 4px;
 }
 
-
-.tooltip {
-  position: absolute;
-  margin: 8px;
-  padding: 4px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  max-width: 300px;
-  font-size: 10px;
-  z-index: 9;
-  pointer-events: none;
+.mapboxgl-ctrl-top-right .mapboxgl-ctrl {
+  margin: unset !important;
 }
+
+.mapboxgl-ctrl-top-right{
+  top: 16px !important;
+  left: 432px !important;
+  right: unset !important;
+  margin: unset !important;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26) !important;
+  border-radius: 6px !important;
+  opacity: 0.8;
+}
+
 
 .map-overlay {
   position: absolute;
@@ -444,8 +446,9 @@
   -ms-flex-direction: column;
       flex-direction: column;
   padding: 16px;
+  margin-right: 0px !important;
   top: 96px;
-  left: 432px;
+  right: 16px;
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
@@ -465,6 +468,7 @@
   -ms-flex-item-align: center;
       align-self: center;
 }
+
 
 .incidence {
   display: -ms-flexbox;
@@ -1249,6 +1253,89 @@
 
 #hm-sidebar-content{
   padding: 16px;
+}
+
+.hm-dim{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-pack: center;
+      justify-content: center;
+  -ms-flex-align: center;
+      align-items: center;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.hm-loader-text{
+  font-size: 18px;
+  text-align: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  color: white;
+  font-weight: bold;
+}
+
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 122px;
+  height: 128px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 27px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 12px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 12px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 52px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 90px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(38px, 0);
+  }
 }
 
 html,

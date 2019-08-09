@@ -51,6 +51,7 @@ class MapComponent extends React.Component {
   }
 
   _loadData = incidences => {
+    this.props.startLoadingMap();
     updatePercentiles(incidences, (f) => {
       return f.properties.metrics[this.props.incidencesFilters.get('type')];
     });
@@ -104,11 +105,14 @@ class MapComponent extends React.Component {
         '<p>Acerca el mouse a un sector...</p>';
     }
   };
-
+  componentDidMount() {
+    this.props.startLoadingMap();
+  }
   componentDidUpdate(prevProps) {
 
     if (prevProps.immutableIncidences.get('init') 
       && !this.props.immutableIncidences.get('init')) {
+      this.props.startLoadingMap();
       this._loadData(this.props.immutableIncidences.toJS());
     }
 
@@ -123,6 +127,7 @@ class MapComponent extends React.Component {
         !prevProps.incidencesFilters.equals(this.props.incidencesFilters)
       )
     ) {
+      this.props.startLoadingMap();
       this._updateSettings(this.props.immutableIncidences.toJS());
     }
 
@@ -143,7 +148,10 @@ class MapComponent extends React.Component {
             });
           }}
           onStyleLoad={(map) => {
-            this.setState({ map });
+            this.setState({ 
+              map
+            });
+            this.props.finishLoadingMap();
             map.addControl(new MapboxTraffic());
             map.on('mousemove', (e) => {
               this._onHover(e, map);
@@ -178,7 +186,8 @@ const mapStateToProps = (state) => {
   return {
     incidences: state.getIn(['incidences', 'data']).toJS(),
     immutableIncidences: state.getIn(['incidences', 'data']),
-    incidencesFilters: state.getIn(['incidences', 'filters'])
+    incidencesFilters: state.getIn(['incidences', 'filters']),
+    isLoadingMap: state.getIn(['incidences', 'isLoadingMap'])
   };
 };
 
@@ -186,7 +195,9 @@ const mapStateToProps = (state) => {
  *
  */
 const mapDispatchToProps = dispatch => bindActionCreators({
-  selectGeozone: actions.selectGeozone
+  selectGeozone: actions.selectGeozone,
+  startLoadingMap: actions.startLoadingMap,
+  finishLoadingMap: actions.finishLoadingMap
 }, dispatch);
 
 

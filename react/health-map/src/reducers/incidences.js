@@ -8,6 +8,7 @@ const initialState = Immutable.Map({
     init: true,
     features: []
   }),
+  isLoadingMap: false,
   isLoadingIncidences: false,
   loadIncidencesError: '',
   selectedGeozone: undefined,
@@ -50,6 +51,20 @@ const initialState = Immutable.Map({
  */
 const loadIncidencesBegin = (state) => {
   return state.set('isLoadingIncidences', true);
+};
+
+/**
+ *
+ */
+const startLoadingMap = (state) => {
+  return state.set('isLoadingMap', true);
+};
+
+/**
+ *
+ */
+const finishLoadingMap = (state) => {
+  return state.set('isLoadingMap', false);
 };
 
 /**
@@ -173,6 +188,10 @@ export default function general(state = initialState, action) {
     return mutateFilters(state, action);
   case types.MUTATE_MANY_FILTERS:
     return mutateManyFilters(state, action);
+  case types.START_LOADING_MAP:
+    return startLoadingMap(state, action);
+  case types.FINISH_LOADING_MAP:
+    return finishLoadingMap(state, action);
   case types.LOAD_INCIDENCES_BEGIN:
     return loadIncidencesBegin(state);
   case types.LOAD_INCIDENCES_SUCCESS:

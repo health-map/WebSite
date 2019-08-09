@@ -52,6 +52,21 @@ class DataTab extends React.Component {
       });
     }
 
+    const selectedStartDate = incidencesFilters.get('startDate');
+    const selectedEndDate = incidencesFilters.get('endDate');
+    const selectedGender = incidencesFilters.getIn(['gender']).toJS();
+    const selectedAge= incidencesFilters.getIn(['age']).toJS();
+    const selectedDisease = incidencesFilters.getIn(['disease']);
+
+    const firstInfoText = ''.concat(
+      'Estas visualizando el número de pacientes ',
+      `${selectedAge.name !== 'TODOS' ? selectedAge.name + ' ' : ''}`,
+      selectedDataType.name.toUpperCase() + '. ', 
+      `${selectedGender.name !== 'TODOS' ? 'Cuyo género de nacimiento es ' + selectedGender.name + '. ' : ''}`,
+      `${selectedStartDate && selectedEndDate? 'E ingresaron a la institución de salud entre el ' + selectedStartDate + ' y el ' + selectedEndDate + '. ' : ''}`,
+      `${selectedDisease ? 'El diagnóstico de los pacientes fue: ' + selectedDisease.get('name') + '.' : ''}`
+    );
+
     return (
       <div className="hm-tab-container">
         {
@@ -91,15 +106,12 @@ class DataTab extends React.Component {
               <div>
                 <div className="hm-datatab-firstinfo">
                   {
-                    'Estas viendo datos de pacientes de TODAS LAS EDADES de género FEMENINO, cuya fecha de ingreso fue en VERANO del 2019. Diagnóstico de los pacientes: Enfermedades del sistema digestivo '
+                    firstInfoText                  
                   }
                 </div>
                 <div className="hm-datatab-datatype">
                   <span>Ver numero de Pacientes: </span>
                   <div>
-                    {
-                      DataTypesMapping[incidencesFilters.get('type')]
-                    }
                     <div className="shy-form-field hm-select-datatype">
                       <Select
                         valueKey="id"

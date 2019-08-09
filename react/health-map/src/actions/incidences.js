@@ -13,7 +13,9 @@ export const types = {
   CHANGE_INCIDENCE_COLOR: 'INCIDENCES/CHANGE_INCIDENCE_COLOR',
   SELECT_GEOZONE: 'INCIDENCES/SELECT_GEOZONE',
   MUTATE_FILTERS: 'INCIDENCES/MUTATE_FILTERS',
-  MUTATE_MANY_FILTERS: 'INCIDENCES/MUTATE_MANY_FILTERS'
+  MUTATE_MANY_FILTERS: 'INCIDENCES/MUTATE_MANY_FILTERS',
+  START_LOADING_MAP: 'INCIDENCES/START_LOADING_MAP',
+  FINISH_LOADING_MAP: 'INCIDENCES/FINISH_LOADING_MAP'
 };
 
 /**
@@ -29,6 +31,14 @@ export const actions = {
     types.MUTATE_FILTERS,
     (filterKey, filterValue) => ({ filterKey,
       filterValue })
+  ),
+  startLoadingMap: createAction(
+    types.START_LOADING_MAP,
+    () => ({})
+  ),
+  finishLoadingMap: createAction(
+    types.FINISH_LOADING_MAP,
+    () => ({})
   ),
   mutateManyFilters: createAction(
     types.MUTATE_MANY_FILTERS,

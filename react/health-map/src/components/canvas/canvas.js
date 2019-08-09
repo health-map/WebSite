@@ -104,10 +104,28 @@ class Canvas extends React.Component {
     const self = this;
     const {
       isFiltersDialogVisible, toggleFiltersDialog, 
-      message, showMessage
+      message, showMessage, isLoadingMap
     } = this.props;
+    console.log('IS LOADING MAP', isLoadingMap);
     return (
       <div className="canvas">
+        {
+          isLoadingMap && 
+          <div
+            className="hm-dim">
+            <span className="hm-loader-text"> 
+              {
+                'Estamos cargando la información de salud. Por favor, espere unos segundos.'
+              }
+            </span>
+            <div className="lds-ellipsis">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        }
         <Sidebar
           sidebar={
             <HMSidebar

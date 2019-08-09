@@ -54,7 +54,7 @@ class CanvasContainer extends React.Component {
   }
   render() {
     const {
-      defaultLocation, message, showMessage
+      defaultLocation, message, showMessage, isLoadingMap
     } = this.props;
     const {
       from, to, selectedTags, selectedCities, selectedCompanies,
@@ -95,7 +95,8 @@ class CanvasContainer extends React.Component {
       defaultLocation,
       selectedCity,
       message,
-      showMessage
+      showMessage,
+      isLoadingMap
     };
     return (
       <Canvas {...props}/>
@@ -128,7 +129,8 @@ const mapStateToProps = (state) => {
     userId: state.getIn(['general', 'user', 'id']),
     apiUrl: state.getIn(['general', 'user', 'apiUrl']),
     apiToken: state.getIn(['general', 'user', 'apiToken']),
-    defaultLocation: state.getIn(['general', 'user', 'defaultLocation'])
+    defaultLocation: state.getIn(['general', 'user', 'defaultLocation']),
+    isLoadingMap: state.getIn(['incidences', 'isLoadingMap'])
   };
 };
 

@@ -56,19 +56,19 @@ export const UserRole = {
 export const DataTypesMapping = [
   {
     id: 'absolute',
-    name: 'Totales de un sector'
+    name: 'Totales de cada sector'
   }, 
   {
     id: 'every1000Inhabitants',
-    name: 'Por cada mil habitantes de un sector'
+    name: 'Por cada mil habitantes de cada sector'
   },
   {
     id: 'relativeToPopulation',
-    name: 'Relativo a la población de un sector'
+    name: 'Relativo a la población de cada sector'
   }, 
   {
     id: 'relativeToPatients',
-    name: 'Relativo al número de pacientes de un sector'
+    name: 'Relativo al número de pacientes de cada sector'
   }
 ];
 
