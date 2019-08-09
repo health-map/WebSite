@@ -5,6 +5,8 @@
  */
 
 import React from 'react';
+import Immutable from 'immutable';
+import bbox from '@turf/bbox';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { 
@@ -34,9 +36,10 @@ class Incidence extends React.Component {
   }
   render() {
     let {
-      incidence
+      incidence, setMapBounds
     } = this.props;
 
+    const incidencePolygon = incidence.geometry;
     incidence = incidence.properties;
 
     let actionImg = 'https://cdn.shippify.co/icons/icon-visibility-off-gray.svg';
@@ -92,10 +95,17 @@ class Incidence extends React.Component {
           <FaSearchPlus 
             size={18}
             onClick={() => {
-              this.toggleIncidenceVisibility(
-                incidence.id, 
-                !incidence.isVisible
-              );
+              const incidenceBounds = bbox({
+                type: 'FeatureCollection',
+                features: [
+                  {
+                    geometry: incidencePolygon
+                  }
+                ]
+              });
+              console.log('bounds', incidenceBounds);
+              console.log(Immutable.fromJS(incidenceBounds));
+              setMapBounds(Immutable.fromJS(incidenceBounds));
             }}/>
           <div style={{ width: '16px' }}></div>
         </div>
@@ -111,7 +121,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  toggleIncidenceVisibility: actions.toggleIncidenceVisibility
+  toggleIncidenceVisibility: actions.toggleIncidenceVisibility,
+  setMapBounds: actions.setMapBounds
 }, dispatch);
 
 

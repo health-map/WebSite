@@ -81,7 +81,11 @@ class MapComponent extends React.Component {
         ['sources', 'incomeByState', 'data'], 
         Immutable.fromJS(incidences)
       );
-      this.setState({ mapStyle: newMapStyle });
+      this.setState({ 
+        mapStyle: newMapStyle 
+      }, () => {
+        this.props.finishLoadingMap();
+      });
     }
   };
 
@@ -100,7 +104,7 @@ class MapComponent extends React.Component {
         metrics.absolute + 
         '</strong> pacientes totales</em></p>';
     } else {
-      map.getCanvas().style.cursor = 'pointer';
+      map.getCanvas().style.cursor = '';
       document.getElementById('pd').innerHTML = 
         '<p>Acerca el mouse a un sector...</p>';
     }
@@ -131,6 +135,15 @@ class MapComponent extends React.Component {
       this._updateSettings(this.props.immutableIncidences.toJS());
     }
 
+    if (!prevProps.mapBounds.equals(this.props.mapBounds)) {
+      this.state.map.fitBounds(this.props.mapBounds.toJS(), { 
+        padding: { top: 64,
+          bottom: 64,
+          left: 250,
+          right: 20 } 
+      });
+    }
+
   }
   render() {
     return (
@@ -156,10 +169,13 @@ class MapComponent extends React.Component {
             map.on('mousemove', (e) => {
               this._onHover(e, map);
             });
+            map.on('mousedown', (e) => {
+              this._onHover(e, map);
+            });
           }}>
           <ZoomControl 
             style={{
-              bottom: '60px'
+              bottom: '140px'
             }}
             position="bottom-right"/>
         </MapboxMap>
@@ -187,7 +203,8 @@ const mapStateToProps = (state) => {
     incidences: state.getIn(['incidences', 'data']).toJS(),
     immutableIncidences: state.getIn(['incidences', 'data']),
     incidencesFilters: state.getIn(['incidences', 'filters']),
-    isLoadingMap: state.getIn(['incidences', 'isLoadingMap'])
+    isLoadingMap: state.getIn(['incidences', 'isLoadingMap']),
+    mapBounds: state.getIn(['incidences', 'mapBounds'])
   };
 };
 

@@ -15,7 +15,8 @@ export const types = {
   MUTATE_FILTERS: 'INCIDENCES/MUTATE_FILTERS',
   MUTATE_MANY_FILTERS: 'INCIDENCES/MUTATE_MANY_FILTERS',
   START_LOADING_MAP: 'INCIDENCES/START_LOADING_MAP',
-  FINISH_LOADING_MAP: 'INCIDENCES/FINISH_LOADING_MAP'
+  FINISH_LOADING_MAP: 'INCIDENCES/FINISH_LOADING_MAP',
+  SET_MAP_BOUNDS: 'INCIDENCES/SET_MAP_BOUNDS'
 };
 
 /**
@@ -31,6 +32,10 @@ export const actions = {
     types.MUTATE_FILTERS,
     (filterKey, filterValue) => ({ filterKey,
       filterValue })
+  ),
+  setMapBounds: createAction(
+    types.SET_MAP_BOUNDS,
+    (bounds) => ({ bounds })
   ),
   startLoadingMap: createAction(
     types.START_LOADING_MAP,

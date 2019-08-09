@@ -10,6 +10,7 @@ const initialState = Immutable.Map({
   }),
   isLoadingMap: false,
   isLoadingIncidences: false,
+  mapBounds: Immutable.Map(),
   loadIncidencesError: '',
   selectedGeozone: undefined,
   filters: Immutable.Map({
@@ -45,6 +46,17 @@ const initialState = Immutable.Map({
     })
   })
 });
+
+/**
+ *
+ */
+const setMapBounds = (state, action) => {
+  console.log(action.payload.bounds);
+  if (action.payload.bounds) {
+    return state.set('mapBounds', action.payload.bounds);
+  }
+  return state;
+};
 
 /**
  *
@@ -206,6 +218,8 @@ export default function general(state = initialState, action) {
     return changeIncidenceColor(state, action);
   case types.SELECT_GEOZONE:
     return selectGeozone(state, action);
+  case types.SET_MAP_BOUNDS:
+    return setMapBounds(state, action);
   default:
     return state;
   }
