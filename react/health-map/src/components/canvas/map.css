@@ -69,3 +69,49 @@
   background-size: contain;
   margin: 4px;
 }
+
+
+.tooltip {
+  position: absolute;
+  margin: 8px;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  max-width: 300px;
+  font-size: 10px;
+  z-index: 9;
+  pointer-events: none;
+}
+
+.map-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.8);
+  margin-right: 20px;
+  font-family: Arial, sans-serif;
+  overflow: auto;
+}
+
+.hm-hover-box {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  top: 96px;
+  left: 432px;
+  height: fit-content;
+  width: 175px;
+  box-shadow:0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+  background-color: rgba(255,255,255,0.8);
+  border-radius: 6px;
+  color: #757575;
+}
+
+
+.hm-hover-box-title{
+  font-size: 12px;
+  display: flex;
+  font-weight: bold;
+  align-self: center;
+}

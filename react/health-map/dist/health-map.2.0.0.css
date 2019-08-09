@@ -415,6 +415,57 @@
 }
 
 
+.tooltip {
+  position: absolute;
+  margin: 8px;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  max-width: 300px;
+  font-size: 10px;
+  z-index: 9;
+  pointer-events: none;
+}
+
+.map-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.8);
+  margin-right: 20px;
+  font-family: Arial, sans-serif;
+  overflow: auto;
+}
+
+.hm-hover-box {
+  position: absolute;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  padding: 16px;
+  top: 96px;
+  left: 432px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: 175px;
+  box-shadow:0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+  background-color: rgba(255,255,255,0.8);
+  border-radius: 6px;
+  color: #757575;
+}
+
+
+.hm-hover-box-title{
+  font-size: 12px;
+  display: -ms-flexbox;
+  display: flex;
+  font-weight: bold;
+  -ms-flex-item-align: center;
+      align-self: center;
+}
+
 .incidence {
   display: -ms-flexbox;
   display: flex;
@@ -945,6 +996,7 @@
       justify-content: center;
   text-align: center;
   padding-top: 0px;
+  color: #757575;
   padding-bottom: 0px;
   height: 100%;
   padding-left: 16px;
@@ -957,6 +1009,7 @@
 .hm-tab-active{
   border-bottom: 4px solid #0092E1;
   font-weight: bold;
+  color: black;
 }
 
 .hm-tab-name{

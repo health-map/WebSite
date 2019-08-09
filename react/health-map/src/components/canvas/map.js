@@ -9,8 +9,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import MapboxTraffic from '@mapbox/mapbox-gl-traffic';
 import ReactMapboxGl, {
-  // Layer,
-  // Feature,
   ZoomControl
 } from 'react-mapbox-gl';
 
@@ -19,7 +17,6 @@ import {
   defaultMapStyle, 
   dataLayer
 } from './../../constants';
-// import DeliveryPopup from './deliveryPopup';
 import { actions } from './../../actions/incidences';
 import { updatePercentiles } from '../../utils';
 
@@ -76,7 +73,6 @@ class MapComponent extends React.Component {
       return incidence.properties.isVisible;
     });
     if (firstIncidencesData && incidences) {
-      console.log('actualizando');
       updatePercentiles(incidences, (f) => {
         return f.properties.metrics[this.props.incidencesFilters.get('type')];
       } );
@@ -88,26 +84,31 @@ class MapComponent extends React.Component {
     }
   };
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.selectedCity.cityId !== this.props.selectedCity.cityId) {
-      this.setState({
-        center: [
-          (
-            this.props.selectedCity.bounds.west +
-            this.props.selectedCity.bounds.east
-          )/2,
-          (
-            this.props.selectedCity.bounds.north +
-            this.props.selectedCity.bounds.south
-          )/2
-        ],
-        zoom: (this.props.selectedCity.zoom) ? this.props.selectedCity.zoom : 10
-      });
+  _onHover = (e, map) => {
+    const hoveredFeatures = map.queryRenderedFeatures(e.point, {
+      layers: ['data']
+    });
+    if (hoveredFeatures && hoveredFeatures.length) {
+      const metrics = 
+        JSON.parse(hoveredFeatures[0].properties.metrics);
+      map.getCanvas().style.cursor = 'pointer';
+      document.getElementById('pd').innerHTML = 
+        '<h3><strong>' + 
+        hoveredFeatures[0].properties.geofence_name +
+        '</strong></h3><p><strong><em>' + 
+        metrics.absolute + 
+        '</strong> pacientes totales</em></p>';
+    } else {
+      map.getCanvas().style.cursor = 'pointer';
+      document.getElementById('pd').innerHTML = 
+        '<p>Acerca el mouse a un sector...</p>';
     }
+  };
+
+  componentDidUpdate(prevProps) {
 
     if (prevProps.immutableIncidences.get('init') 
       && !this.props.immutableIncidences.get('init')) {
-      console.log('call load data', this.props.immutableIncidences);
       this._loadData(this.props.immutableIncidences.toJS());
     }
 
@@ -122,53 +123,49 @@ class MapComponent extends React.Component {
         !prevProps.incidencesFilters.equals(this.props.incidencesFilters)
       )
     ) {
-      console.log('actualizate');
       this._updateSettings(this.props.immutableIncidences.toJS());
     }
 
   }
   render() {
-    // let {
-    //   incidences
-    // } = this.props;
-    console.log('rerendering;;;;;', this.state.mapStyle);
     return (
-      <MapboxMap
-        style={ this.state.mapStyle.toJS() }
-        containerStyle = {{
-          height: '100vh'
-        }}
-        center={this.state.center}
-        zoom={[this.state.zoom]}
-        onZoom={(map) => {
-          this.setState({
-            zoom: map.getZoom()
-          });
-        }}
-        onStyleLoad={(map) => {
-          this.setState({ map });
-          map.addControl(new MapboxTraffic());
-        }}>
-        {/* 
-        {
-          false &&
-          <DeliveryPopup
-            selectedGeozone={true}
-            applyFilters={this.props.applyFilters}
-            from={this.props.from}
-            to={this.props.to}
-            selectedTags={this.props.selectedTags}
-            selectedCities={this.props.selectedCities}
-            selectedCompanies={this.props.selectedCompanies}
-            selectedDeliveries={this.props.selectedDeliveries}
-            selectedStatuses={this.props.selectedStatuses}/>
-        } */}
-        <ZoomControl 
-          style={{
-            bottom: '60px'
+      <div>
+        <MapboxMap
+          style={ this.state.mapStyle.toJS() }
+          containerStyle = {{
+            height: '100vh'
           }}
-          position="bottom-right"/>
-      </MapboxMap>
+          center={this.state.center}
+          zoom={[this.state.zoom]}
+          onZoom={(map) => {
+            this.setState({
+              zoom: map.getZoom()
+            });
+          }}
+          onStyleLoad={(map) => {
+            this.setState({ map });
+            map.addControl(new MapboxTraffic());
+            map.on('mousemove', (e) => {
+              this._onHover(e, map);
+            });
+          }}>
+          <ZoomControl 
+            style={{
+              bottom: '60px'
+            }}
+            position="bottom-right"/>
+        </MapboxMap>
+        <div 
+          className="map-overlay hm-hover-box">
+          <span
+            className="hm-hover-box-title">
+              INFORMACION DE SECTOR
+          </span>
+          <div id='pd'>
+            <p>Acerca el mouse a un sector...</p>
+          </div>
+        </div>
+      </div>
     );
   }
 }

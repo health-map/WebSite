@@ -134,6 +134,7 @@
   justify-content: center;
   text-align: center;
   padding-top: 0px;
+  color: #757575;
   padding-bottom: 0px;
   height: 100%;
   padding-left: 16px;
@@ -145,6 +146,7 @@
 .hm-tab-active{
   border-bottom: 4px solid #0092E1;
   font-weight: bold;
+  color: black;
 }
 
 .hm-tab-name{
