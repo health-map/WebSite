@@ -1,19 +1,33 @@
 version: "3"
 services:
- web:
-   build: .
-   volumes:
-    - .:/api
-    - node_modules:/api/node_modules
-   ports:
-    - "8030:8030"
-    - "9005:9005"
-   environment:
-    - SERVER_HOST_NAME=http://127.0.0.1
-   networks:
-    - healthmap-net
+  web:
+    build: .
+    volumes:
+      - .:/api
+      - node_modules:/api/node_modules
+    ports:
+      - "8030:8030"
+      - "9005:9005"
+    environment:
+      - SERVER_HOST_NAME=http://127.0.0.1
+      - JOB_QUEUE_HOST=job-queue:3030
+      - JOB_QUEUE_USERNAME=map
+      - JOB_QUEUE_PASSWORD=dev
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=root
+      - POSTGRES_PASS=dev
+      - POSTGRES_DB=healthmap
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - JOB_QUEUE_REDIS_HOST=job-queue-redis
+      - JOB_QUEUE_REDIS_PORT=6379
+      - JOB_QUEUE_REDIS_PASSWORD=dev
+      - GOOGLE_DIRECTIONS_API_KEY=AIzaSyBGhvLIKDkKTKmSUyE6EmdQwWu4uz3Fbqc
+    networks:
+      - api-server_healthmap-net
 volumes:
- node_modules:
+  node_modules:
 networks:
- healthmap-net:
-   driver: bridge
+  api-server_healthmap-net:
+    external: true

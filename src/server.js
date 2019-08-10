@@ -32,21 +32,21 @@ if(cluster.isMaster) {
   const Express = require('express');
 
 
-  // const redis = require('./services/storage/redis');
+  const redis = require('./services/storage/redis');
 
   const morgan = require('morgan');
   const bodyParser = require('body-parser');
   const cookieParser = require('cookie-parser');
-
+  const I18n = require('i18n-2');
   const app = new Express();
 
   const session = require('express-session');
-  // const RedisStore = require('connect-redis')(session);
+  const RedisStore = require('connect-redis')(session);
   const path = require('path');
   const engine = require('ejs-locals');
   const expressLayouts = require('express-ejs-layouts');
-  // const sessionAuth = require('./controllers/middleware/auth').sessionAuth;
-  // const User = require('./models/user');
+  const auth = require('./middlewares/auth');
+  const lang = require('./middlewares/lang');
 
   const allowCrossDomain = (req, res, next) => {
     const origin = req.headers.origin;
@@ -67,10 +67,20 @@ if(cluster.isMaster) {
 
   app.use(cookieParser());
 
+  /**bodyParser.json(options)
+   * Parses the text as JSON and exposes the resulting object on req.body.
+  */
+
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(Express.static(path.join(__dirname, 'public')));
   app.use(Express.static(path.join(__dirname, '../react')));
+
+  I18n.expressBind(app, {
+    locales: ['en', 'es'],
+    defaultLocale: 'es',
+    cookieName: 'locale'
+  });
 
   app.get('/ping', (request, response) => {
     response.contentType('application/json');
@@ -91,44 +101,56 @@ if(cluster.isMaster) {
       app.use(redirectSecure);
   }
 
-  // app.use(session({
-  //   store: new RedisStore({
-  //     client: redis.connect()
-  //   }),
-  //   secret : 'health-map',
-  //   resave: false,
-  //   saveUninitialized: false
-  // }));
+  app.use(session({
+    store: new RedisStore({
+      client: redis.connect()
+    }),
+    secret : 'health-map',
+    resave: false,
+    saveUninitialized: false
+  }));
 
-
-  // app.use(require('./controllers/admin'));
 
   app.set('views', [path.join(__dirname , 'views'), path.join(__dirname, '..', 'admin', 'build') ]);
 
-  app.use('/health-map', require('./controllers/health-map'));
+
+  app.get('/lang/:locale', auth, lang, (req, res) => {
+    const { params: { locale } = {} } = req;
+
+    console.log('*********************');
+    console.log("LANGUAGE SELECTED: " + locale);
+    console.log('*********************');
+    if (!locale) {
+      return res.status(422).json({ code: 'PF', message: "Missing Parameters" });
+    }
+    if(!req.i18n.locales[locale]) {
+      return res.status(422).json({ code: 'PF', message: `There is no locale lang configured with ${locale}` });
+    }
+
+    res.cookie('locale', locale);
+    req.i18n.setLocale(locale);
+    req.i18n.setLocaleFromCookie();
+    return res.redirect('/')
+  });
+
+
+  app.use(require('./controllers/admin'));
+
+  app.use(['/*', '/health-map/*'], auth, lang, (req, res)=>{
+    return res.render('panels/healthMap', {
+      urlApi: process.env.SHIPPIFY_API_URL,
+      user: {
+        apiUrl: 'http://localhost:8020',
+        apiToken: 'YWJjZGU6YWJjZGU='
+      },
+      layout: 'layouts/noneLayout',
+      locale: 'es',
+      environment: 'development'
+    });
+  });
 
   app.use(Express.static(path.resolve(__dirname, '..', 'admin', 'build'), { index: false }));
   app.use('/views/assets', Express.static(path.resolve(__dirname, '..', 'admin', 'views', 'assets')));
-
-  /**
-   *
-   */
-  // app.use('/*', sessionAuth, (req, res) => {
-  //   User.getFlag({
-  //     user_id: req.session.user.id,
-  //     type: 'tutorial_monitor'
-  //   }, (error, flag) => {
-  //     return res.render('index.ejs', {
-  //       tutorial: false,
-  //       locale: 'es',
-  //       user: req.session.user,
-  //       environment: req.session.user.environment,
-  //       companyAccess: req.session.user.companyAccess,
-  //       layout:'./layouts/publiclayout'
-  //     });
-  //   });
-  // });
-
 
   app.listen(port, host,() =>{
     console.log(`Health Map web server listening on http://${host}:${port} with the worker ${process.pid}`);
