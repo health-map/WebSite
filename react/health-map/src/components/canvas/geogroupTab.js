@@ -201,7 +201,7 @@ class GeogroupTab extends React.Component {
   createGeozoneGroup() {
     const self = this;
     if (!this.validateNewGeogroupName() 
-      || !this.props.selectedGeozonesForGroup.length) {
+      || !this.props.selectedGeozonesForGroup.size) {
       return;
     }
     this.setState({
@@ -212,7 +212,7 @@ class GeogroupTab extends React.Component {
       createGeozoneGroup({
         name: self.state.newGeogroupName, 
         description: self.state.newGeogroupDescription, 
-        geofences: self.props.selectedGeozonesForGroup.map(g => g.id)
+        geofences: self.props.selectedGeozonesForGroup.map(g => g.get('id'))
       }, {
         apiUrl: self.props.apiUrl,
         apiToken: self.props.apiToken
@@ -331,18 +331,32 @@ class GeogroupTab extends React.Component {
                 }
               </span>
               {
-                !!this.props.selectedGeozonesForGroup.length &&
+                !!this.props.selectedGeozonesForGroup.size &&
                 <div>
                   {
                     this.props.selectedGeozonesForGroup
                       .map((geozone, idx) => {
-                        return <div
-                          key={idx}
-                          className="hm-geozone-new-geozone">
-                          {
-                            geozone.name
-                          }
-                        </div>;
+                        return (
+                          <div
+                            key={idx}
+                            className="hm-geozone-new-geozone">
+                            <div>
+                              {
+                                geozone.get('name')
+                              }
+                            </div>
+                            <img
+                              className="icon-remove-geo"
+                              src="https://cdn.shippify.co/icons/icon-close-circle-gray-mini.svg"
+                              onClick={(e) => {
+                                this.props.removeSelectedGeofenceOnGroup(
+                                  geozone
+                                );
+                                e.stopPropagation();
+                              }}
+                              alt=""/>
+                          </div>
+                        );
                       })
                   }
                 </div>
@@ -450,10 +464,7 @@ class GeogroupTab extends React.Component {
 const mapStateToProps = (state) => {
   return {
     selectedGeozoneGroup: state.getIn(['general', 'selectedGeozoneGroup']),
-    selectedGeozonesForGroup: state.getIn(['general', 'selectedGeozonesForGroup']).length ? 
-      state.getIn(['general', 'selectedGeozonesForGroup']) : [{ id: 30,
-        name: 'Guasmo Sur' },{ id: 48,
-        name: 'Alborada' }],
+    selectedGeozonesForGroup: state.getIn(['general', 'selectedGeozonesForGroup']),
     isGeozoneSelectionModeOn: state.getIn(['general', 'isGeozoneSelectionModeOn']),
     apiUrl: state.getIn(['general', 'user', 'apiUrl']),
     apiToken: state.getIn(['general', 'user', 'apiToken']),
@@ -464,6 +475,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => bindActionCreators({
   setGeozoneGroup: actions.setGeozoneGroup,
   toggleGeozoneSelectionMode: actions.toggleGeozoneSelectionMode,
+  removeSelectedGeofenceOnGroup: actions.removeSelectedGeofenceOnGroup,
   mutateFilters: incidencesActions.mutateFilters,
   loadIncidences: loadIncidencesRequest
 }, dispatch);

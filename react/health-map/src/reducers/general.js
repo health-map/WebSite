@@ -1,5 +1,5 @@
 
-import { Map, fromJS } from 'immutable';
+import { Map, fromJS, List } from 'immutable';
 
 import { types } from './../actions/general';
 
@@ -10,7 +10,7 @@ const initialState = Map({
   message: '',
   selectedGeozoneGroup: undefined,
   selectedDisease: undefined,
-  selectedGeozonesForGroup: [],
+  selectedGeozonesForGroup: List(),
   isGeozoneSelectionModeOn: false
 });
 
@@ -21,7 +21,7 @@ const removeSelectedGeofenceOnGroup = (state, action) => {
   return state.set(
     'selectedGeozonesForGroup', 
     state.get('selectedGeozonesForGroup').filter((geozone) => {
-      return geozone.id != action.payload.geofence.id;
+      return geozone.get('id') != action.payload.geofence.get('id');
     }));
 };
 
@@ -29,9 +29,22 @@ const removeSelectedGeofenceOnGroup = (state, action) => {
  *
  */
 const addSelectedGeofenceOnGroup = (state, action) => {
-  return state.set(
-    'selectedGeozonesForGroup', 
-    state.get('selectedGeozonesForGroup').push(action.payload.geofence));
+  const geofenceToAdd = action.payload.geofence.toJS();
+  console.log(geofenceToAdd);
+  let selectedGeozonesForGroup = state.get('selectedGeozonesForGroup').toJS();
+  console.log(selectedGeozonesForGroup);
+  var found = selectedGeozonesForGroup.find((g) => {
+    return g.id === geofenceToAdd.id;
+  });
+  console.log(found);
+  if (!found) {
+    selectedGeozonesForGroup.push(geofenceToAdd);
+    return state.set(
+      'selectedGeozonesForGroup', 
+      fromJS(selectedGeozonesForGroup)
+    );
+  }
+  return state;
 };
 
 /**

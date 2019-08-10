@@ -141,7 +141,7 @@ class DiseaseTab extends React.Component {
     this.setState({
       diseaseQuery: q
     });
-    if (q.length < 7) {
+    if (q.length < 3) {
       return;
     }
     this.setState({

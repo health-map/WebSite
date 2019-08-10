@@ -38,9 +38,16 @@
 }
 
 .hm-geozone-new-geozone{
-  border-bottom: 1px solid #ccc;
   color: #757575;
   padding: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icon-remove-geo{
+  width: 20px;
 }
 
 .hm-arrow-back-icon{

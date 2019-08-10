@@ -19,6 +19,7 @@ import {
   Colors
 } from './../../constants';
 import { actions } from './../../actions/incidences';
+import { actions as generalActions } from './../../actions/general';
 import { updatePercentiles } from '../../utils';
 
 import './map.css';
@@ -50,6 +51,19 @@ class MapComponent extends React.Component {
       firstIncidencesData: undefined,
       legendQuantiles: []
     };
+  }
+
+  addSelectedGeofenceOnGroup = (e, map) => {
+    const clickedFeatures = map.queryRenderedFeatures(e.point, {
+      layers: ['data']
+    });
+    if (clickedFeatures && clickedFeatures.length) {
+      const clickedFeature = {
+        id: clickedFeatures[0].properties.id,
+        name: clickedFeatures[0].properties.geofence_name
+      };
+      this.props.addSelectedGeofenceOnGroup(Immutable.fromJS(clickedFeature));
+    }
   }
 
   buildLegendArray() {
@@ -208,7 +222,9 @@ class MapComponent extends React.Component {
               this._onHover(e, map);
             });
             map.on('mousedown', (e) => {
-              this._onHover(e, map);
+              if (this.props.isGeozoneSelectionModeOn) {
+                this.addSelectedGeofenceOnGroup(e, map);
+              }
             });
           }}>
           <ZoomControl 
@@ -268,7 +284,8 @@ const mapStateToProps = (state) => {
     immutableIncidences: state.getIn(['incidences', 'data']),
     incidencesFilters: state.getIn(['incidences', 'filters']),
     isLoadingMap: state.getIn(['incidences', 'isLoadingMap']),
-    mapBounds: state.getIn(['incidences', 'mapBounds'])
+    mapBounds: state.getIn(['incidences', 'mapBounds']),
+    isGeozoneSelectionModeOn: state.getIn(['general', 'isGeozoneSelectionModeOn'])
   };
 };
 
@@ -278,7 +295,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => bindActionCreators({
   selectGeozone: actions.selectGeozone,
   startLoadingMap: actions.startLoadingMap,
-  finishLoadingMap: actions.finishLoadingMap
+  finishLoadingMap: actions.finishLoadingMap,
+  addSelectedGeofenceOnGroup: generalActions.addSelectedGeofenceOnGroup
 }, dispatch);
 
 
