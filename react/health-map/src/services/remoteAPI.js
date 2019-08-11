@@ -313,6 +313,8 @@ export async function loadIncidences(
   },
   { apiUrl, apiToken }
 ) {
+  console.log(endDate);
+  console.log(startDate);
   const url = new URL(apiUrl);
   const searchParams = new URLSearchParams();
   url.pathname = '/incidences';
@@ -346,12 +348,12 @@ export async function loadIncidences(
       startDate = '01-01-2018';
     }
     if (season === 'INVIERNO') { // ENE, FEB, MAR, ABR, MAY
-      const startMoment = moment(startDate, 'DD-MM-YYYY');
+      const startMoment = moment(startDate, 'MM-DD-YYYY');
       const pivotYear = startMoment.format('YYYY');
       startDate = '01-01-' + pivotYear;
       endDate = '05-30-' + pivotYear;
     } else if (season === 'VERANO') { // JUN, JUL, AGO, SEP, OCT, NOV, DEC
-      const startMoment = moment(startDate, 'DD-MM-YYYY');
+      const startMoment = moment(startDate, 'MM-DD-YYYY');
       const pivotYear = startMoment.format('YYYY');
       startDate = '06-01-' + pivotYear;
       endDate = '12-31-' + pivotYear;

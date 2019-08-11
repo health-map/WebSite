@@ -20,6 +20,23 @@
   font-size: 14px;
 }
 
+.hm-datesselectors{
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  margin-top: 8px;
+  width: 190px;
+}
+
+.react-datepicker__input-container > input{
+  border: 1px solid #ccc !important;
+  height: 28px !important;
+  border-radius: 6px !important;
+  margin-bottom: 8px !important;
+  color: #757575 !important;
+  width: 179px;
+}
+
 .hm-filters-field .Select-control{
   border: 0px !important;
 }

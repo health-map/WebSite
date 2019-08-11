@@ -7,7 +7,7 @@
 import React from 'react';
 import moment from 'moment';
 import Immutable from 'immutable';
-// import Kronos from 'react-kronos';
+import DatePicker from 'react-datepicker';
 import Select from 'react-select';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -23,7 +23,10 @@ import {
 import { actions } from './../../actions/incidences';
 import { thunks } from '../../actions/thunks/incidences';
 const { loadIncidences: loadIncidencesRequest } = thunks;
-
+// import { registerLocale } from  'react-datepicker';
+// import es from 'date-fns/locale/es';
+// registerLocale('es', es);
+import 'react-datepicker/dist/react-datepicker.css';
 import './filters.css';
 
 
@@ -57,7 +60,9 @@ class Filters extends React.Component {
       selectedAge: undefined,
       selectedDivision: undefined,
       startDate: undefined,
-      endDate: undefined
+      endDate: undefined,
+      startDateOption: moment('01-01-2015', 'MM-DD-YYYY'),
+      endDateOption: null
     };
   }
   componentDidMount() {
@@ -66,7 +71,8 @@ class Filters extends React.Component {
       selectedCity: filters.get('city').toJS(),
       selectedInstitution: filters.get('institution').toJS(),
       selectedDepartment: filters.get('department').toJS(),
-      startDate: filters.get('startDate'),
+      startDate: filters.get('startDate') ?
+        filters.get('startDate') : '01-01-2015',
       endDate: filters.get('endDate'),
       selectedGender: filters.get('gender').toJS(),
       selectedAge: filters.get('age').toJS(),
@@ -108,10 +114,20 @@ class Filters extends React.Component {
       selectedDivision
     });
   }
-  handleDateRangeChange = (startDate, endDate) => {
+  handleChangeStart = (startDate) => {
+    console.log(startDate);
+    const startDateStr = startDate.format('MM-DD-YYYY');
     this.setState({
-      startDate: moment(startDate).startOf('day').unix(),
-      endDate: moment(endDate).endOf('day').unix()
+      startDate: startDateStr,
+      startDateOption: startDate
+    });
+  }
+  handleChangeEnd = (endDate) => {
+    const endDateStr = endDate.format('MM-DD-YYYY');
+    console.log(endDate);
+    this.setState({
+      endDate: endDateStr,
+      endDateOption: endDate
     });
   }
   loadInstitutions = () => {
@@ -357,13 +373,37 @@ class Filters extends React.Component {
                     'Selecciona un rango de fechas'
                   }
                 </div>
-                <div className="shy-form-field">
-                  {/* <Kronos
-                    options={kronosOptions}
-                    format={'DD-MM-YYYY'}
-                    date={moment.unix(this.state.from)}
-                    onChangeDateTime={(e) => this.handleDateChange(e)}
-                    inputClassName="shy-form-field-input full-width"/> */}
+                <div className="hm-datesselectors">
+                  <div className="shy-form-field hm-date-picker">
+                    <DatePicker
+                      placeholder="Fecha Inicio"
+                      dateFormat="MM-DD-YYYY"
+                      selected={this.state.startDateOption}
+                      startDate={this.state.startDateOption}
+                      endDate={this.state.endDateOption}
+                      onChange={this.handleChangeStart}
+                      minDate={moment('01-01-2015', 'MM-DD-YYYY')}
+                      maxDate={moment(new Date())}
+                      showMonthDropdown
+                      showYearDropdown
+                      dropdownMode="select"
+                      selectsStart/>
+                  </div>
+                  <div className="shy-form-field hm-date-picker">
+                    <DatePicker
+                      placeholder="Fecha Fin"
+                      dateFormat="MM-DD-YYYY"
+                      selected={this.state.endDateOption}
+                      startDate={this.state.startDateOption}
+                      endDate={this.state.endDateOption}
+                      onChange={this.handleChangeEnd}
+                      minDate={this.state.startDateOption}
+                      maxDate={moment(new Date())}
+                      showMonthDropdown
+                      showYearDropdown
+                      dropdownMode="select"
+                      selectsEnd/>                
+                  </div>
                 </div>
               </div>
               <div className="shy-dialog-body-buttons">
