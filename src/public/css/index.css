@@ -4,6 +4,45 @@ html, body{
   height: 100% !important;
 }
 
+.hm-btn{
+  min-height: 48px;
+  min-width: 95px;
+  width: auto;
+  border: none;
+  text-align: center;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  cursor: pointer;
+  outline: none;
+  padding-left: 24px;
+  padding-right: 24px;
+  text-transform: uppercase;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s;
+}
+
+a {
+  text-decoration: unset !important;
+}
+
+.hm-btn-primary {
+  color: #64BAAB;
+  border: 2px solid #64BAAB;
+}
+
+.hm-btn-primary:hover {
+  color: white;
+  background-color: #64BAAB;
+  text-decoration: unset !important;
+}
 
 
 body::after{
@@ -232,7 +271,7 @@ font-weight: 700;
 }
 
 .hm-institution-image {
-  height: 100px;
+  height: 65px;
   align-self: center;
   width: 100px;
   border-radius: 50%;
@@ -284,6 +323,6 @@ font-weight: 700;
   text-transform: uppercase;
   margin-bottom: 0;
   margin-top: 32px;
-  font-size: 32px;
+  font-size: 20px;
   font-weight: 700;
 }

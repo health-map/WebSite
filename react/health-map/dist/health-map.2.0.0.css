@@ -1747,7 +1747,7 @@
 }
 
 .hm-tab-active{
-  border-bottom: 4px solid #6caebf;
+  border-bottom: 4px solid #64BAAB;
   font-weight: bold;
   color: black;
 }
@@ -2827,7 +2827,7 @@ input[type='range']::-webkit-slider-thumb {
   	text-align: left;
   	color: #757575;
     width: 100%;
-		min-incidence: 100px;
+		min-height: 100px;
 	}
 
 	.shy-form-field-text-area.has-error,
@@ -2867,7 +2867,6 @@ input[type='range']::-webkit-slider-thumb {
     width: 100%;
     background-color: #fff;
   }
-	.shy-form-field-options {}
 		.shy-form-field-options .shy-form-field-option {
 			display: -ms-flexbox;
 			display: flex;
@@ -2883,13 +2882,6 @@ input[type='range']::-webkit-slider-thumb {
 		}
 	.shy-form-field .Select {
 		width: 100%;
-	}
-	.shy-form-field-map {
-		incidence: 180px;
-		width: 100%;
-		padding: 4px;
-		border-radius: 4px;
-		border: 1px solid #cccccc;
 	}
 
 
