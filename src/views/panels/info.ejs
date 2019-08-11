@@ -1,0 +1,233 @@
+<head>
+  <title>Health Map</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="http://miniguia.virtuonet.com/images/gyeicon.png" type="image/png" sizes="16x16"/>
+  <link rel="icon" href="http://miniguia.virtuonet.com/images/gyeicon.png" type="image/png" sizes="32x32"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto"/>
+  <link rel='stylesheet' href='css/animate.css' />
+  <link rel='stylesheet' href='css/index.css' />
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body class="hm-index-body text-center" style="overflow-x: hidden">
+  <div id="hm-container" class="cover-container d-flex h-100 mx-auto flex-column">
+
+    <% include titlebar %>
+
+    <div class="hm-container">
+    <main role="main" class="inner cover">
+
+        <div style="margin-top: 32px; display: flex; flex-direction: column; align-items: center; padding: 60px;">
+            <p>
+                Una iniciativa sin fines de lucro de la Escuela Superior Politécnica del Litoral (ESPOL) y
+                el Hospital León Becerra de Guayaquil. <br>
+            </p>
+            <p>
+                <strong>Guayaquil Health Map</strong> es un proyecto que busca monitorear la incidencia de
+                enfermedades a lo largo de los diferentes sectores de la ciudad de Guayaquil, haciendo uso
+                de mapas geográficos divididos hasta una granularidad geográfica de barrios. <br><br>
+
+                Con <strong>Guayaquil Health Map</strong> buscamos encontrar zonas en donde una condición de
+                salud presenta un grado de aparición anómalo con respecto al resto de la ciudad. Esto, con el
+                fin de poder encontrar correlaciones entre las <i>características geográficas</i> o factores
+                externos (e.g. materiales de construcción) de un sector y la <i>incidencia de las enfermedades</i>.
+
+            </p>
+
+            <p>
+                Nos encontramos actualmente reclutando instituciones de salud que poseean datos de pacientes de
+                todo Guayaquil, para poder realizar un mapa epidemiológicos unificado de toda la ciudad.
+            </p>
+            <div style="display: flex; justify-content: space-around">
+                <a href="/health-map">
+                    <button type="button" class="btn btn-primary btn-lg">DESCUBRELO!</button>
+                </a>
+            </div>
+        </div>
+
+      <h1 class="hm-institutions-title">CONTACTANOS</h1>
+
+      <div class="hm-persons-container">
+          <div class="hm-person-box">
+              <div id="colours">
+                  <div id="stage1"></div>
+                  <div id="stage2"></div>
+                  <div id="stage3"></div>
+                  <div id="stage4"></div>
+                  <div id="stage5"></div>
+                  <div id="stage6"></div>
+                  <div id="stage7"></div>
+                  <div id="stage8"></div>
+                  <div id="stage9"></div>
+              </div>
+              <div class="hm-institution-container">
+                  <div class="hm-institution-content">
+                      <div class="hm-institution-info">
+                          <h3 class="hm-institution-title">PhD. Lorena Carló</h3>
+                          <h6 class="hm-institucion-detail"> Tutora Principal </h6>
+                          <h6 class="hm-institucion-detail">lcarlo@espol.edu.ec </h6>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="hm-person-box">
+              <div id="colours">
+                  <div id="stage1"></div>
+                  <div id="stage2"></div>
+                  <div id="stage3"></div>
+                  <div id="stage4"></div>
+                  <div id="stage5"></div>
+                  <div id="stage6"></div>
+                  <div id="stage7"></div>
+                  <div id="stage8"></div>
+                  <div id="stage9"></div>
+              </div>
+              <div class="hm-institution-container">
+                  <div class="hm-institution-content">
+                      <div class="hm-institution-info">
+                          <h3 class="hm-institution-title"> PhD. Daniel Ochoa</h3>
+                          <h6 class="hm-institucion-detail"> Tutor </h6>
+                          <h6 class="hm-institucion-detail">dochoa@espol.edu.ec </h6>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="hm-person-box">
+              <div id="colours">
+                  <div id="stage1"></div>
+                  <div id="stage2"></div>
+                  <div id="stage3"></div>
+                  <div id="stage4"></div>
+                  <div id="stage5"></div>
+                  <div id="stage6"></div>
+                  <div id="stage7"></div>
+                  <div id="stage8"></div>
+                  <div id="stage9"></div>
+              </div>
+              <div class="hm-institution-container">
+                  <div class="hm-institution-content">
+                      <div class="hm-institution-info">
+                          <h3 class="hm-institution-title"> MsC. Frank Malo</h3>
+                          <h6 class="hm-institucion-detail"> Tutor </h6>
+                          <h6 class="hm-institucion-detail"> fmalo@espol.edu.ec </h6>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+      <div class="hm-persons-container">
+
+          <div class="hm-person-box">
+              <div id="colours">
+                  <div id="stage1"></div>
+                  <div id="stage2"></div>
+                  <div id="stage3"></div>
+                  <div id="stage4"></div>
+                  <div id="stage5"></div>
+                  <div id="stage6"></div>
+                  <div id="stage7"></div>
+                  <div id="stage8"></div>
+                  <div id="stage9"></div>
+              </div>
+              <div class="hm-institution-container">
+                  <div class="hm-institution-content">
+                      <div class="hm-institution-info">
+                          <h3 class="hm-institution-title">Leonardo Kuffó</h3>
+                          <h6 class="hm-institucion-detail"> UI & UX Engineer, API Engineer, Algorithms Development </h6>
+                          <h6 class="hm-institucion-detail"> lkuffo@espol.edu.ec </h6>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+
+          <div class="hm-person-box">
+              <div id="colours">
+                  <div id="stage1"></div>
+                  <div id="stage2"></div>
+                  <div id="stage3"></div>
+                  <div id="stage4"></div>
+                  <div id="stage5"></div>
+                  <div id="stage6"></div>
+                  <div id="stage7"></div>
+                  <div id="stage8"></div>
+                  <div id="stage9"></div>
+              </div>
+              <div class="hm-institution-container">
+                  <div class="hm-institution-content">
+                      <div class="hm-institution-info">
+                          <h3 class="hm-institution-title">Leonardo Larrea</h3>
+                          <h6 class="hm-institucion-detail"> DataBase Manager, API Engineer, Algorithms Development</h6>
+                          <h6 class="hm-institucion-detail"> lkuffo@espol.edu.ec </h6>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="hm-person-box">
+              <div id="colours">
+                  <div id="stage1"></div>
+                  <div id="stage2"></div>
+                  <div id="stage3"></div>
+                  <div id="stage4"></div>
+                  <div id="stage5"></div>
+                  <div id="stage6"></div>
+                  <div id="stage7"></div>
+                  <div id="stage8"></div>
+                  <div id="stage9"></div>
+              </div>
+              <div class="hm-institution-container">
+                  <div class="hm-institution-content">
+                      <div class="hm-institution-info">
+                          <h3 class="hm-institution-title">Fabricio Layedra</h3>
+                          <h6 class="hm-institucion-detail"> Investigador Geoespacial </h6>
+                          <h6 class="hm-institucion-detail"> flayedra@espol.edu.ec </h6>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="hm-person-box">
+              <div id="colours">
+                  <div id="stage1"></div>
+                  <div id="stage2"></div>
+                  <div id="stage3"></div>
+                  <div id="stage4"></div>
+                  <div id="stage5"></div>
+                  <div id="stage6"></div>
+                  <div id="stage7"></div>
+                  <div id="stage8"></div>
+                  <div id="stage9"></div>
+              </div>
+              <div class="hm-institution-container">
+                  <div class="hm-institution-content">
+                      <div class="hm-institution-info">
+                          <h3 class="hm-institution-title">Madelyne Velasco</h3>
+                          <h6 class="hm-institucion-detail"> Investigadora </h6>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+  </main>
+  </div>
+  </div>
+
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+
+
+</body>

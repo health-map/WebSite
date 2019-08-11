@@ -135,8 +135,9 @@ if(cluster.isMaster) {
 
 
   app.use(require('./controllers/admin'));
+  app.use(require('./controllers/subsections'));
 
-  app.use(['/*', '/health-map/*'], auth, lang, (req, res)=>{
+  app.use(['/', '/health-map/'], auth, lang, (req, res)=>{
     return res.render('panels/healthMap', {
       urlApi: process.env.SHIPPIFY_API_URL,
       user: {
@@ -150,7 +151,7 @@ if(cluster.isMaster) {
   });
 
   app.use(Express.static(path.resolve(__dirname, '..', 'admin', 'build'), { index: false }));
-  app.use('/views/assets', Express.static(path.resolve(__dirname, '..', 'admin', 'views', 'assets')));
+  app.use('/views/assets', Express.static(path.resolve(__dirname, 'views', 'assets')));
 
   app.listen(port, host,() =>{
     console.log(`Health Map web server listening on http://${host}:${port} with the worker ${process.pid}`);

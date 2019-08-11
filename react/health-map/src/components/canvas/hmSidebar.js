@@ -55,12 +55,12 @@ class HMSidebar extends React.Component {
               <span
                 className="hm-sidebar-option-text">
                 {
-                  'Mapa Epidemiológico de Guayaquil'
+                  'Mapa de Salud'
                 }
               </span>
             </a>
             <a
-              href="/instituciones"
+              href="/institutions"
               className="hm-sidebar-option">
               <FaRegHospital
                 size={22}/>
@@ -84,6 +84,7 @@ class HMSidebar extends React.Component {
               </span>
             </a>
             <a
+              href="http://150.136.213.20/"
               className="hm-sidebar-option">
               <FaCity
                 size={22}/>
