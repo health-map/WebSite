@@ -35,7 +35,7 @@ class HMSidebar extends React.Component {
               }}>
               <FaTimes
                 size={32}
-                color="#0092E1"/>
+                color="#FFFFFF"/>
             </div>
             <span className="hm-sidebar-name">
               {

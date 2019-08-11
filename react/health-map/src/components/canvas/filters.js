@@ -254,7 +254,7 @@ class Filters extends React.Component {
                   src="https://cdn.shippify.co/icons/icon-filter-white.svg"
                   alt=""/>
                 { 
-                  'FILTROS Y CONFIGURACIONES' 
+                  'FILTROS' 
                 }
               </div>
               <img

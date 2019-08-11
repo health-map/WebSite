@@ -75,6 +75,18 @@
   font-weight: bold;
 }
 
+.hm-geozone-no-results{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px;
+  margin-top: 64px;
+  text-align: center;
+  width: auto;
+  font-size: 18px;
+  color: #aaa;
+}
+
 .hm-geozone-new-form-title-secondary{
   display: flex;
   font-size: 12px;

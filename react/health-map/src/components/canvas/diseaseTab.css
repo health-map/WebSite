@@ -33,7 +33,6 @@
 
 .hm-disease-row-name{
   font-size: 14px;
-  font-weight: bold;
 }
 
 .hm-number-icon{
@@ -95,6 +94,7 @@
 
 .hm-disease-result-groupname{
   font-size: 16px;
+  font-weight: bold;
   display: flex;
   margin-top: 16px;
   margin-bottom: 16px;

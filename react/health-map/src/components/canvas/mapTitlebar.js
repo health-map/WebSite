@@ -104,7 +104,7 @@ class MapTitlebar extends React.Component {
       <div
         className="hm-map-titlebar"
         style={{
-          backgroundColor: '#0092E1'
+          backgroundColor: '#0b7895'
         }}>
         <div className="hm-map-title-box">
           <div 

@@ -7,12 +7,12 @@
 .hm-sidebar-header{
   display: flex;
   flex-direction: column;
-  border-bottom: 4px solid #0092E1;
+  border-bottom: 4px solid #64BAAB;
 }
 
 .hm-sidebar-name{
   font-size: 18px;
-  color: #757575;
+  color: white;
   margin-left: 6px;
 }
 
@@ -22,6 +22,7 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  background-color: #64BAAB;
 }
 
 .hm-sidebar-content{
@@ -52,11 +53,11 @@
   flex-direction: row;
   align-items: center;
   margin-top: 32px;
-  color: #0092E1 !important;
+  color: #64BAAB !important;
   cursor: pointer;
   text-decoration: none !important;
 }
 
 .hm-sidebar-option:hover{
-  color: #0092E1 !important;
+  color: #64BAAB !important;
 }

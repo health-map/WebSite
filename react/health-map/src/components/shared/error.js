@@ -17,7 +17,7 @@ const Error = ({ text, onRetry, enableRefreshButton }) => {
       <div className="shy-error">
         <FaExclamationCircle
           size={92}
-          color="#0092E1"/>
+          color="#0b7895"/>
         <span>
           { window.translation(text) }
         </span>

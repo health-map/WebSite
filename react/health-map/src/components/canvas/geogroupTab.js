@@ -406,9 +406,19 @@ class GeogroupTab extends React.Component {
               !this.state.geozonesOptions.length && 
               !this.state.isLoadingGeozones &&
               !!this.state.geozonesQuery.length &&
-              <div className="hm-disease-no-results">
-                { 'No se han encontrado resultados' }
+              <div className="hm-geozone-no-results">
+                { 'No se han encontrado resultados. Prueba con otra búsqueda.' }
               </div>
+            }
+            {
+              !this.state.geozonesOptions.length &&
+              !this.state.isLoadingGeozones &&
+              !this.state.geozonesQuery.length &&
+                <div className="hm-geozone-no-results">
+                  { 
+                    'No se han encontrado zonas de interés. Crea una dando click en el botón circular de abajo.' 
+                  }
+                </div>
             }
             {
               !!this.state.geozonesOptions.length && 
