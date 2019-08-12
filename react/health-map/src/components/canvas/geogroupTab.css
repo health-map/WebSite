@@ -87,6 +87,10 @@
   color: #aaa;
 }
 
+.hm-download-icon{
+  width: 16px !important; 
+}
+
 .hm-geozone-new-form-title-secondary{
   display: flex;
   font-size: 12px;

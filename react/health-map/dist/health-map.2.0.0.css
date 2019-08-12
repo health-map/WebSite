@@ -1557,6 +1557,10 @@
   color: #aaa;
 }
 
+.hm-download-icon{
+  width: 16px !important; 
+}
+
 .hm-geozone-new-form-title-secondary{
   display: -ms-flexbox;
   display: flex;

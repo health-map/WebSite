@@ -31,6 +31,9 @@ class DataTab extends React.Component {
   componentDidUpdate() {
 
   }
+  downloadFileCKAN() {
+    console.log('Uplooading File to DataCity');
+  }
   handleDataTypeChange = (selectedDataType) => {
     this.props.mutateFilters(
       'type',
@@ -148,6 +151,15 @@ class DataTab extends React.Component {
                     })
                   }
                 </div>
+                <button 
+                  className="hm-fab-btn hm-fab-bottom-right"
+                  onClick={() => {
+                    this.downloadFileCKAN();
+                  }}>
+                  <img
+                    className="hm-download-icon"
+                    src="https://cdn.shippify.co/icons/icon-download-white-mini.svg"/>
+                </button>
               </div>
             }
           </div>
