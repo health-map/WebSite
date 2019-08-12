@@ -97,6 +97,8 @@ width: 100%;
 
 .masthead {
   z-index: 20;
+  position: sticky !important;
+  top: 0;
   padding: 16px 32px 16px 32px;
   margin-bottom: 0px;
   color: #fff;
@@ -173,6 +175,7 @@ border-bottom-color: #fff;
 .cover {
 padding: 0 1.5rem;
 display: flex;
+align-items: center;
 flex-direction: column;
 }
 .cover .btn-lg {
@@ -333,7 +336,7 @@ font-weight: 700;
 
 .hm-login-form{
   display: flex;
-  width: 50%;
+  width: 100%;
   flex-direction: column;
 }
 

@@ -117,7 +117,7 @@ class MapTitlebar extends React.Component {
           </div>
           <div className="hm-map-title-text">
             {
-              `MAPA EPIDEMIOLÓGICO ${city.name ? 'DE ' + city.name.toUpperCase() : ''}`
+              `MAPA DE SALUD ${city.name ? 'DE ' + city.name.toUpperCase() : ''}`
             }
           </div>
         </div>
