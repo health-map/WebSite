@@ -37,7 +37,7 @@ export const init = (data, selector) => {
   if (!userData) {
     userData = {
       apiUrl: 'http://localhost:8020',
-      apiToken: 'YWJjZGU6YWJjZGU='
+      apiToken: 'YW5vbnltb3VzQGhlYWx0aG1hcC5jb206MTIzNA=='
     };
   }
   store.dispatch(generalActions.updateUserInformation(userData));

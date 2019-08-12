@@ -12,7 +12,8 @@ import {
   FaHeartbeat,
   FaInfoCircle,
   FaCity,
-  FaSignOutAlt
+  FaSignOutAlt,
+  FaSignInAlt
 } from 'react-icons/fa';
 import { connect } from 'react-redux';
 
@@ -23,7 +24,7 @@ class HMSidebar extends React.Component {
 
   render() {
     const {
-      onSetSidebarOpen
+      onSetSidebarOpen, user
     } = this.props;
     return (
       <div className="hm-sidebar-container">
@@ -39,7 +40,9 @@ class HMSidebar extends React.Component {
             </div>
             <span className="hm-sidebar-name">
               {
-                'Dr. Leonardo Kuffo'
+                (user.email) ?
+                  `${user.role_name} ${user.first_name} ${user.last_name}` :
+                  'Visitante'
               }
             </span>
           </div> 
@@ -97,6 +100,23 @@ class HMSidebar extends React.Component {
             </a>
           </div>
           <div>
+            {
+              (!user.email) &&
+            <a
+              href="/login"
+              className="hm-sidebar-option">
+              <FaSignInAlt
+                size={22}/>
+              <span
+                className="hm-sidebar-option-text">
+                {
+                  'Iniciar Sesión'
+                }
+              </span>
+            </a>
+            }
+            {
+              (user.email) &&
             <a
               href="/logout"
               className="hm-sidebar-option">
@@ -109,6 +129,8 @@ class HMSidebar extends React.Component {
                 }
               </span>
             </a>
+            }
+
           </div>
         </div>
       </div>
@@ -121,7 +143,7 @@ class HMSidebar extends React.Component {
  */
 const mapStateToProps = state => {
   return {
-    username: state.getIn(['general', 'username'])
+    user: state.getIn(['general', 'user']).toJS()
   };
 };
 
