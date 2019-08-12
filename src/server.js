@@ -138,12 +138,22 @@ if(cluster.isMaster) {
   app.use(require('./controllers/subsections'));
 
   app.use(['/', '/health-map/'], auth, lang, (req, res)=>{
+
+    const user = (req.session && req.session.user) ? 
+    {
+      ...req.session.user,
+      apiUrl: 'http://localhost:8020',
+      apiToken: req.session.user.api_token,
+      password: undefined
+    } : 
+    { // anonymous user
+      apiUrl: 'http://localhost:8020',
+      apiToken: 'YW5vbnltb3VzQGhlYWx0aG1hcC5jb206MTIzNA=='
+    }
+
     return res.render('panels/healthMap', {
-      urlApi: process.env.SHIPPIFY_API_URL,
-      user: {
-        apiUrl: 'http://localhost:8020',
-        apiToken: 'YWJjZGU6YWJjZGU='
-      },
+      apiUrl: process.env.SHIPPIFY_API_URL,
+      user: user,
       layout: 'layouts/noneLayout',
       locale: 'es',
       environment: 'development'

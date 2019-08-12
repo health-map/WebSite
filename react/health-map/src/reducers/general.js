@@ -30,13 +30,10 @@ const removeSelectedGeofenceOnGroup = (state, action) => {
  */
 const addSelectedGeofenceOnGroup = (state, action) => {
   const geofenceToAdd = action.payload.geofence.toJS();
-  console.log(geofenceToAdd);
   let selectedGeozonesForGroup = state.get('selectedGeozonesForGroup').toJS();
-  console.log(selectedGeozonesForGroup);
   var found = selectedGeozonesForGroup.find((g) => {
     return g.id === geofenceToAdd.id;
   });
-  console.log(found);
   if (!found) {
     selectedGeozonesForGroup.push(geofenceToAdd);
     return state.set(

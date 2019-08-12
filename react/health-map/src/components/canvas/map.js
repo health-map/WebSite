@@ -67,7 +67,6 @@ class MapComponent extends React.Component {
   }
 
   buildLegendArray() {
-    console.log(this.state.legendQuantiles);
     const legendArray = this.state.legendQuantiles.reduce(
       (rlegendArray, q, idx, quantiles) => {
         if (idx === 0) { // first element
@@ -96,7 +95,6 @@ class MapComponent extends React.Component {
         }
         return rlegendArray;
       }, []);
-    console.log('legendArray', legendArray);
     return legendArray;
   }
 

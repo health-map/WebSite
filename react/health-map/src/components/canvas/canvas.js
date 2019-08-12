@@ -106,7 +106,6 @@ class Canvas extends React.Component {
       isFiltersDialogVisible, toggleFiltersDialog, 
       message, showMessage, isLoadingMap
     } = this.props;
-    console.log('IS LOADING MAP', isLoadingMap);
     return (
       <div className="canvas">
         {

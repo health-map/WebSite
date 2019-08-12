@@ -187,7 +187,6 @@ class DiseaseTab extends React.Component {
         preSelectedDisease: this.state.selectedDisease
       });
     } else {
-      console.log('CLEAR FILTER');
       this.props.mutateFilters('disease', undefined);
       this.props.loadIncidences({
         ...this.props.incidencesFilters.toJS(),

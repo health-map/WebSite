@@ -313,8 +313,6 @@ export async function loadIncidences(
   },
   { apiUrl, apiToken }
 ) {
-  console.log(endDate);
-  console.log(startDate);
   const url = new URL(apiUrl);
   const searchParams = new URLSearchParams();
   url.pathname = '/incidences';

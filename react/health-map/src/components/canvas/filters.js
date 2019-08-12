@@ -115,7 +115,6 @@ class Filters extends React.Component {
     });
   }
   handleChangeStart = (startDate) => {
-    console.log(startDate);
     const startDateStr = startDate.format('MM-DD-YYYY');
     this.setState({
       startDate: startDateStr,
@@ -124,7 +123,6 @@ class Filters extends React.Component {
   }
   handleChangeEnd = (endDate) => {
     const endDateStr = endDate.format('MM-DD-YYYY');
-    console.log(endDate);
     this.setState({
       endDate: endDateStr,
       endDateOption: endDate

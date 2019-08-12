@@ -35,5 +35,24 @@
             DataCity
         </div>          
       </a>
+      <% if (!user ) { %>
+        <a class="nav-link" href="/login">
+          <i class="hm-nav-icon material-icons">
+              face
+          </i>
+          <div class="hm-nav-text">
+              Iniciar Sesión
+          </div>          
+        </a>
+      <% } else { %>
+        <a class="nav-link" href="/logout">
+          <i class="hm-nav-icon material-icons">
+              keyboard_tab
+          </i>
+          <div class="hm-nav-text">
+              Cerrar Sesión
+          </div>          
+        </a>
+      <% }  %>
   </nav>
 </header>

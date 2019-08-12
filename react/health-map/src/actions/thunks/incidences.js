@@ -7,6 +7,7 @@ export const thunks = {
     return async (dispatch, getState) => {
       dispatch(actions.loadIncidences.begin());
       try {
+        console.log('apiTOKEN IN REQUESt', getState().getIn(['general', 'user', 'apiToken']));
         let incidences = await loadIncidences(filters, {
           apiUrl: getState().getIn(['general', 'user', 'apiUrl']),
           apiToken: getState().getIn(['general', 'user', 'apiToken'])

@@ -103,8 +103,6 @@ class Incidence extends React.Component {
                   }
                 ]
               });
-              console.log('bounds', incidenceBounds);
-              console.log(Immutable.fromJS(incidenceBounds));
               setMapBounds(Immutable.fromJS(incidenceBounds));
             }}/>
           <div style={{ width: '16px' }}></div>

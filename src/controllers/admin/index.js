@@ -10,8 +10,17 @@ const lang = require('../../middlewares/lang');
  */
 router.post('/logout', (req, res)=>{
     req.session.destroy(() => {
-      res.redirect('/login');
+      res.redirect('/info');
     });
+});
+
+/**
+ *
+ */
+router.get('/logout', (req, res)=>{
+  req.session.destroy(() => {
+    res.redirect('/info');
+  });
 });
 
 
@@ -20,16 +29,14 @@ router.post('/logout', (req, res)=>{
  */
 router.get('/login', lang, (req, res)=>{
     if (req.session && req.session.user) {
-      return res.redirect('/');
+      return res.redirect('/info');
     }
 
-    res.send(
-        '<form action="/login" method="post">'+
-        '<input input type="text" placeholder="Ingrese su email" name="email" required>' +
-        '<input type="password" placeholder="Ingrese su contraseña" name="password" required>'+
-        '<input type="submit" value="Login">'+
-        '</form>'
-    ); 
+    return res.render('panels/login', {
+      urlApi: process.env.SHIPPIFY_API_URL,
+      layout: 'layouts/noneLayout',
+      user: req.session ? req.session.user : undefined
+    });
 });
 
 
@@ -74,7 +81,7 @@ router.post('/login', (req, res) => {
 
         req.session.user = user;
 
-        res.redirect('/');
+        res.redirect('/info');
     })
 })  
   

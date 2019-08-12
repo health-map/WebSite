@@ -51,7 +51,6 @@ const initialState = Immutable.Map({
  *
  */
 const setMapBounds = (state, action) => {
-  console.log(action.payload.bounds);
   if (action.payload.bounds) {
     return state.set('mapBounds', action.payload.bounds);
   }

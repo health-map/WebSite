@@ -1,5 +1,9 @@
 const postg = require('./../../services/storage/postgre');
 const redis = require('./../../services/storage/redis');
+const ANONYMOUS_USER = {
+    apiKey: 'anonymous',
+    apiToken: 'anonymous'
+};
 
 class User {
 
@@ -63,7 +67,7 @@ class User {
             }
 
 
-            const apiKey = `apikeys:api_id:${user.api_id}`;
+            const apiKey = `apikeys:api_id:${email}`;
             redis.connect()
             .hmset(apiKey, user, (error, result)=>{
                 if(error){
