@@ -147,12 +147,14 @@ class MapComponent extends React.Component {
       const metrics = 
         JSON.parse(hoveredFeatures[0].properties.metrics);
       map.getCanvas().style.cursor = 'pointer';
-      document.getElementById('pd').innerHTML = 
-        '<h3><strong>' + 
-        hoveredFeatures[0].properties.geofence_name +
-        '</strong></h3><p><strong><em>' + 
-        metrics.absolute + 
-        '</strong> pacientes totales</em></p>';
+      const legendtext = [
+        '<h3><strong>', hoveredFeatures[0].properties.geofence_name, '</strong></h3>', 
+        '<p><strong><em>', metrics.absolute, '</strong> pacientes totales</em></p>',
+        '<p><strong><em>', String(metrics.every1000Inhabitants).substr(0, 5), '</strong> pacientes por cada mil habitantes</em></p>',
+        '<p><strong><em>', String(metrics.relativeToPopulation).substr(0, 5), '%</strong> relativo a la poblacion del sector</em></p>',
+        '<p><strong><em>', String(metrics.relativeToPatients).substr(0, 5), '%</strong> relativo al número de pacientes del sector</em></p>'
+      ].join(' ');
+      document.getElementById('pd').innerHTML = legendtext;
     } else {
       map.getCanvas().style.cursor = '';
       document.getElementById('pd').innerHTML = 
