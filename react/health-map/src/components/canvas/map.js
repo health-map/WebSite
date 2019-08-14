@@ -11,7 +11,14 @@ import MapboxTraffic from '@mapbox/mapbox-gl-traffic';
 import ReactMapboxGl, {
   ZoomControl
 } from 'react-mapbox-gl';
-
+import {
+  FaCloudRain,
+  FaThermometerFull,
+  FaThermometerQuarter,
+  FaThermometerHalf,
+  FaWind,
+  FaWater
+} from 'react-icons/fa';
 import { 
   Mapbox,
   defaultMapStyle, 
@@ -148,12 +155,12 @@ class MapComponent extends React.Component {
         JSON.parse(hoveredFeatures[0].properties.metrics);
       map.getCanvas().style.cursor = 'pointer';
       const legendtext = [
-        '<h3><strong>', hoveredFeatures[0].properties.geofence_name, '</strong></h3>', 
+        '<h3 class="hm-legend-geofence-name"><strong>', hoveredFeatures[0].properties.geofence_name, '</strong></h3>', 
         '<p><strong><em>', metrics.absolute, '</strong> pacientes totales</em></p>',
         '<p><strong><em>', String(metrics.every1000Inhabitants).substr(0, 5), '</strong> pacientes por cada mil habitantes</em></p>',
         '<p><strong><em>', String(metrics.relativeToPopulation).substr(0, 5), '%</strong> relativo a la poblacion del sector</em></p>',
         '<p><strong><em>', String(metrics.relativeToPatients).substr(0, 5), '%</strong> relativo al número de pacientes del sector</em></p>'
-      ].join(' ');
+      ].join('');
       document.getElementById('pd').innerHTML = legendtext;
     } else {
       map.getCanvas().style.cursor = '';
@@ -265,8 +272,72 @@ class MapComponent extends React.Component {
               })
             }
           </div>
+
           <div id='pd'>
             <p>Acerca el mouse a un sector...</p>
+          </div>
+
+          <span
+            className="hm-hover-box-title"
+            style={{ marginTop: '8px' }}>
+              DATOS METEOROLÓGICOS DE GUAYAQUIL
+          </span>
+          <div
+            className="hm-legend-box">           
+            <div className="hm-legend-row">
+              <div className="hm-legend-meteor-box">
+                <FaThermometerFull 
+                  size={20}
+                  color="#0b7895"/>
+              </div>
+              <div className="hm-temp-desc">Temp. máxima</div>
+              <div className="hm-temp-value">38°C</div>
+            </div>
+            <div className="hm-legend-row">
+              <div className="hm-legend-meteor-box">
+                <FaThermometerQuarter 
+                  size={20}
+                  color="#0b7895"/>
+              </div>
+              <div className="hm-temp-desc">Temp. mínima</div>
+              <div className="hm-temp-value">19°C</div>
+            </div>
+            <div className="hm-legend-row">
+              <div className="hm-legend-meteor-box">
+                <FaThermometerHalf
+                  size={20}
+                  color="#0b7895"/>
+              </div>
+              <div className="hm-temp-desc">Temp. promedio</div>
+              <div className="hm-temp-value">24°C</div>
+            </div>
+            <div className="hm-legend-row">
+              <div className="hm-legend-meteor-box">
+                <FaCloudRain
+                  size={20}
+                  color="#0b7895"/>
+              </div>
+              <div className="hm-temp-desc">Precipitación</div>
+              <div className="hm-temp-value">3.4mm/a</div>
+            </div>
+            <div className="hm-legend-row">
+              <div className="hm-legend-meteor-box">
+                <FaWater
+                  size={20}
+                  color="#0b7895"/>
+              </div>
+              <div className="hm-temp-desc">Humedad Promedio</div>
+              <div className="hm-temp-value">42%</div>
+            </div>
+            <div className="hm-legend-row">
+              <div className="hm-legend-meteor-box">
+                <FaWind
+                  size={20}
+                  color="#0b7895"/>
+              </div>
+              <div className="hm-temp-desc">Velocidad de Viento</div>
+              <div className="hm-temp-value">34km/h</div>
+            </div>
           </div>
         </div>
       </div>

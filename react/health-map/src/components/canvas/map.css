@@ -95,6 +95,11 @@
   overflow: auto;
 }
 
+.hm-legend-geofence-name{
+  font-size: 14px !important;
+  text-align: center;
+}
+
 .hm-hover-box {
   position: absolute;
   display: flex;
@@ -109,6 +114,7 @@
   background-color: rgba(255,255,255,0.9);
   border-radius: 6px;
   color: #757575;
+  max-height: calc(100% - 158px);
 }
 
 
@@ -117,12 +123,12 @@
   display: flex;
   font-weight: bold;
   align-self: center;
+  text-align: center;
 }
 
 
 .hm-legend-box{
   padding-top: 16px;
-  padding-bottom: 16px;
   display: flex;
   flex-direction: column;
 }
@@ -142,10 +148,35 @@
   margin-right: 20px;
 }
 
+.hm-legend-meteor-box{
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  margin-right: 8px;
+}
+
 .hm-legend-name{
   font-size: 12px;
   color: #757575;
   text-align: right;
   align-self: center;
   max-width: 140px;
+}
+
+
+.hm-temp-value{
+  font-size: 12px;
+  color: #757575;
+  text-align: left;
+  align-self: center;
+  max-width: 140px;
+  width: 40px;
+}
+
+.hm-temp-desc{
+  font-size: 12px;
+  color: #757575;
+  text-align: left;
+  align-self: center;
+  width: 100px;
 }
