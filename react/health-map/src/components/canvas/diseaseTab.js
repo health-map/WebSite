@@ -1,6 +1,7 @@
 
 import React from 'react';
 import Immutable from 'immutable';
+import Tooltip from 'rc-tooltip';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -12,6 +13,7 @@ import { thunks } from '../../actions/thunks/incidences';
 const { loadIncidences: loadIncidencesRequest } = thunks;
 
 import './diseaseTab.css';
+import 'rc-tooltip/assets/bootstrap_white.css';
 
 /**
  *
@@ -71,19 +73,24 @@ class DiseaseRow extends React.Component {
           </span>
           {
             this.props.isPreSelected && 
-            <span 
-              className="icon marginless v1-margin-left-lg hm-clear-icon">
-              <img
-                className="icon-clear"
-                src= {
-                  'https://cdn.shippify.co/icons/icon-remove-white.svg'
-                }
-                onClick={(e) => {
-                  this.props.selectDisease(undefined); 
-                  e.stopPropagation();
-                }}
-                alt=""/>
-            </span>
+            <Tooltip 
+              placement="top" 
+              arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
+              overlay={'Quitar filtro de enfermedad'}>  
+              <span 
+                className="icon marginless v1-margin-left-lg hm-clear-icon">
+                <img
+                  className="icon-clear"
+                  src= {
+                    'https://cdn.shippify.co/icons/icon-remove-white.svg'
+                  }
+                  onClick={(e) => {
+                    this.props.selectDisease(undefined); 
+                    e.stopPropagation();
+                  }}
+                  alt=""/>
+              </span>
+            </Tooltip>
           }
         </div> 
       </div>

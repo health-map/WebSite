@@ -1,5 +1,6 @@
 
 import React from 'react';
+import Tooltip from 'rc-tooltip';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -18,6 +19,7 @@ const { loadIncidences: loadIncidencesRequest } = thunks;
 
 
 import './geogroupTab.css';
+import 'rc-tooltip/assets/bootstrap_white.css';
 
 /**
  *
@@ -57,14 +59,19 @@ class GeogroupRow extends React.Component {
         </div>
         <div className="hm-geozone-row-checkbox">
           <span className="icon marginless v1-margin-left-lg automerge-checkbox">
-            <img
-              className="icon-checkbox"
-              src= {
-                this.props.selected ?
-                  'https://cdn.shippify.co/icons/icon-visibility-on-gray.svg' :
-                  'https://cdn.shippify.co/icons/icon-visibility-off-gray.svg'
-              }
-              alt=""/>
+            <Tooltip 
+              placement="top" 
+              arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
+              overlay={'Ver zona de interés'}>  
+              <img
+                className="icon-checkbox"
+                src= {
+                  this.props.selected ?
+                    'https://cdn.shippify.co/icons/icon-visibility-on-gray.svg' :
+                    'https://cdn.shippify.co/icons/icon-visibility-off-gray.svg'
+                }
+                alt=""/>
+            </Tooltip>
           </span>
         </div> 
       </div>
@@ -455,14 +462,19 @@ class GeogroupTab extends React.Component {
                 'Algo salió mal. Por favor, intentalo nuevamente.'
               }/>
             }
-            <button 
-              className="hm-fab-btn hm-fab-bottom-right"
-              onClick={() => {
-                this.toggleCreateGeozoneGroup();
-              }}>
-              <img
-                src="https://cdn.shippify.co/icons/icon-add-white.svg" />
-            </button>
+            <Tooltip 
+              placement="top" 
+              arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
+              overlay={'Crear una zona de interés'}>  
+              <button 
+                className="hm-fab-btn hm-fab-bottom-right"
+                onClick={() => {
+                  this.toggleCreateGeozoneGroup();
+                }}>
+                <img
+                  src="https://cdn.shippify.co/icons/icon-add-white.svg" />
+              </button>
+            </Tooltip>
           </div>
         }
       </div>

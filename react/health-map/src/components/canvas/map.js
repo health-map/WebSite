@@ -318,7 +318,7 @@ class MapComponent extends React.Component {
                   color="#0b7895"/>
               </div>
               <div className="hm-temp-desc">Precipitación</div>
-              <div className="hm-temp-value">3.4mm/a</div>
+              <div className="hm-temp-value">35mm</div>
             </div>
             <div className="hm-legend-row">
               <div className="hm-legend-meteor-box">
@@ -326,7 +326,7 @@ class MapComponent extends React.Component {
                   size={20}
                   color="#0b7895"/>
               </div>
-              <div className="hm-temp-desc">Humedad Promedio</div>
+              <div className="hm-temp-desc">Humedad promedio</div>
               <div className="hm-temp-value">42%</div>
             </div>
             <div className="hm-legend-row">
@@ -336,7 +336,7 @@ class MapComponent extends React.Component {
                   color="#0b7895"/>
               </div>
               <div className="hm-temp-desc">Velocidad de Viento</div>
-              <div className="hm-temp-value">34km/h</div>
+              <div className="hm-temp-value">2.6m/s</div>
             </div>
           </div>
         </div>

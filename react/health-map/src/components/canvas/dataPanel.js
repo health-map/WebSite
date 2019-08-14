@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-//import ReactTooltip from 'react-tooltip';
 import { bindActionCreators } from 'redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 

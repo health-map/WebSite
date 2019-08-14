@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import Tooltip from 'rc-tooltip';
 import Immutable from 'immutable';
 import bbox from '@turf/bbox';
 import { connect } from 'react-redux';
@@ -17,6 +18,7 @@ import { actions } from '../../actions/incidences';
 
 
 import './incidence.css';
+import 'rc-tooltip/assets/bootstrap_white.css';
 
 /**
  *
@@ -81,30 +83,43 @@ class Incidence extends React.Component {
           }
         </div>
         <div className="incidence-actions">
-          <img
-            src={actionImg}
-            alt={'Visibility'}
-            style={actionStyle}
-            className="icon-visibility"
-            onClick={() => {
-              this.toggleIncidenceVisibility(
-                incidence.id, 
-                !incidence.isVisible
-              );
-            }}/>
-          <FaSearchPlus 
-            size={18}
-            onClick={() => {
-              const incidenceBounds = bbox({
-                type: 'FeatureCollection',
-                features: [
-                  {
-                    geometry: incidencePolygon
-                  }
-                ]
-              });
-              setMapBounds(Immutable.fromJS(incidenceBounds));
-            }}/>
+          <Tooltip 
+            placement="top" 
+            arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
+            overlay={
+              ` ${incidence.isVisible ? 'Dejar de ver el sector en el mapa' :
+                'Volver a ver el sector en el mapa'} `
+            }>                  
+            <img
+              src={actionImg}
+              alt={'Visibility'}
+              style={actionStyle}
+              className="icon-visibility"
+              onClick={() => {
+                this.toggleIncidenceVisibility(
+                  incidence.id, 
+                  !incidence.isVisible
+                );
+              }}/>
+          </Tooltip>
+          <Tooltip 
+            placement="top" 
+            arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
+            overlay={'Acercar el mapa a este sector'}>      
+            <FaSearchPlus 
+              size={18}
+              onClick={() => {
+                const incidenceBounds = bbox({
+                  type: 'FeatureCollection',
+                  features: [
+                    {
+                      geometry: incidencePolygon
+                    }
+                  ]
+                });
+                setMapBounds(Immutable.fromJS(incidenceBounds));
+              }}/>
+          </Tooltip>
           <div style={{ width: '16px' }}></div>
         </div>
       </div>

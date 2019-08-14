@@ -1,6 +1,7 @@
 
 import React from 'react';
 import Select from 'react-select';
+import Tooltip from 'rc-tooltip';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -17,6 +18,7 @@ import { DataTypesMapping } from '../../constants';
 const { loadIncidences: loadIncidencesRequest } = thunks;
 
 import './dataTab.css';
+import 'rc-tooltip/assets/bootstrap_white.css';
 
 /**
  *
@@ -151,15 +153,20 @@ class DataTab extends React.Component {
                     })
                   }
                 </div>
-                <button 
-                  className="hm-fab-btn hm-fab-bottom-right"
-                  onClick={() => {
-                    this.downloadFileCKAN();
-                  }}>
-                  <img
-                    className="hm-download-icon"
-                    src="https://cdn.shippify.co/icons/icon-download-white-mini.svg"/>
-                </button>
+                <Tooltip 
+                  placement="top" 
+                  arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
+                  overlay={'Descargar datos mostrados'}>    
+                  <button 
+                    className="hm-fab-btn hm-fab-bottom-right"
+                    onClick={() => {
+                      this.downloadFileCKAN();
+                    }}>
+                    <img
+                      className="hm-download-icon"
+                      src="https://cdn.shippify.co/icons/icon-download-white-mini.svg"/>
+                  </button>
+                </Tooltip>
               </div>
             }
           </div>
