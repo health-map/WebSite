@@ -262,7 +262,15 @@ class Filters extends React.Component {
                 onClick={this.props.onClose}/>
             </div>
             <div className="shy-dialog-body shy-dialog-body-sm">
-              <div className="hm-filters-field">
+              <span
+                className="hm-filters-introduction"> 
+                {
+                  'Selecciona las carácteristicas por las cuales deseas filtrar los pacientes mostrados en el mapa de salud.'
+                }
+              </span>
+              <div 
+                className="hm-filters-field"
+                style={{ marginTop: '12px' }}>
                 <div className="shy-form-field-label hm-filters-field-label">
                   { 
                     'Selecciona una ciudad' 
@@ -284,7 +292,7 @@ class Filters extends React.Component {
               <div className="hm-filters-field margin-top-16">
                 <div className="shy-form-field-label hm-filters-field-label">
                   { 
-                    'Selecciona una institucion'
+                    'Selecciona una institución'
                   }
                 </div>
                 <div className="shy-form-field hm-select-datatype">

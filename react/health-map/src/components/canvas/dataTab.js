@@ -114,22 +114,27 @@ class DataTab extends React.Component {
                     firstInfoText                  
                   }
                 </div>
-                <div className="hm-datatab-datatype">
-                  <span>Ver numero de Pacientes: </span>
-                  <div>
-                    <div className="shy-form-field hm-select-datatype">
-                      <Select
-                        valueKey="id"
-                        labelKey="name"
-                        value={selectedDataType}
-                        onChange={(e) => {
-                          this.handleDataTypeChange(e.id);
-                        }}
-                        isSearchable={false}
-                        options={DataTypesMapping}/>
+                <Tooltip 
+                  placement="right" 
+                  arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
+                  overlay={'Selecciona la manera en la que deseas mostrar el número de pacientes.'}>    
+                  <div className="hm-datatab-datatype">
+                    <span>Ver número de pacientes: </span>
+                    <div>
+                      <div className="shy-form-field hm-select-datatype">
+                        <Select
+                          valueKey="id"
+                          labelKey="name"
+                          value={selectedDataType}
+                          onChange={(e) => {
+                            this.handleDataTypeChange(e.id);
+                          }}
+                          isSearchable={false}
+                          options={DataTypesMapping}/>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Tooltip>
                 <div className="hm-data-incidences-container">
                   <div className="incidence incidences-header">
                     <div className="incidence-sector">

@@ -82,7 +82,7 @@ class HMSidebar extends React.Component {
               <span
                 className="hm-sidebar-option-text">
                 {
-                  'Mas información'
+                  'Nosotros'
                 }
               </span>
             </a>

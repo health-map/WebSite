@@ -62,7 +62,7 @@ class GeogroupRow extends React.Component {
             <Tooltip 
               placement="top" 
               arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
-              overlay={'Ver zona de interés'}>  
+              overlay={ this.props.selected ? 'Ocultar zona de interés' : 'Ver zona de interés' }>  
               <img
                 className="icon-checkbox"
                 src= {
@@ -462,19 +462,22 @@ class GeogroupTab extends React.Component {
                 'Algo salió mal. Por favor, intentalo nuevamente.'
               }/>
             }
-            <Tooltip 
-              placement="top" 
-              arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
-              overlay={'Crear una zona de interés'}>  
-              <button 
-                className="hm-fab-btn hm-fab-bottom-right"
-                onClick={() => {
-                  this.toggleCreateGeozoneGroup();
-                }}>
-                <img
-                  src="https://cdn.shippify.co/icons/icon-add-white.svg" />
-              </button>
-            </Tooltip>
+            {
+              !this.state.selectedGeozone &&
+              <Tooltip 
+                placement="top" 
+                arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
+                overlay={'Crear una zona de interés'}>  
+                <button 
+                  className="hm-fab-btn hm-fab-bottom-right"
+                  onClick={() => {
+                    this.toggleCreateGeozoneGroup();
+                  }}>
+                  <img
+                    src="https://cdn.shippify.co/icons/icon-add-white.svg" />
+                </button>
+              </Tooltip>
+            }
           </div>
         }
       </div>

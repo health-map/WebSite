@@ -87,8 +87,8 @@ class Incidence extends React.Component {
             placement="top" 
             arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
             overlay={
-              ` ${incidence.isVisible ? 'Dejar de ver el sector en el mapa' :
-                'Volver a ver el sector en el mapa'} `
+              ` ${incidence.isVisible ? 'Ocultar el sector en el mapa' :
+                'Ver el sector en el mapa'} `
             }>                  
             <img
               src={actionImg}
