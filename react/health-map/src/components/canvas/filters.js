@@ -23,9 +23,6 @@ import {
 import { actions } from './../../actions/incidences';
 import { thunks } from '../../actions/thunks/incidences';
 const { loadIncidences: loadIncidencesRequest } = thunks;
-// import { registerLocale } from  'react-datepicker';
-// import es from 'date-fns/locale/es';
-// registerLocale('es', es);
 import 'react-datepicker/dist/react-datepicker.css';
 import './filters.css';
 

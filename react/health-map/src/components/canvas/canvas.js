@@ -143,14 +143,7 @@ class Canvas extends React.Component {
             <div className="full-width">
               <DataPanel
                 width={ 500 }
-                from={this.props.from}
-                to={this.props.to}
-                isResponsive={this.state.isResponsive}
-                selectedTags={this.props.selectedTags}
-                selectedCities={this.props.selectedCities}
-                selectedCompanies={this.props.selectedCompanies}
-                selectedDeliveries={this.props.selectedDeliveries}
-                selectedStatuses={this.props.selectedStatuses}/>
+                isResponsive={this.state.isResponsive}/>
             </div>
           </div>
         }
@@ -172,23 +165,13 @@ class Canvas extends React.Component {
                 onSetSidebarOpen={self.onSetSidebarOpen.bind(self)}/>
             }
             <Map
-              defaultLocation={this.props.defaultLocation}
-              selectedCity={this.props.selectedCity}
-              applyFilters={this.props.applyFilters}
-              from={this.props.from}
-              to={this.props.to}
-              selectedTags={this.props.selectedTags}
-              selectedCities={this.props.selectedCities}
-              selectedCompanies={this.props.selectedCompanies}
-              selectedDeliveries={this.props.selectedDeliveries}
-              selectedStatuses={this.props.selectedStatuses}/>
+              selectedCity={this.props.selectedCity}/>
           </div>
         }
         {
           isFiltersDialogVisible &&
           <ErrorBoundaryDialog onClose={() => toggleFiltersDialog()}>
             <Filters
-              applyFilters={this.props.applyFilters}
               onClose={() => {
                 toggleFiltersDialog();
               }}/>
