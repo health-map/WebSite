@@ -74,7 +74,6 @@ class MapComponent extends React.Component {
   }
 
   buildLegendArray() {
-    console.log(this.state.legendQuantiles);
     const appendFinal = 
       (this.props.incidencesFilters.get('type') === 'absolute' ||
       this.props.incidencesFilters.get('type') === 'every1000Inhabitants') ?
@@ -125,47 +124,87 @@ class MapComponent extends React.Component {
   }
 
   _loadData = incidences => {
-    this.props.startLoadingMap();
-    const scale = updatePercentiles(incidences, (f) => {
-      return f.properties.metrics[this.props.incidencesFilters.get('type')];
-    });
-    const mapStyle = defaultMapStyle
-      // Add geojson source to map
-      .setIn(['sources', 'incidences'], Immutable.fromJS({ type: 'geojson',
-        data: incidences }))
-      // Add point layer to map
-      .set('layers', defaultMapStyle.get('layers').splice(10, 0, dataLayer));
-
-    this.setState({
-      mapStyle,
-      firstIncidencesData: incidences,
-      legendQuantiles: scale
-    });
-  };
-
-  _updateSettings = (incidences) => {
-    const { firstIncidencesData, mapStyle } = this.state;
-    incidences.features = incidences.features.filter((incidence) => {
-      return incidence.properties.isVisible;
-    });
-    if (firstIncidencesData && incidences) {
+    console.log(incidences);
+    if (incidences.features.lenght < 1 ) {
+      const mapStyle = defaultMapStyle
+        // Add geojson source to map
+        .setIn(['sources', 'incidences'], Immutable.fromJS({ type: 'geojson',
+          data: [] }))
+        // Add point layer to map
+        .set('layers', defaultMapStyle.get('layers').splice(10, 1));
+      this.setState({
+        mapStyle,
+        firstIncidencesData: undefined,
+        legendQuantiles: [0]
+      });
+    } else {
       const scale = updatePercentiles(incidences, (f) => {
         return f.properties.metrics[this.props.incidencesFilters.get('type')];
-      } );
-      const newMapStyle = mapStyle.setIn(
-        ['sources', 'incidences', 'data'], 
-        Immutable.fromJS(incidences)
-      );
-      this.setState({ 
-        mapStyle: newMapStyle,
-        legendQuantiles: scale 
-      }, () => {
-        this.props.finishLoadingMap();
+      });
+      const mapStyle = defaultMapStyle
+        // Add geojson source to map
+        .setIn(['sources', 'incidences'], Immutable.fromJS({ type: 'geojson',
+          data: incidences }))
+        // Add point layer to map
+        .set('layers', defaultMapStyle.get('layers').splice(10, 0, dataLayer));
+  
+      this.setState({
+        mapStyle,
+        firstIncidencesData: incidences,
+        legendQuantiles: scale
       });
     }
   };
 
+  _updateSettings = (incidences) => {
+    if (incidences.features.lenght < 1 ) {
+      console.log('aquiii');
+      this.props.startLoadingMap();
+      const { mapStyle } = this.state;
+      // Add geojson source to map
+      const newMapStyle = 
+        mapStyle.setIn(['sources', 'incidences', 'data'], 
+          Immutable.fromJS(
+            {
+              type: 'FeatureCollection',
+              features: []
+            }
+          ));
+      this.setState({
+        mapStyle: newMapStyle,
+        firstIncidencesData: undefined,
+        legendQuantiles: []
+      }, () => {
+        this.props.finishLoadingMap();
+      });
+    } else {
+      this.props.startLoadingMap();
+      const { firstIncidencesData, mapStyle } = this.state;
+      incidences.features = incidences.features.filter((incidence) => {
+        return incidence.properties.isVisible;
+      });
+      if (firstIncidencesData && incidences) {
+        const scale = updatePercentiles(incidences, (f) => {
+          return f.properties.metrics[this.props.incidencesFilters.get('type')];
+        } );
+        const newMapStyle = mapStyle.setIn(
+          ['sources', 'incidences', 'data'], 
+          Immutable.fromJS(incidences)
+        );
+        this.setState({ 
+          mapStyle: newMapStyle,
+          legendQuantiles: scale 
+        }, () => {
+          this.props.finishLoadingMap();
+        });
+      }
+    }
+  };
+
   _onHover = (e, map) => {
+    if (this.props.incidences.features.length < 1) {
+      return;
+    }
     const hoveredFeatures = map.queryRenderedFeatures(e.point, {
       layers: ['data']
     });
@@ -200,8 +239,6 @@ class MapComponent extends React.Component {
 
     if (
       (
-        !!prevProps.immutableIncidences.get('features').size 
-        && !!this.props.immutableIncidences.get('features').size &&
         !prevProps.immutableIncidences.equals(this.props.immutableIncidences)
       ) 
         ||
@@ -224,6 +261,7 @@ class MapComponent extends React.Component {
 
   }
   render() {
+    console.log(this.props.incidences);
     return (
       <div>
         <MapboxMap
@@ -261,103 +299,116 @@ class MapComponent extends React.Component {
         </MapboxMap>
         <div 
           className="map-overlay hm-hover-box">
-          <span
-            className="hm-hover-box-title">
-              LEYENDA
-          </span>
-          <div
-            className="hm-legend-box">           
-            {
-              this.buildLegendArray().map((row, idx) => {
-                return (
-                  <div
-                    key={idx}
-                    className="hm-legend-row">
-                    <div
-                      className="hm-legend-color-box"
-                      style={{ 
-                        backgroundColor: row.color,
-                        opacity: row.opacity
-                      }}>
-                    </div>
-                    <div 
-                      className="hm-legend-name">
-                      {
-                        row.name
-                      }
-                    </div>
+          {
+            this.props.incidences.features.length < 1 &&
+            !this.props.isLoadingMap &&
+            <span
+              className="hm-hover-box-title">
+              NO SE ENCONTRARON DATOS
+            </span>
+          }
+          {
+            this.props.incidences.features.length >= 1 &&
+            <div>
+              <span
+                className="hm-hover-box-title">
+                  LEYENDA
+              </span>
+              <div
+                className="hm-legend-box">           
+                {
+                  this.buildLegendArray().map((row, idx) => {
+                    return (
+                      <div
+                        key={idx}
+                        className="hm-legend-row">
+                        <div
+                          className="hm-legend-color-box"
+                          style={{ 
+                            backgroundColor: row.color,
+                            opacity: row.opacity
+                          }}>
+                        </div>
+                        <div 
+                          className="hm-legend-name">
+                          {
+                            row.name
+                          }
+                        </div>
+                      </div>
+                    );
+                  })
+                }
+              </div>
+
+              <div id='pd'>
+                <p>Acerca el mouse a un sector...</p>
+              </div>
+
+              <span
+                className="hm-hover-box-title"
+                style={{ marginTop: '8px' }}>
+                  DATOS METEOROLÓGICOS DE GUAYAQUIL
+              </span>
+              <div
+                className="hm-legend-box">           
+                <div className="hm-legend-row">
+                  <div className="hm-legend-meteor-box">
+                    <FaThermometerFull 
+                      size={20}
+                      color="#0b7895"/>
                   </div>
-                );
-              })
-            }
-          </div>
-
-          <div id='pd'>
-            <p>Acerca el mouse a un sector...</p>
-          </div>
-
-          <span
-            className="hm-hover-box-title"
-            style={{ marginTop: '8px' }}>
-              DATOS METEOROLÓGICOS DE GUAYAQUIL
-          </span>
-          <div
-            className="hm-legend-box">           
-            <div className="hm-legend-row">
-              <div className="hm-legend-meteor-box">
-                <FaThermometerFull 
-                  size={20}
-                  color="#0b7895"/>
+                  <div className="hm-temp-desc">Temp. máxima</div>
+                  <div className="hm-temp-value">38°C</div>
+                </div>
+                <div className="hm-legend-row">
+                  <div className="hm-legend-meteor-box">
+                    <FaThermometerQuarter 
+                      size={20}
+                      color="#0b7895"/>
+                  </div>
+                  <div className="hm-temp-desc">Temp. mínima</div>
+                  <div className="hm-temp-value">19°C</div>
+                </div>
+                <div className="hm-legend-row">
+                  <div className="hm-legend-meteor-box">
+                    <FaThermometerHalf
+                      size={20}
+                      color="#0b7895"/>
+                  </div>
+                  <div className="hm-temp-desc">Temp. promedio</div>
+                  <div className="hm-temp-value">24°C</div>
+                </div>
+                <div className="hm-legend-row">
+                  <div className="hm-legend-meteor-box">
+                    <FaCloudRain
+                      size={20}
+                      color="#0b7895"/>
+                  </div>
+                  <div className="hm-temp-desc">Precipitación</div>
+                  <div className="hm-temp-value">35mm</div>
+                </div>
+                <div className="hm-legend-row">
+                  <div className="hm-legend-meteor-box">
+                    <FaWater
+                      size={20}
+                      color="#0b7895"/>
+                  </div>
+                  <div className="hm-temp-desc">Humedad promedio</div>
+                  <div className="hm-temp-value">42%</div>
+                </div>
+                <div className="hm-legend-row">
+                  <div className="hm-legend-meteor-box">
+                    <FaWind
+                      size={20}
+                      color="#0b7895"/>
+                  </div>
+                  <div className="hm-temp-desc">Velocidad de Viento</div>
+                  <div className="hm-temp-value">2.6m/s</div>
+                </div>
               </div>
-              <div className="hm-temp-desc">Temp. máxima</div>
-              <div className="hm-temp-value">38°C</div>
             </div>
-            <div className="hm-legend-row">
-              <div className="hm-legend-meteor-box">
-                <FaThermometerQuarter 
-                  size={20}
-                  color="#0b7895"/>
-              </div>
-              <div className="hm-temp-desc">Temp. mínima</div>
-              <div className="hm-temp-value">19°C</div>
-            </div>
-            <div className="hm-legend-row">
-              <div className="hm-legend-meteor-box">
-                <FaThermometerHalf
-                  size={20}
-                  color="#0b7895"/>
-              </div>
-              <div className="hm-temp-desc">Temp. promedio</div>
-              <div className="hm-temp-value">24°C</div>
-            </div>
-            <div className="hm-legend-row">
-              <div className="hm-legend-meteor-box">
-                <FaCloudRain
-                  size={20}
-                  color="#0b7895"/>
-              </div>
-              <div className="hm-temp-desc">Precipitación</div>
-              <div className="hm-temp-value">35mm</div>
-            </div>
-            <div className="hm-legend-row">
-              <div className="hm-legend-meteor-box">
-                <FaWater
-                  size={20}
-                  color="#0b7895"/>
-              </div>
-              <div className="hm-temp-desc">Humedad promedio</div>
-              <div className="hm-temp-value">42%</div>
-            </div>
-            <div className="hm-legend-row">
-              <div className="hm-legend-meteor-box">
-                <FaWind
-                  size={20}
-                  color="#0b7895"/>
-              </div>
-              <div className="hm-temp-desc">Velocidad de Viento</div>
-              <div className="hm-temp-value">2.6m/s</div>
-            </div>
-          </div>
+          }
         </div>
       </div>
     );
