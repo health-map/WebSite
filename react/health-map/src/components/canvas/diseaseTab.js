@@ -10,6 +10,7 @@ import Error from './../shared/error';
 import { loadDiseases } from './../../services/remoteAPI';
 import { actions } from './../../actions/incidences';
 import { thunks } from '../../actions/thunks/incidences';
+import { DataTypesMapping } from '../../constants';
 const { loadIncidences: loadIncidencesRequest } = thunks;
 
 import './diseaseTab.css';
@@ -195,9 +196,18 @@ class DiseaseTab extends React.Component {
       });
     } else {
       this.props.mutateFilters('disease', undefined);
+      const selectedDataType = DataTypesMapping.filter((dt) => {
+        return dt.id === this.props.incidencesFilters.get('type');
+      })[0];
+      let defaultClearType = selectedDataType;
+      if (selectedDataType.id === 'relativeToPatients') {
+        defaultClearType = 'absolute';
+        this.props.mutateFilters('type', 'absolute');
+      }
       this.props.loadIncidences({
         ...this.props.incidencesFilters.toJS(),
-        disease: undefined
+        disease: undefined,
+        type: defaultClearType
       });
       this.setState({
         preSelectedDisease: undefined

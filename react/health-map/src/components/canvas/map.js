@@ -74,30 +74,49 @@ class MapComponent extends React.Component {
   }
 
   buildLegendArray() {
+    console.log(this.state.legendQuantiles);
+    const appendFinal = 
+      (this.props.incidencesFilters.get('type') === 'absolute' ||
+      this.props.incidencesFilters.get('type') === 'every1000Inhabitants') ?
+        '' : '%';
+
     const legendArray = this.state.legendQuantiles.reduce(
       (rlegendArray, q, idx, quantiles) => {
-        if (idx === 0) { // first element
+        if (idx === 0 && quantiles[idx] === 0) { // if first element == 0
           rlegendArray.push({
             name: 'No se encontraron pacientes',
             color: Colors[0][0],
             opacity: Colors[0][1]
           });
         } else {
+          if (idx === 0) {
+            rlegendArray.push({
+              name: `0 a ${String(q).substr(0, 6) + appendFinal}`,
+              color: Colors[0][0],
+              opacity: Colors[0][1]
+            });            
+          }
           if (idx === quantiles.length - 1) { //last element
             rlegendArray.push({
-              name: `Más de ${String(q).substr(0, 5)}`,
-              color: Colors[idx][0],
-              opacity: Colors[idx][1]
+              name: `Más de ${String(q).substr(0, 6) + appendFinal}`,
+              color: Colors[idx + 1][0],
+              opacity: Colors[idx + 1][1]
             });
           } else if (
-            ((idx + 1) != quantiles.length -1 ) && 
+            ((idx + 1) !== (quantiles.length - 1)) && 
               !(q === quantiles[idx + 1])
-          ) { // if next element not the last
+          ) { // if not penultimo
             rlegendArray.push({
-              name: `${String(quantiles[idx + 1]).substr(0, 5)} a ${String(q).substr(0, 5)}`,
-              color: Colors[idx-1][0],
-              opacity: Colors[idx-1][1]
+              name: `${String(q).substr(0, 6) + appendFinal} a ${String(quantiles[idx + 1]).substr(0, 6) + appendFinal}`,
+              color: Colors[idx + 1][0],
+              opacity: Colors[idx + 1][1]
             });
+          } else if ((idx + 1) === (quantiles.length - 1)) { // if penultimo
+            rlegendArray.push({
+              name: `${String(q).substr(0, 6) + appendFinal} a ${String(quantiles[idx + 1]).substr(0, 6) + appendFinal}`,
+              color: Colors[idx + 1][0],
+              opacity: Colors[idx  + 1][1]
+            });            
           }
         }
         return rlegendArray;
@@ -367,7 +386,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   selectGeozone: actions.selectGeozone,
   startLoadingMap: actions.startLoadingMap,
   finishLoadingMap: actions.finishLoadingMap,
-  addSelectedGeofenceOnGroup: generalActions.addSelectedGeofenceOnGroup
+  addSelectedGeofenceOnGroup: generalActions.addSelectedGeofenceOnGroup,
+  setMapBounds: actions.setMapBounds
 }, dispatch);
 
 

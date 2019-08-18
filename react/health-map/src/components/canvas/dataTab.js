@@ -130,7 +130,13 @@ class DataTab extends React.Component {
                             this.handleDataTypeChange(e.id);
                           }}
                           isSearchable={false}
-                          options={DataTypesMapping}/>
+                          options={DataTypesMapping.filter((dt) => {
+                            if (!selectedDisease && 
+                              dt.id == 'relativeToPatients') {
+                              return false;
+                            }
+                            return true;
+                          })}/>
                       </div>
                     </div>
                   </div>
