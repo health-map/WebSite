@@ -142,12 +142,12 @@ if(cluster.isMaster) {
     const user = (req.session && req.session.user) ? 
     {
       ...req.session.user,
-      apiUrl: 'http://localhost:8020',
+      apiUrl: process.env.SHIPPIFY_API_URL,
       apiToken: req.session.user.api_token,
       password: undefined
     } : 
     { // anonymous user
-      apiUrl: 'http://localhost:8020',
+      apiUrl: process.env.SHIPPIFY_API_URL,
       apiToken: 'YW5vbnltb3VzQGhlYWx0aG1hcC5jb206MTIzNA=='
     }
 
