@@ -57,6 +57,10 @@ class DataTab extends React.Component {
       });
     }
 
+    incidences.features = incidences.features.filter((f) => {
+      return f.properties.metrics.absolute != 0;
+    });
+
     const selectedStartDate = incidencesFilters.get('startDate');
     const selectedEndDate = incidencesFilters.get('endDate');
     const selectedGender = incidencesFilters.getIn(['gender']).toJS();
@@ -95,7 +99,7 @@ class DataTab extends React.Component {
           <div className="hm-data-container">
             {
               (incidences.features.length === 0) &&
-                <div className="shy-error-container">
+                <div className="shy-error-container data-tab-errorctn">
                   <div className="shy-error">
                     <FaExclamationCircle
                       size={92}

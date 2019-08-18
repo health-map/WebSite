@@ -203,6 +203,13 @@ class MapComponent extends React.Component {
     if (this.props.incidences.features.length < 1) {
       return;
     }
+    const areIncidencesAvailable = this.props.incidences.features.length >= 1 ?
+      !this.props.incidences.features.every((f) => {
+        return f.properties.metrics.absolute == 0;
+      }) : false;
+    if (!areIncidencesAvailable) {
+      return;
+    }
     const hoveredFeatures = map.queryRenderedFeatures(e.point, {
       layers: ['data']
     });
@@ -310,7 +317,8 @@ class MapComponent extends React.Component {
           }
           {
             !!areIncidencesAvailable &&
-            <div>
+            <div
+              className="hm-hover-box-container">
               <span
                 className="hm-hover-box-title">
                   LEYENDA

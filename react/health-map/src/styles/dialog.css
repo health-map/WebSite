@@ -133,6 +133,11 @@
   justify-content: center;
   color: #bdbdbd;
 }
+
+
+.data-tab-errorctn{
+  padding-top: 64px;
+}
   .shy-error-container .shy-error {
     display: flex;
     justify-content: center;
