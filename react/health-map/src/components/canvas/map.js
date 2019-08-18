@@ -124,7 +124,6 @@ class MapComponent extends React.Component {
   }
 
   _loadData = incidences => {
-    console.log(incidences);
     if (incidences.features.lenght < 1 ) {
       const mapStyle = defaultMapStyle
         // Add geojson source to map
@@ -158,7 +157,6 @@ class MapComponent extends React.Component {
 
   _updateSettings = (incidences) => {
     if (incidences.features.lenght < 1 ) {
-      console.log('aquiii');
       this.props.startLoadingMap();
       const { mapStyle } = this.state;
       // Add geojson source to map
@@ -261,7 +259,10 @@ class MapComponent extends React.Component {
 
   }
   render() {
-    console.log(this.props.incidences);
+    const areIncidencesAvailable = this.props.incidences.features.length >= 1 ?
+      !this.props.incidences.features.every((f) => {
+        return f.properties.metrics.absolute == 0;
+      }) : false;
     return (
       <div>
         <MapboxMap
@@ -300,7 +301,7 @@ class MapComponent extends React.Component {
         <div 
           className="map-overlay hm-hover-box">
           {
-            this.props.incidences.features.length < 1 &&
+            !areIncidencesAvailable &&
             !this.props.isLoadingMap &&
             <span
               className="hm-hover-box-title">
@@ -308,7 +309,7 @@ class MapComponent extends React.Component {
             </span>
           }
           {
-            this.props.incidences.features.length >= 1 &&
+            !!areIncidencesAvailable &&
             <div>
               <span
                 className="hm-hover-box-title">
