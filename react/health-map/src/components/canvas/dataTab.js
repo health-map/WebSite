@@ -44,7 +44,7 @@ class DataTab extends React.Component {
   }
   render() {
     const {
-      incidencesFilters, incidences
+      incidencesFilters, incidences, user
     } = this.props;
 
     const selectedDataType = DataTypesMapping.filter((dt) => {
@@ -168,20 +168,23 @@ class DataTab extends React.Component {
                     })
                   }
                 </div>
-                <Tooltip 
-                  placement="top" 
-                  arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
-                  overlay={'Descargar datos mostrados'}>    
-                  <button 
-                    className="hm-fab-btn hm-fab-bottom-right"
-                    onClick={() => {
-                      this.downloadFileCKAN();
-                    }}>
-                    <img
-                      className="hm-download-icon"
-                      src="https://cdn.shippify.co/icons/icon-download-white-mini.svg"/>
-                  </button>
-                </Tooltip>
+                {
+                  user.email &&
+                  <Tooltip 
+                    placement="top" 
+                    arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
+                    overlay={'Descargar datos mostrados'}>    
+                    <button 
+                      className="hm-fab-btn hm-fab-bottom-right"
+                      onClick={() => {
+                        this.downloadFileCKAN();
+                      }}>
+                      <img
+                        className="hm-download-icon"
+                        src="https://cdn.shippify.co/icons/icon-download-white-mini.svg"/>
+                    </button>
+                  </Tooltip>
+                }
               </div>
             }
           </div>
@@ -197,7 +200,8 @@ const mapStateToProps = (state) => {
     incidences: state.getIn(['incidences', 'data']).toJS(),
     isLoadingIncidences: state.getIn(['incidences', 'isLoadingIncidences']),
     loadIncidencesError: state.getIn(['incidences', 'loadIncidencesError']),
-    incidencesFilters: state.getIn(['incidences', 'filters'])
+    incidencesFilters: state.getIn(['incidences', 'filters']),
+    user: state.getIn(['general', 'user']).toJS()
   };
 };
 

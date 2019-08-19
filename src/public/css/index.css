@@ -113,6 +113,7 @@ width: 100%;
   color: white;
   display:flex;
   align-items: center;
+  justify-content: center;
 }
 
 .hm-masthead-brand {
@@ -139,8 +140,9 @@ width: 100%;
 
 .nav-link {
   color: white;
-  margin-left: 16px;
-  padding: 0px !important;
+  margin-left: 0px;
+  padding-left: 4px !important;
+  padding-right: 4px !important;
   background-color: transparent;
   display: flex !important;
   flex-direction: column;
@@ -379,4 +381,66 @@ font-weight: 700;
 }
 .shy-form-field-input::-ms-input-placeholder {
     color: #9e9e9e;
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+  
+  .masthead{
+    flex-direction: column;
+  }
+
+  .hm-masthead-brand{
+    max-width: unset !important;
+    margin-bottom: 32px !important;
+    text-align: center;
+  }
+
+  .hm-dumb-div{
+    padding: 16px;
+    width: 90%;
+  }
+  
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 240px to 479px
+*/
+
+@media (min-width: 240px) and (max-width: 480px) {
+  
+  .masthead{
+    flex-direction: column !important;
+  }
+
+  .hm-masthead-brand{
+    max-width: unset !important;
+    margin-bottom: 32px !important;
+    text-align: center;
+  }
+
+  .hm-dumb-div{
+    padding: 16px !important;
+    width: 90% !important;
+  }
+  
+  .nav-link-first{
+    margin-left: unset !important;
+  }
+  
+}
+
+.hm-dumb-div{
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  padding: 60px; 
+  padding-bottom: 16px; 
+  width: 70%; 
+  padding-top:0px;
 }

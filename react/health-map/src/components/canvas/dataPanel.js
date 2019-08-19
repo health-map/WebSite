@@ -29,6 +29,9 @@ class DataPanel extends React.Component {
 
   }
   render() {
+    const {
+      user
+    } = this.props;
     return (
       <div className="hm-main-panel">
         <Tabs>
@@ -50,14 +53,17 @@ class DataPanel extends React.Component {
                     BÚSQUEDA DE ENFERMEDADES
               </div>
             </Tab>
-            <Tab
-              className="hm-tab"
-              selectedClassName="hm-tab hm-tab-active">
-              <div
-                className="hm-tab-name">
-                    ZONAS DE INTERÉS
-              </div>
-            </Tab>
+            {
+              (user.email) && 
+              <Tab
+                className="hm-tab"
+                selectedClassName="hm-tab hm-tab-active">
+                <div
+                  className="hm-tab-name">
+                      ZONAS DE INTERÉS
+                </div>
+              </Tab>
+            }
           </TabList>
           <TabPanel>
             <DataTab />
@@ -65,9 +71,12 @@ class DataPanel extends React.Component {
           <TabPanel>
             <DiseaseTab />
           </TabPanel>
-          <TabPanel>
-            <GeogroupTab />
-          </TabPanel>
+          {
+            (user.email) && 
+            <TabPanel>
+              <GeogroupTab />
+            </TabPanel>
+          }
         </Tabs>
       </div>
     );
@@ -80,7 +89,8 @@ const mapStateToProps = (state) => {
     incidences: state.getIn(['incidences', 'data']).toJS(),
     isLoadingIncidences: state.getIn(['incidences', 'isLoadingIncidences']),
     loadIncidencesError: state.getIn(['incidences', 'loadIncidencesError']),
-    incidencesFilters: state.getIn(['incidences', 'filters'])
+    incidencesFilters: state.getIn(['incidences', 'filters']),
+    user: state.getIn(['general', 'user']).toJS()
   };
 };
 
