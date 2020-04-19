@@ -58,6 +58,15 @@ export const actions = {
     failure: createAction(types.LOAD_INCIDENCES_FAILURE),
     end: createAction(types.LOAD_INCIDENCES_END)
   },
+  loadPointsIncidences: {
+    begin: createAction(types.LOAD_POINTS_INCIDENCES_BEGIN),
+    success: createAction(
+      types.LOAD_POINTS_INCIDENCES_SUCCESS,
+      incidences => ({ incidences })
+    ),
+    failure: createAction(types.LOAD_POINTS_INCIDENCES_FAILURE),
+    end: createAction(types.LOAD_POINTS_INCIDENCES_END)
+  },
   changeIncidenceColor: createAction(
     types.CHANGE_INCIDENCE_COLOR,
     (incidenceId, color) => ({ incidenceId,

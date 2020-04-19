@@ -8,6 +8,9 @@ const initialState = Immutable.Map({
     init: true,
     features: []
   }),
+  pointsData: undefined,
+  loadPointsIncidencesError: '',
+  isLoadingPointsIncidences: false,
   isLoadingMap: false,
   isLoadingIncidences: false,
   mapBounds: Immutable.Map(),
@@ -60,13 +63,6 @@ const setMapBounds = (state, action) => {
 /**
  *
  */
-const loadIncidencesBegin = (state) => {
-  return state.set('isLoadingIncidences', true);
-};
-
-/**
- *
- */
 const startLoadingMap = (state) => {
   return state.set('isLoadingMap', true);
 };
@@ -76,6 +72,13 @@ const startLoadingMap = (state) => {
  */
 const finishLoadingMap = (state) => {
   return state.set('isLoadingMap', false);
+};
+
+/**
+ *
+ */
+const loadIncidencesBegin = (state) => {
+  return state.set('isLoadingIncidences', true);
 };
 
 /**
@@ -103,6 +106,41 @@ const loadIncidencesFailure = (state) => {
  */
 const loadIncidencesEnd = (state) => {
   return state.set('isLoadingIncidences', false);
+};
+
+
+/**
+ *
+ */
+const loadPointsIncidencesBegin = (state) => {
+  return state.set('isLoadingPointsIncidences', true);
+};
+
+/**
+ *
+ */
+const loadPointsIncidencesSuccess = (state, action) => {
+  let incidences = Immutable.fromJS(action.payload.incidences);
+  return state
+    .set('loadPointsIncidencesError', '')
+    .set('pointsData', incidences);
+};
+
+/**
+ *
+ */
+const loadPointsIncidencesFailure = (state) => {
+  return state.set(
+    'loadPointsIncidencesError',
+    'Ha ocurrido un error al cargas las incidencias.'
+  );
+};
+
+/**
+ *
+ */
+const loadPointsIncidencesEnd = (state) => {
+  return state.set('isLoadingPointsIncidences', false);
 };
 
 
@@ -211,6 +249,16 @@ export default function general(state = initialState, action) {
     return loadIncidencesFailure(state);
   case types.LOAD_INCIDENCES_END:
     return loadIncidencesEnd(state);
+
+  case types.LOAD_POINTS_INCIDENCES_BEGIN:
+    return loadPointsIncidencesBegin(state);
+  case types.LOAD_POINTS_INCIDENCES_SUCCESS:
+    return loadPointsIncidencesSuccess(state, action);
+  case types.LOAD_POINTS_INCIDENCES_FAILURE:
+    return loadPointsIncidencesFailure(state);
+  case types.LOAD_POINTS_INCIDENCES_END:
+    return loadPointsIncidencesEnd(state);
+
   case types.TOGGLE_INCIDENCE_VISIBILITY:
     return toggleIncidenceVisibility(state, action);
   case types.CHANGE_INCIDENCE_COLOR:

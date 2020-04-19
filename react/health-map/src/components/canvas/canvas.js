@@ -10,6 +10,7 @@ import MapTitlebar from './mapTitlebar';
 import HMSidebar from './hmSidebar';
 import Filters from './filters';
 import Map from './map';
+import MapPoints from './mapPoints';
 import DataPanel from './dataPanel';
 import ErrorBoundaryDialog from './../shared/errorBoundaryDialog';
 import MessageDialog from './../dialogs/message';
@@ -104,7 +105,7 @@ class Canvas extends React.Component {
     const self = this;
     const {
       isFiltersDialogVisible, toggleFiltersDialog, 
-      message, showMessage, isLoadingMap
+      message, showMessage, isLoadingMap, viewType
     } = this.props;
     return (
       <div className="canvas">
@@ -164,8 +165,16 @@ class Canvas extends React.Component {
                 displayType="desktop"
                 onSetSidebarOpen={self.onSetSidebarOpen.bind(self)}/>
             }
-            <Map
-              selectedCity={this.props.selectedCity}/>
+            {
+              viewType === 'geozone' &&
+                <Map
+                  selectedCity={this.props.selectedCity}/>
+            }
+            {
+              viewType === 'point' &&
+                <MapPoints
+                  selectedCity={this.props.selectedCity}/>
+            }
           </div>
         }
         {

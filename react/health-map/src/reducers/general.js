@@ -11,7 +11,8 @@ const initialState = Map({
   selectedGeozoneGroup: undefined,
   selectedDisease: undefined,
   selectedGeozonesForGroup: List(),
-  isGeozoneSelectionModeOn: false
+  isGeozoneSelectionModeOn: false,
+  viewType: 'geozone'
 });
 
 /**
@@ -86,6 +87,12 @@ const showMessage = (state, action) => {
   return state.set('message', action.payload.message);
 };
 
+/**
+ *
+ */
+const toggleViewType = (state, action) => {
+  return state.set('viewType', action.payload.type);
+};
 
 /******************************************************************************/
 /******************************************************************************/
@@ -109,6 +116,8 @@ export default function general(state = initialState, action) {
     return removeSelectedGeofenceOnGroup(state, action);
   case types.ADD_SELECTED_GEOFENCE_ON_GROUP:
     return addSelectedGeofenceOnGroup(state, action);
+  case types.TOGGLE_VIEW_TYPE:
+    return toggleViewType(state, action);
   default: 
     return state;
   }

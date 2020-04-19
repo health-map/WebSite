@@ -150,6 +150,19 @@
     color: white;
   }
 
+  .hm-map-covid-box{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 16px;
+    border: 3px solid white;
+    color: white;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 1;
+  }
+
+
   .hm-map-title-text{
     font-weight: 700;
     font-size: 20px;

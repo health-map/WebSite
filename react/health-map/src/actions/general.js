@@ -12,7 +12,8 @@ export const types = {
   SET_DISEASE: 'GENERAL/SET_DISEASE',
   TOGGLE_GEOZONE_SELECTION_MODE: 'GENERAL/TOGGLE_GEOZONE_SELECTION_MODE',
   REMOVE_SELECTED_GEOFENCE_ON_GROUP: 'GENERAL/REMOVE_SELECTED_GEOFENCE_ON_GROUP',
-  ADD_SELECTED_GEOFENCE_ON_GROUP: 'GENERAL/ADD_SELECTED_GEOFENCE_ON_GROUP'
+  ADD_SELECTED_GEOFENCE_ON_GROUP: 'GENERAL/ADD_SELECTED_GEOFENCE_ON_GROUP',
+  TOGGLE_VIEW_TYPE: 'GENERAL/VIEW_TYPE'
 };
 
 /**
@@ -22,6 +23,10 @@ export const actions = {
   showMessage: createAction(
     types.SHOW_MESSAGE,
     message => ({ message })
+  ),
+  toggleViewType: createAction(
+    types.TOGGLE_VIEW_TYPE,
+    type => ({type})
   ),
   removeSelectedGeofenceOnGroup: createAction(
     types.REMOVE_SELECTED_GEOFENCE_ON_GROUP,

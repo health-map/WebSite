@@ -26,6 +26,7 @@ import {
 } from './../../services/remoteAPI';
 
 import { actions } from './../../actions/incidences';
+import { actions as generalActions } from './../../actions/general';
 import { thunks } from '../../actions/thunks/incidences';
 const { loadIncidences: loadIncidencesRequest } = thunks;
 
@@ -93,7 +94,8 @@ class MapTitlebar extends React.Component {
   }
   render() {
     const {
-      openFiltersDialog, onSetSidebarOpen, incidencesFilters
+      openFiltersDialog, onSetSidebarOpen, incidencesFilters,
+      viewType
     } = this.props;
 
     const selectedStartDate = incidencesFilters.get('startDate');
@@ -121,6 +123,20 @@ class MapTitlebar extends React.Component {
             {
               `MAPA DE SALUD ${city.name ? 'DE ' + city.name.toUpperCase() : ''}`
             }
+          </div>
+        </div>
+        <div 
+          className="hm-map-covid-box"> 
+          <div
+            style={{
+              borderColor: (viewType === 'geozone' ? 'red' : 'white')
+            }}
+            onClick={() => {
+              const newViewType = (
+                viewType === 'geozone' ? 'point' : 'geozone')
+              toggleViewType(newViewType);
+            }}>
+            COVID-19
           </div>
         </div>
         <div className="flex flex-align-center">
@@ -354,6 +370,7 @@ class MapTitlebar extends React.Component {
 const mapDispatchToProps = dispatch => bindActionCreators({
   mutateFilters: actions.mutateFilters,
   mutateManyFilters: actions.mutateManyFilters,
+  toggleViewType: generalActions.toggleViewType,
   loadIncidences: loadIncidencesRequest
 }, dispatch);
 
@@ -364,6 +381,7 @@ const mapStateToProps = state => {
   return {
     incidencesFilters: state.getIn(['incidences', 'filters']),
     accessToken: state.getIn(['general', 'user', 'accessToken']),
+    viewType: state.getIn(['general', 'viewType']),
     apiUrl: state.getIn(['general', 'user', 'apiUrl']),
     apiToken: state.getIn(['general', 'user', 'apiToken'])
   };

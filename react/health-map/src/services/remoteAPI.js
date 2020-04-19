@@ -410,3 +410,77 @@ export async function loadIncidences(
     }
   };
 }
+
+
+/**
+ *
+ */
+export async function loadPointsIncidences(
+  {
+    institution,
+    gender,
+    startDate,
+    endDate,
+    city,
+    disease,
+    age,
+    department
+  },
+  { apiUrl, apiToken }
+) {
+  const url = new URL(apiUrl);
+  const searchParams = new URLSearchParams();
+  url.pathname = '/patients';
+  if (city && city.id) {
+    searchParams.append('city', city.id);
+  }
+  if (institution && institution.id && institution.name !== 'TODAS') {
+    searchParams.append('institution', institution.id);
+  }
+  if (department && department.id && department.name !== 'TODOS') {
+    searchParams.append('department', department.id);
+  }
+  if (disease && disease.id) {
+    if (disease.type === 'aggregation') {
+      searchParams.append('categoryGroup', disease.id);
+    } else {
+      searchParams.append('cie10', disease.cie10_code);
+    }
+  }
+  if (gender && gender.id && gender.name !== 'TODOS') {
+    searchParams.append('gender', gender.name);
+  }
+  if (age && age.id && age.name !== 'TODOS') {
+    searchParams.append('ageRange', age.id);
+  }
+  if (startDate && endDate) {
+    searchParams.append('startDate', startDate);
+    searchParams.append('endDate', endDate);
+  }
+  url.search = searchParams.toString();
+  let response;
+  try {
+    response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Basic ${apiToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    throw new Error('load_failure');
+  }
+  if (response.status === 401) {
+    window.location.replace('/logout');
+  }
+  if (response.status >= 400 && response.status < 500) {
+    throw new Error('client_error');
+  }
+  if (response.status >= 500 && response.status < 600) {
+    throw new Error('server_error');
+  }
+  const { data } = await response.json();
+
+  return data;
+}

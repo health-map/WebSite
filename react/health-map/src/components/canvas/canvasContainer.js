@@ -64,7 +64,8 @@ class CanvasContainer extends React.Component {
       selectedCity,
       message,
       showMessage,
-      isLoadingMap
+      isLoadingMap,
+      viewType
     };
     return (
       <Canvas {...props}/>
@@ -81,7 +82,8 @@ const mapStateToProps = (state) => {
     userId: state.getIn(['general', 'user', 'id']),
     apiUrl: state.getIn(['general', 'user', 'apiUrl']),
     apiToken: state.getIn(['general', 'user', 'apiToken']),
-    isLoadingMap: state.getIn(['incidences', 'isLoadingMap'])
+    viewType: state.getIn(['general', 'viewType']),
+    isLoadingMap: state.getIn(['incidences', 'isLoadingMap']),
   };
 };
 
