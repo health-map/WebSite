@@ -232,17 +232,18 @@ class MapComponent extends React.Component {
     }
   };
   componentDidMount() {
+    console.log('only mounted');
     this.props.startLoadingMap();
   }
   componentDidUpdate(prevProps) {
-
     if (prevProps.immutableIncidences.get('init') 
       && !this.props.immutableIncidences.get('init')) {
       this.props.startLoadingMap();
       this._loadData(this.props.immutableIncidences.toJS());
     }
-
+    console.log('update');
     if (prevProps.viewType !== this.props.viewType) {
+      console.log('herehere');
       this.props.startLoadingMap();
       this._loadData(this.props.immutableIncidences.toJS());      
     }
