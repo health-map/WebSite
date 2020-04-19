@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import MapboxTraffic from '@mapbox/mapbox-gl-traffic';
 import ReactMapboxGl, {
+  Layer,
+  Feature,
   ZoomControl
 } from 'react-mapbox-gl';
 import { 
@@ -80,7 +82,22 @@ class MapPointsComponent extends React.Component {
     let {
       pointsData
     } = this.props;
+    if (pointsData) {
+      pointsData = pointsData.toJS();
+    }
+    let distributedPoints = {};
+    if (pointsData && pointsData.length) {
+      distributedPoints = pointsData.reduce((reducedP, p) => {
+        if (Object.keys(reducedP).includes(p.cuarantine_status)) {
+          reducedP[p.cuarantine_status].push(p);
+        } else {
+          reducedP[p.cuarantine_status] = [p];
+        }
+        return reducedP;
+      }, {});
+    }
     console.log('pointsData', pointsData);
+    console.log('distributedPoints', distributedPoints);
     return (
       <div>
         <MapboxMap
@@ -107,6 +124,52 @@ class MapPointsComponent extends React.Component {
               bottom: '140px'
             }}
             position="bottom-right"/>
+          
+          {
+            distributedPoints && 
+            Object.keys(distributedPoints) &&
+            Object.keys(distributedPoints).length &&
+            Object.keys(distributedPoints).map((status, idx) => {
+              const pointsInStatus = distributedPoints[status];
+              const cuarantineColor = {
+                'OK': '49dcb1',
+                'NORMAL': 'eeb868',
+                'BAD': 'ef767a'
+              };
+              return (
+                <Layer
+                  id={`patient-${status}-${idx}`}
+                  key={`patient-${status}-${idx}`}
+                  type="circle"
+                  paint={{
+                    'circle-color': cuarantineColor[status],
+                    'circle-radius': 6,
+                    'circle-stroke-width': 2,
+                    'circle-stroke-color': '#fff'
+                  }}>                
+                  {
+                    pointsInStatus.map((point, idx2) => {
+                      <Feature
+                        id={`feature-patient-${idx}-${status}-${idx2}`}
+                        key={`feature-patient-${idx}-${status}-${idx2}`}
+                        coordinates={[
+                          point.longitude,
+                          point.latitude
+                        ]}
+                        onMouseEnter={(e) => {
+                          e.map.getCanvas().style.cursor = 'pointer';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.map.getCanvas().style.cursor = '';
+                        }}
+                        onClick={() => {
+                        }}/>;
+                    })
+                  }
+                </Layer>
+              );
+            })
+          }
         </MapboxMap>
       </div>
     );
