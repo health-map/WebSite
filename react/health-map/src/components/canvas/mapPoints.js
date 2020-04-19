@@ -83,6 +83,7 @@ class MapPointsComponent extends React.Component {
       pointsData
     } = this.props;
     if (pointsData) {
+      console.log(pointsData);
       pointsData = pointsData.toJS();
     }
     let distributedPoints = {};
@@ -132,9 +133,9 @@ class MapPointsComponent extends React.Component {
             Object.keys(distributedPoints).map((status, idx) => {
               const pointsInStatus = distributedPoints[status];
               const cuarantineColor = {
-                'OK': '49dcb1',
-                'NORMAL': 'eeb868',
-                'BAD': 'ef767a'
+                'OK': '#49dcb1',
+                'NORMAL': '#eeb868',
+                'BAD': '#ef767a'
               };
               return (
                 <Layer
