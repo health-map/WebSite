@@ -79,7 +79,7 @@ class MapPointsComponent extends React.Component {
   render() {
     let {
       pointsData
-    } = props;
+    } = this.props;
     console.log('pointsData', pointsData);
     return (
       <div>
