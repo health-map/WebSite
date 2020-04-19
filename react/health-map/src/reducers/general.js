@@ -91,7 +91,7 @@ const showMessage = (state, action) => {
  *
  */
 const toggleViewType = (state, action) => {
-  return state.set('viewType', action.payload.type);
+  return state.set('viewType', action.payload.viewType);
 };
 
 /******************************************************************************/
