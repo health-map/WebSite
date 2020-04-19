@@ -33,7 +33,7 @@ class CanvasContainer extends React.Component {
   }
   render() {
     const {
-      message, showMessage, isLoadingMap
+      message, showMessage, isLoadingMap, viewType
     } = this.props;
     const {
       isFiltersDialogVisible
