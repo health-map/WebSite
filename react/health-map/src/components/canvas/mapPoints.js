@@ -152,22 +152,24 @@ class MapPointsComponent extends React.Component {
                   {
                     pointsInStatus.map((point, idx2) => {
                       console.log('point', point);
-                      <Feature
-                        id={`feature-patient-${idx}-${status}-${idx2}`}
-                        key={`feature-patient-${idx}-${status}-${idx2}`}
-                        coordinates={[
-                          point.longitude,
-                          point.latitude
-                        ]}
-                        onMouseEnter={(e) => {
-                          e.map.getCanvas().style.cursor = 'pointer';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.map.getCanvas().style.cursor = '';
-                        }}
-                        onClick={() => {
-                          console.log('click');
-                        }}/>;
+                      return (
+                        <Feature
+                          id={`feature-patient-${idx}-${status}-${idx2}`}
+                          key={`feature-patient-${idx}-${status}-${idx2}`}
+                          coordinates={[
+                            point.longitude,
+                            point.latitude
+                          ]}
+                          onMouseEnter={(e) => {
+                            e.map.getCanvas().style.cursor = 'pointer';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.map.getCanvas().style.cursor = '';
+                          }}
+                          onClick={() => {
+                            console.log('click');
+                          }}/>
+                      );
                     })
                   }
                 </Layer>
