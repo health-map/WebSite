@@ -133,6 +133,28 @@ if(cluster.isMaster) {
     return res.redirect('/')
   });
 
+  app.get('/covid19', auth, lang, (req, res)=>{
+
+    const user = (req.session && req.session.user) ? 
+    {
+      ...req.session.user,
+      apiUrl: process.env.SHIPPIFY_API_URL,
+      apiToken: req.session.user.api_token,
+      password: undefined
+    } : 
+    { // anonymous user
+      apiUrl: process.env.SHIPPIFY_API_URL,
+      apiToken: 'YW5vbnltb3VzQGhlYWx0aG1hcC5jb206MTIzNA=='
+    }
+
+    return res.render('panels/healthMapCovid19', {
+      apiUrl: process.env.SHIPPIFY_API_URL,
+      user: user,
+      layout: 'layouts/noneLayout',
+      locale: 'es',
+      environment: 'development'
+    });
+  });
 
   app.use(require('./controllers/admin'));
   app.use(require('./controllers/subsections'));
@@ -152,29 +174,6 @@ if(cluster.isMaster) {
     }
 
     return res.render('panels/healthMap', {
-      apiUrl: process.env.SHIPPIFY_API_URL,
-      user: user,
-      layout: 'layouts/noneLayout',
-      locale: 'es',
-      environment: 'development'
-    });
-  });
-
-  app.use(['/covid19', '/health-map/covid19'], auth, lang, (req, res)=>{
-
-    const user = (req.session && req.session.user) ? 
-    {
-      ...req.session.user,
-      apiUrl: process.env.SHIPPIFY_API_URL,
-      apiToken: req.session.user.api_token,
-      password: undefined
-    } : 
-    { // anonymous user
-      apiUrl: process.env.SHIPPIFY_API_URL,
-      apiToken: 'YW5vbnltb3VzQGhlYWx0aG1hcC5jb206MTIzNA=='
-    }
-
-    return res.render('panels/healthMapCovid19', {
       apiUrl: process.env.SHIPPIFY_API_URL,
       user: user,
       layout: 'layouts/noneLayout',
