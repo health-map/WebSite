@@ -242,6 +242,11 @@ class MapComponent extends React.Component {
       this._loadData(this.props.immutableIncidences.toJS());
     }
 
+    if (prevProps.viewType !== this.props.viewType) {
+      this.props.startLoadingMap();
+      this._loadData(this.props.immutableIncidences.toJS());      
+    }
+
     if (
       (
         !prevProps.immutableIncidences.equals(this.props.immutableIncidences)
@@ -435,7 +440,8 @@ const mapStateToProps = (state) => {
     incidencesFilters: state.getIn(['incidences', 'filters']),
     isLoadingMap: state.getIn(['incidences', 'isLoadingMap']),
     mapBounds: state.getIn(['incidences', 'mapBounds']),
-    isGeozoneSelectionModeOn: state.getIn(['general', 'isGeozoneSelectionModeOn'])
+    isGeozoneSelectionModeOn: state.getIn(['general', 'isGeozoneSelectionModeOn']),
+    viewType: state.getIn(['general', 'viewType'])
   };
 };
 
