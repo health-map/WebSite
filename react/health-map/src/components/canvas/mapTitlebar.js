@@ -149,6 +149,20 @@ class MapTitlebar extends React.Component {
                   institution: { id: 9 },
                   department: { id: 9 }
                 });
+              } else {
+                this.props.mutateFilters('institution', Immutable.Map({
+                  id: 9999, // all
+                  name: 'TODOS'
+                }));
+                this.props.mutateFilters('department', Immutable.Map({
+                  id: 9999, // all
+                  name: 'TODOS'
+                }));
+                this.props.loadIncidences({
+                  ...this.props.incidencesFilters.toJS(),
+                  institution: undefined,
+                  department: undefined
+                });
               }
             }}>
             COVID-19
