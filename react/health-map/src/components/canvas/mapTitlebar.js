@@ -95,7 +95,7 @@ class MapTitlebar extends React.Component {
   render() {
     const {
       openFiltersDialog, onSetSidebarOpen, incidencesFilters,
-      viewType
+      viewType, toggleViewType
     } = this.props;
 
     const selectedStartDate = incidencesFilters.get('startDate');
@@ -126,11 +126,12 @@ class MapTitlebar extends React.Component {
           </div>
         </div>
         <div 
-          className="hm-map-covid-box"> 
+          className="hm-map-covid-box"
+          style={{
+            borderColor: (viewType === 'point' ? 'red' : 'white'),
+            backgroundColor: (viewType === 'point' ? 'white' : 'transparent')
+          }}> 
           <div
-            style={{
-              borderColor: (viewType === 'geozone' ? 'red' : 'white')
-            }}
             onClick={() => {
               const newViewType = (
                 viewType === 'geozone' ? 'point' : 'geozone');

@@ -156,10 +156,17 @@
     align-items: center;
     margin-left: 16px;
     border: 3px solid white;
-    color: white;
+    border-radius: 3px;
+    color: #ff7070;
+    cursor: pointer;
+    padding: 8px;
     font-weight: 700;
     font-size: 32px;
     line-height: 1;
+  }
+
+  .hm-map-covid-box:hover{
+    background-color: white !important;
   }
 
 
