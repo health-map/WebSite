@@ -26,7 +26,7 @@ export const actions = {
   ),
   toggleViewType: createAction(
     types.TOGGLE_VIEW_TYPE,
-    type => ({type})
+    type => ({ type })
   ),
   removeSelectedGeofenceOnGroup: createAction(
     types.REMOVE_SELECTED_GEOFENCE_ON_GROUP,

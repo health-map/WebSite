@@ -7,7 +7,7 @@ import {
 
 export const thunks = {
   loadIncidences(filters) {
-    if (getState().getIn(['general', 'viewType']) === 'geozone'){
+    if (getState().getIn(['general', 'viewType']) === 'geozone') {
       return async (dispatch, getState) => {
         dispatch(actions.loadIncidences.begin());
         try {
@@ -22,22 +22,22 @@ export const thunks = {
         }
         dispatch(actions.loadIncidences.end());
       };
-    } else {
-      return async (dispatch, getState) => {
-        dispatch(actions.loadPointsIncidences.begin());
-        try {
-          let incidences = await loadPointsIncidences(filters, {
-            apiUrl: getState().getIn(['general', 'user', 'apiUrl']),
-            apiToken: getState().getIn(['general', 'user', 'apiToken'])
-          });
-          dispatch(actions.loadPointsIncidences.success(incidences));
-        } catch (err) {
-          console.log(err);
-          dispatch(actions.loadPointsIncidences.failure());
-        }
-        dispatch(actions.loadPointsIncidences.end());
-      };
-    }
+    } 
+    return async (dispatch, getState) => {
+      dispatch(actions.loadPointsIncidences.begin());
+      try {
+        let incidences = await loadPointsIncidences(filters, {
+          apiUrl: getState().getIn(['general', 'user', 'apiUrl']),
+          apiToken: getState().getIn(['general', 'user', 'apiToken'])
+        });
+        dispatch(actions.loadPointsIncidences.success(incidences));
+      } catch (err) {
+        console.log(err);
+        dispatch(actions.loadPointsIncidences.failure());
+      }
+      dispatch(actions.loadPointsIncidences.end());
+    };
+    
 
   }
 };

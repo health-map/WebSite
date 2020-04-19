@@ -133,7 +133,7 @@ class MapTitlebar extends React.Component {
             }}
             onClick={() => {
               const newViewType = (
-                viewType === 'geozone' ? 'point' : 'geozone')
+                viewType === 'geozone' ? 'point' : 'geozone');
               toggleViewType(newViewType);
             }}>
             COVID-19

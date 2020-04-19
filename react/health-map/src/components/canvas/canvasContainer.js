@@ -83,7 +83,7 @@ const mapStateToProps = (state) => {
     apiUrl: state.getIn(['general', 'user', 'apiUrl']),
     apiToken: state.getIn(['general', 'user', 'apiToken']),
     viewType: state.getIn(['general', 'viewType']),
-    isLoadingMap: state.getIn(['incidences', 'isLoadingMap']),
+    isLoadingMap: state.getIn(['incidences', 'isLoadingMap'])
   };
 };
 
