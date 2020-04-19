@@ -152,7 +152,7 @@ class MapTitlebar extends React.Component {
               } else {
                 this.props.mutateFilters('institution', Immutable.Map({
                   id: 9999, // all
-                  name: 'TODOS'
+                  name: 'TODAS'
                 }));
                 this.props.mutateFilters('department', Immutable.Map({
                   id: 9999, // all

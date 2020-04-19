@@ -308,8 +308,8 @@ export async function loadIncidences(
     city,
     disease,
     geogroup,
-    age,
-    department
+    age
+    // department
   },
   { apiUrl, apiToken }
 ) {
@@ -322,9 +322,9 @@ export async function loadIncidences(
   if (institution && institution.id && institution.name !== 'TODAS') {
     searchParams.append('institution', institution.id);
   }
-  if (department && department.id && department.name !== 'TODOS') {
-    searchParams.append('department', department.id);
-  }
+  // if (department && department.id && department.name !== 'TODOS') {
+  //   searchParams.append('department', department.id);
+  // }
   if (geogroup) {
     searchParams.append('geoGroup', geogroup);
   }
@@ -423,8 +423,8 @@ export async function loadPointsIncidences(
     endDate,
     city,
     disease,
-    age,
-    department
+    age
+    // department
   },
   { apiUrl, apiToken }
 ) {
@@ -437,9 +437,9 @@ export async function loadPointsIncidences(
   if (institution && institution.id && institution.name !== 'TODAS') {
     searchParams.append('institution', institution.id);
   }
-  if (department && department.id && department.name !== 'TODOS') {
-    searchParams.append('department', department.id);
-  }
+  // if (department && department.id && department.name !== 'TODOS') {
+  //   searchParams.append('department', department.id);
+  // }
   if (disease && disease.id) {
     if (disease.type === 'aggregation') {
       searchParams.append('categoryGroup', disease.id);
