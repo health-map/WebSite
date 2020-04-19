@@ -233,9 +233,7 @@ class MapComponent extends React.Component {
   };
   componentDidMount() {
     this.props.startLoadingMap();
-    if (!this.props.immutableIncidences.get('init')) {	
-      this._loadData(this.props.immutableIncidences.toJS());	
-    }
+    this._loadData(this.props.immutableIncidences.toJS());	
   }
   componentDidUpdate(prevProps) {
     if (prevProps.immutableIncidences.get('init') 
