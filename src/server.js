@@ -160,6 +160,29 @@ if(cluster.isMaster) {
     });
   });
 
+  app.use(['/covid19', '/health-map/covid19'], auth, lang, (req, res)=>{
+
+    const user = (req.session && req.session.user) ? 
+    {
+      ...req.session.user,
+      apiUrl: process.env.SHIPPIFY_API_URL,
+      apiToken: req.session.user.api_token,
+      password: undefined
+    } : 
+    { // anonymous user
+      apiUrl: process.env.SHIPPIFY_API_URL,
+      apiToken: 'YW5vbnltb3VzQGhlYWx0aG1hcC5jb206MTIzNA=='
+    }
+
+    return res.render('panels/healthMapCovid19', {
+      apiUrl: process.env.SHIPPIFY_API_URL,
+      user: user,
+      layout: 'layouts/noneLayout',
+      locale: 'es',
+      environment: 'development'
+    });
+  });
+
   app.use(Express.static(path.resolve(__dirname, '..', 'admin', 'build'), { index: false }));
   app.use('/views/assets', Express.static(path.resolve(__dirname, 'views', 'assets')));
 
