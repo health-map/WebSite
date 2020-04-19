@@ -82,7 +82,7 @@ class MapPointsComponent extends React.Component {
     let {
       pointsData
     } = this.props;
-    if (pointsData) {
+    if (pointsData && pointsData.size) {
       console.log(pointsData);
       pointsData = pointsData.toJS();
     }
@@ -132,6 +132,7 @@ class MapPointsComponent extends React.Component {
             Object.keys(distributedPoints).length &&
             Object.keys(distributedPoints).map((status, idx) => {
               const pointsInStatus = distributedPoints[status];
+              console.log('pointsInStatus', pointsInStatus);
               const cuarantineColor = {
                 'OK': '#49dcb1',
                 'NORMAL': '#eeb868',
@@ -150,6 +151,7 @@ class MapPointsComponent extends React.Component {
                   }}>                
                   {
                     pointsInStatus.map((point, idx2) => {
+                      console.log('point', point);
                       <Feature
                         id={`feature-patient-${idx}-${status}-${idx2}`}
                         key={`feature-patient-${idx}-${status}-${idx2}`}
@@ -164,6 +166,7 @@ class MapPointsComponent extends React.Component {
                           e.map.getCanvas().style.cursor = '';
                         }}
                         onClick={() => {
+                          console.log('click');
                         }}/>;
                     })
                   }
