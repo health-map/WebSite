@@ -8,7 +8,7 @@ const initialState = Immutable.Map({
     init: true,
     features: []
   }),
-  pointsData: undefined,
+  pointsData: [],
   loadPointsIncidencesError: '',
   isLoadingPointsIncidences: false,
   isLoadingMap: false,

@@ -128,14 +128,26 @@ class MapTitlebar extends React.Component {
         <div 
           className="hm-map-covid-box"
           style={{
-            borderColor: (viewType === 'point' ? 'red' : 'white'),
             backgroundColor: (viewType === 'point' ? 'white' : 'transparent')
           }}> 
           <div
-            onClick={() => {
+            onClick={() => { // ACTIVATE COVID 19 VIEW
               const newViewType = (
                 viewType === 'geozone' ? 'point' : 'geozone');
               toggleViewType(newViewType);
+              if (newViewType === 'point') {
+                this.props.mutateFilters('institution', Immutable.Map({
+                  id: 9 // generic institution for covid-19
+                }));
+                this.props.mutateFilters('department', Immutable.Map({
+                  id: 9 // generic department for covid-19
+                }));
+                this.props.loadIncidences({
+                  ...this.props.incidencesFilters.toJS(),
+                  institution: { id: 9 },
+                  department: { id: 9 }
+                });
+              }
             }}>
             COVID-19
           </div>
