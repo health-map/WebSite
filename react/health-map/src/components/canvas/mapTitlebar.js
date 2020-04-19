@@ -137,10 +137,12 @@ class MapTitlebar extends React.Component {
               toggleViewType(newViewType);
               if (newViewType === 'point') {
                 this.props.mutateFilters('institution', Immutable.Map({
-                  id: 9 // generic institution for covid-19
+                  id: 9, // generic institution for covid-19
+                  name: 'COVID19'
                 }));
                 this.props.mutateFilters('department', Immutable.Map({
-                  id: 9 // generic department for covid-19
+                  id: 9, // generic department for covid-19
+                  name: 'COVID19'
                 }));
                 this.props.loadIncidences({
                   ...this.props.incidencesFilters.toJS(),

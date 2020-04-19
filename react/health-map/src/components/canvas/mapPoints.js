@@ -115,7 +115,7 @@ class MapPointsComponent extends React.Component {
  */
 const mapStateToProps = (state) => {
   return {
-    pointsData: state.getIn(['incidences', 'pointsData']).toJS(),
+    pointsData: state.getIn(['incidences', 'pointsData']),
     incidencesFilters: state.getIn(['incidences', 'filters']),
     isLoadingMap: state.getIn(['incidences', 'isLoadingMap']),
     mapBounds: state.getIn(['incidences', 'mapBounds'])
