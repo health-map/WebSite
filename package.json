@@ -9,7 +9,7 @@
     "@turf/boolean-point-in-polygon": "^6.0.1",
     "@turf/helpers": "^6.1.4",
     "async": "^2.1.4",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "body-parser": "^1.15.2",
     "bs58": "^4.0.0",
     "compression-webpack-plugin": "^2.0.0",
